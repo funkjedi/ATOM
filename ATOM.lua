@@ -226,7 +226,7 @@ function ATOM:SellGreyItems()
 		end
 	end
 	if totalprofit > 0 then
-		ATOM:Print('Total profit of %s on sold greys.', GetMoneyString(totalprofit))
+		ATOM:Print('|cff80ff80TOTAL PROFIT OF |cffffff80%s|cff80ff80 ON SOLD GREYS|r', GetMoneyString(totalprofit))
 	end
 end
 
@@ -239,7 +239,7 @@ function ATOM:RepairItems()
 		local repairAllCost, canRepair = GetRepairAllCost()
 		if canRepair and repairAllCost <= GetMoney() then
 			RepairAllItems()
-			ATOM:Print('Repairs completed for %s.', GetMoneyString(repairAllCost))
+			ATOM:Print('|cff80ff80REPAIRS COMPLETED FOR |cffffff80%s|r', GetMoneyString(repairAllCost))
 		end
 	end
 end
