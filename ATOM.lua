@@ -11,8 +11,15 @@ function ATOM:OnInitialize()
 end
 
 function ATOM:OnEnable()
+	ATOM:RegisterEvent('ADDON_LOADED')
 	ATOM:RegisterEvent('MAIL_SHOW')
 	ATOM:RegisterEvent('MERCHANT_SHOW')
+end
+
+function ATOM:ADDON_LOADED(event, addonName)
+	if addonName == 'Dominos_Config' then
+		ATOM:DominosIncreaseMaximumScale()
+	end
 end
 
 function ATOM:MAIL_SHOW()
@@ -288,11 +295,13 @@ function ATOM:ReplaceGameFonts(font)
 	font = font or 'MyriadPro'
 
 	local NORMAL     = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Regular.ttf'
-	local BOLD       = NORMAL --'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Bold.ttf'
-	local BOLDITALIC = NORMAL --'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-BoldItalic.ttf'
-	local ITALIC     = NORMAL --'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Italic.ttf'
-	local NUMBER     = NORMAL --'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Bold.ttf'
+	local ITALIC     = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Italic.ttf'
+	local BOLD       = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Bold.ttf'
+	local BOLDITALIC = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-BoldItalic.ttf'
+	local NUMBER     = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Bold.ttf'
 
+	ITALIC = NORMAL
+	BOLDITALIC = BOLD
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
@@ -388,5 +397,23 @@ function ATOM:ReplaceGameFonts(font)
 
 	for _,butt in pairs(PaperDollTitlesPane.buttons) do
 		butt.text:SetFontObject(GameFontHighlightSmallLeft)
+	end
+end
+
+
+--[[
+	Increase the maximum scale for Dominors Bars from 150% to 300%.
+--]]
+function ATOM:DominosIncreaseMaximumScale()
+	if _G['Dominos'] and _G['Dominos'].Menu then
+		local function Slider_OnShow(self)
+			self:SetValue(self:GetParent().owner:GetScale()*100)
+		end
+		local function Slider_UpdateValue(self, value)
+			self:GetParent().owner:SetFrameScale(value/100)
+		end
+		_G['Dominos'].Menu.Panel.NewScaleSlider = function(self)
+			return self:NewSlider('Scale', 50, 300, 1, Slider_OnShow, Slider_UpdateValue)
+		end
 	end
 end
