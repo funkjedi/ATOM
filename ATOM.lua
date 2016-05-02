@@ -80,7 +80,7 @@ function ATOM:ResetSettingsToDefaults()
 		threatPlaySounds = 1,
 		emphasizeMySpellEffects = 1,
 		autoQuestWatch = 0,
-    autoQuestProgress = 0,
+		autoQuestProgress = 0,
 		mapFade = 0,
 		UnitNameOwn = 1,
 		UnitNameNPC = 1,
@@ -90,7 +90,7 @@ function ATOM:ResetSettingsToDefaults()
 		playerStatusText = 1,
 		targetStatusText = 1,
 		showToastOnline = 1,
-    showToastOffline = 0,
+		showToastOffline = 0,
 		scriptErrors = 1,
 	}
 	for key, value in pairs(settings) do
@@ -208,7 +208,7 @@ end
 
 
 --[[
-		Sell junk (grays).
+	Sell junk (grays).
 --]]
 function ATOM:SellGreyItems()
 	local bag, slot
