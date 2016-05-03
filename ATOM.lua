@@ -14,6 +14,14 @@ function ATOM:OnEnable()
 	ATOM:RegisterEvent('ADDON_LOADED')
 	ATOM:RegisterEvent('MAIL_SHOW')
 	ATOM:RegisterEvent('MERCHANT_SHOW')
+	ATOM:RegisterEvent('GOSSIP_SHOW',    'QuestNPCAutomation')
+	ATOM:RegisterEvent('QUEST_GREETING', 'QuestNPCAutomation')
+	ATOM:RegisterEvent('QUEST_DETAIL',   'QuestNPCAutomation')
+	ATOM:RegisterEvent('QUEST_ACCEPTED', 'QuestNPCAutomation')
+	ATOM:RegisterEvent('QUEST_PROGRESS', 'QuestNPCAutomation')
+	ATOM:RegisterEvent('QUEST_COMPLETE', 'QuestNPCAutomation')
+	ATOM:RegisterEvent('QUEST_FINISHED', 'QuestNPCAutomation')
+	ATOM:RegisterEvent('GOSSIP_CLOSED',  'QuestNPCAutomation')
 end
 
 function ATOM:ADDON_LOADED(event, addonName)
@@ -24,7 +32,7 @@ end
 
 function ATOM:MAIL_SHOW()
 	if not _G['ZygorGuidesViewer'] then
-		ATOM:Wait(ATOM.CollectMail)
+		ATOM:Wait(ATOM.RetrieveMailItems)
 	end
 end
 
@@ -248,7 +256,7 @@ end
 --[[
 	Collect items and gold from Mailbox.
 --]]
-function ATOM:CollectMail()
+function ATOM:RetrieveMailItems()
 	local function CollectableItem(index)
 		local _, _, _, _, money, CODAmount, _, itemCount = GetInboxHeaderInfo(index)
 		if money > 0 or (itemCount and itemCount > 0) and CODAmount <= 0 then
@@ -268,6 +276,59 @@ function ATOM:CollectMail()
 		end)
 	end
 	CheckMailbox(GetInboxNumItems())
+end
+
+
+--[[
+	Provide optional automation of accepting and turning in quests.
+--]]
+function ATOM:QuestNPCAutomation(event, ...)
+	if not ATOM.automateInteraction then
+		ATOM.automateInteraction = IsControlKeyDown()
+    if not ATOM.automateInteraction then
+      return
+    end
+	end
+  if event == 'GOSSIP_SHOW' then
+    if GetNumGossipOptions() > 0 then
+  		return
+  	end
+  	for i=1, GetNumAvailableQuests() do
+  		SelectAvailableQuest(i)
+  	end
+  	for i=1, GetNumActiveQuests() do
+  		SelectActiveQuest(i)
+  	end
+  end
+  if event == 'QUEST_GREETING' then
+    if GetNumGossipOptions() > 0 then
+  		return
+  	end
+  	for i=1, GetNumGossipAvailableQuests() do
+  		SelectGossipAvailableQuest(i)
+  	end
+  	for i=1, GetNumGossipActiveQuests() do
+  		SelectGossipActiveQuest(i)
+  	end
+  end
+  if event == 'QUEST_DETAIL' then
+    if not QuestGetAutoAccept() then
+  		AcceptQuest()
+  	end
+  end
+  if event == 'QUEST_PROGRESS' then
+    if IsQuestCompletable() then
+      CompleteQuest()
+    end
+  end
+  if event == 'QUEST_COMPLETE' then
+    if GetNumQuestChoices() == 0 then
+      GetQuestReward(nil)
+    end
+  end
+  if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
+    ATOM.automateInteraction = false
+  end
 end
 
 
