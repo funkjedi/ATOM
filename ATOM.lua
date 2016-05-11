@@ -349,116 +349,123 @@ end
 
 
 --[[
-	Based on the font replacement done in tekticles.
-	https://github.com/TekNoLogic/tekticles
+	Replace the in-game fonts.
 --]]
-function ATOM:ReplaceGameFonts(font)
-	font = font or 'MyriadPro'
+function ATOM:ReplaceGameFonts()
+	local NORMAL = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Regular.ttf'
+	local STRONG = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Bold.ttf'
 
-	local NORMAL     = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Regular.ttf'
-	local ITALIC     = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Italic.ttf'
-	local BOLD       = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Bold.ttf'
-	local BOLDITALIC = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-BoldItalic.ttf'
-	local NUMBER     = 'Interface\\AddOns\\Atom\\Fonts\\'..font..'\\'..font..'-Bold.ttf'
-
-	ITALIC = NORMAL
-	BOLDITALIC = BOLD
-
-	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
-	CHAT_FONT_HEIGHTS = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
-
-	UNIT_NAME_FONT     = NORMAL
-	DAMAGE_TEXT_FONT   = NUMBER
-	STANDARD_TEXT_FONT = NORMAL
-
-	--[[
-		Set various font, text and frame options. This helper function
-		simplifies the process of replace the majority of the Game fonts and styles.
-	--]]
-	local function SetFont(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
-		obj:SetFont(font, size, style)
-		if sr and sg and sb then
-			obj:SetShadowColor(sr, sg, sb)
+	local function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
+		local _, height, flags = fontFamily:GetFont()
+		if type(fontHeight) == 'string' then
+			fontFlags = fontHeight
+			fontHeight = nil
 		end
-		if sox and soy then
-			obj:SetShadowOffset(sox, soy)
+		if not fontHeight then
+			fontHeight = height
+			if fontHeight < 16 then
+				fontHeight = fontHeight * 1.2
+			end
 		end
-		if r and g and b then
-			obj:SetTextColor(r, g, b)
-		elseif r then
-			obj:SetAlpha(r)
-		end
+		fontFamily:SetFont(fontPath, fontHeight, fontFlags or flags)
 	end
 
-	-- Base fonts
-	SetFont(AchievementFont_Small,                BOLD, 12)
-	SetFont(FriendsFont_Large,                  NORMAL, 15, nil, nil, nil, nil, 0, 0, 0, 1, -1)
-	SetFont(FriendsFont_Normal,                 NORMAL, 13, nil, nil, nil, nil, 0, 0, 0, 1, -1)
-	SetFont(FriendsFont_Small,                  NORMAL, 11, nil, nil, nil, nil, 0, 0, 0, 1, -1)
-	SetFont(FriendsFont_UserText,               NUMBER, 12, nil, nil, nil, nil, 0, 0, 0, 1, -1)
-	SetFont(GameTooltipHeader,                    BOLD, 15, 'OUTLINE')
-	SetFont(GameFont_Gigantic,                    BOLD, 32, nil, nil, nil, nil, 0, 0, 0, 1, -1)
-	SetFont(GameNormalNumberFont,                 BOLD, 11)
-	SetFont(InvoiceFont_Med,                    ITALIC, 13, nil, 0.15, 0.09, 0.04)
-	SetFont(InvoiceFont_Small,                  ITALIC, 11, nil, 0.15, 0.09, 0.04)
-	SetFont(MailFont_Large,                     ITALIC, 15, nil, 0.15, 0.09, 0.04, 0.54, 0.4, 0.1, 1, -1)
-	SetFont(NumberFont_OutlineThick_Mono_Small, NUMBER, 13, 'OUTLINE')
-	SetFont(NumberFont_Outline_Huge,            NUMBER, 30, 'THICKOUTLINE', 30)
-	SetFont(NumberFont_Outline_Large,           NUMBER, 17, 'OUTLINE')
-	SetFont(NumberFont_Outline_Med,             NUMBER, 15, 'OUTLINE')
-	SetFont(NumberFont_Shadow_Med,              NORMAL, 14)
-	SetFont(NumberFont_Shadow_Small,            NORMAL, 12)
-	SetFont(QuestFont_Shadow_Small,             NORMAL, 16)
-	SetFont(QuestFont_Large,                    NORMAL, 16)
-	SetFont(QuestFont_Huge,                       BOLD, 19, nil, nil, nil, nil, 0.54, 0.4, 0.1)
-	SetFont(QuestFont_Shadow_Huge,                BOLD, 19, nil, nil, nil, nil, 0.54, 0.4, 0.1)
-	SetFont(QuestFont_Super_Huge,                 BOLD, 24)
-	SetFont(ReputationDetailFont,                 BOLD, 12, nil, nil, nil, nil, 0, 0, 0, 1, -1)
-	SetFont(SpellFont_Small,                      BOLD, 11)
-	SetFont(SystemFont_InverseShadow_Small,       BOLD, 11)
-	SetFont(SystemFont_Large,                   NORMAL, 17)
-	SetFont(SystemFont_Med1,                    NORMAL, 13)
-	SetFont(SystemFont_Med2,                    ITALIC, 14, nil, 0.15, 0.09, 0.04)
-	SetFont(SystemFont_Med3,                    NORMAL, 15)
-	SetFont(SystemFont_OutlineThick_Huge2,      NORMAL, 22, 'THICKOUTLINE')
-	SetFont(SystemFont_OutlineThick_Huge4,  BOLDITALIC, 27, 'THICKOUTLINE')
-	SetFont(SystemFont_OutlineThick_WTF,    BOLDITALIC, 31, 'THICKOUTLINE', nil, nil, nil, 0, 0, 0, 1, -1)
-	SetFont(SystemFont_Outline_Small,           NUMBER, 13, 'OUTLINE')
-	SetFont(SystemFont_Shadow_Huge1,              BOLD, 20)
-	SetFont(SystemFont_Shadow_Huge3,              BOLD, 25)
-	SetFont(SystemFont_Shadow_Large,            NORMAL, 17)
-	SetFont(SystemFont_Shadow_Med1,             NORMAL, 13)
-	SetFont(SystemFont_Shadow_Med2,             NORMAL, 14)
-	SetFont(SystemFont_Shadow_Med3,             NORMAL, 15)
-	SetFont(SystemFont_Shadow_Outline_Huge2,    NORMAL, 22, 'OUTLINE')
-	SetFont(SystemFont_Shadow_Small,              BOLD, 11)
-	SetFont(SystemFont_Small,                   NORMAL, 12)
-	SetFont(SystemFont_Tiny,                    NORMAL, 11)
-	SetFont(Tooltip_Med,                        NORMAL, 13)
-	SetFont(Tooltip_Small,                        BOLD, 12)
-	SetFont(WhiteNormalNumberFont,                BOLD, 11)
+	-- Extracted from FrameXML/Fonts.xml
+	UNIT_NAME_FONT       = NORMAL
+	STANDARD_TEXT_FONT   = NORMAL
+	DAMAGE_TEXT_FONT     = STRONG
 
-	-- Derived fonts
-	SetFont(BossEmoteNormalHuge,     BOLDITALIC, 27, 'THICKOUTLINE')
-	SetFont(CombatTextFont,              NORMAL, 26)
-	SetFont(ErrorFont,                   ITALIC, 16, nil, 60)
-	SetFont(QuestFontNormalSmall,          BOLD, 13, nil, nil, nil, nil, 0.54, 0.4, 0.1)
-	SetFont(WorldMapTextFont,        BOLDITALIC, 31, 'THICKOUTLINE',  40, nil, nil, 0, 0, 0, 1, -1)
+	-- Extracted from FrameXML/FontStyles.xml
+	UNIT_NAME_FONT_ROMAN = NORMAL
 
-	for i=1,7 do
-		local f = _G['ChatFrame'..i]
-		local font, size = f:GetFont()
-		f:SetFont(NORMAL, size)
-	end
+	-- Extracted from FrameXML/Fonts.xml
+	-- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.TTF']]/@name
+	SetFont(NORMAL, SystemFont_Small)
+	SetFont(STRONG, SystemFont_Outline_Small)
+	SetFont(NORMAL, SystemFont_Outline)
+	SetFont(STRONG, SystemFont_InverseShadow_Small)
+	SetFont(NORMAL, SystemFont_Med2)
+	SetFont(NORMAL, SystemFont_Med3)
+	SetFont(NORMAL, SystemFont_Shadow_Med3)
+	SetFont(NORMAL, SystemFont_Huge1)
+	SetFont(NORMAL, SystemFont_Huge1_Outline)
+	SetFont(NORMAL, SystemFont_OutlineThick_Huge2)
+	SetFont(STRONG, SystemFont_OutlineThick_Huge4)
+	SetFont(STRONG, SystemFont_OutlineThick_WTF)
+	SetFont(NORMAL, NumberFont_GameNormal)
+	SetFont(NORMAL, NumberFont_OutlineThick_Mono_Small, 'OUTLINE')
+	SetFont(NORMAL, Game30Font)
+	SetFont(STRONG, SpellFont_Small)
+	SetFont(NORMAL, InvoiceFont_Med)
+	SetFont(NORMAL, InvoiceFont_Small)
+	SetFont(NORMAL, Tooltip_Med)
+	SetFont(STRONG, Tooltip_Small)
+	SetFont(STRONG, AchievementFont_Small)
+	SetFont(NORMAL, ReputationDetailFont)
+	SetFont(NORMAL, FriendsFont_Normal)
+	SetFont(NORMAL, FriendsFont_Small)
+	SetFont(NORMAL, FriendsFont_Large)
+	SetFont(STRONG, GameFont_Gigantic)
+	SetFont(NORMAL, ChatBubbleFont)
 
-	for i=1,MAX_CHANNEL_BUTTONS do
-		local f = _G['ChannelButton'..i..'Text']
-		f:SetFontObject(GameFontNormalSmallLeft)
-	end
+	-- Extracted from SharedXML/Fonts.xml
+	-- /Ui/FontFamily[Member/Font[@font='Fonts\ARIALN.TTF']]/@name
+	SetFont(NORMAL, NumberFont_Shadow_Small)
+	SetFont(STRONG, NumberFont_OutlineThick_Mono_Small)
+	SetFont(NORMAL, NumberFont_Shadow_Med)
+	SetFont(NORMAL, NumberFont_Normal_Med)
+	SetFont(STRONG, NumberFont_Outline_Med)
+	SetFont(STRONG, NumberFont_Outline_Large)
+	SetFont(STRONG, FriendsFont_UserText)
+	SetFont(NORMAL, ChatBubbleFont)
 
-	for _,butt in pairs(PaperDollTitlesPane.buttons) do
-		butt.text:SetFontObject(GameFontHighlightSmallLeft)
-	end
+	-- Extracted from SharedXML/Fonts.xml
+	-- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.ttf']]/@name
+	SetFont(NORMAL, Fancy16Font)
+	SetFont(STRONG, QuestFont_Huge)
+	SetFont(NORMAL, QuestFont_Outline_Huge)
+	SetFont(STRONG, QuestFont_Super_Huge)
+	SetFont(NORMAL, QuestFont_Super_Huge_Outline)
+	SetFont(NORMAL, SplashHeaderFont)
+	SetFont(NORMAL, QuestFont_Enormous)
+	SetFont(NORMAL, DestinyFontLarge)
+	SetFont(NORMAL, CoreAbilityFont)
+	SetFont(NORMAL, DestinyFontHuge)
+	SetFont(NORMAL, QuestFont_Shadow_Small)
+	SetFont(NORMAL, MailFont_Large, 15)
+
+	-- Extracted from SharedXML/Fonts.xml
+	-- /Ui/FontFamily[Member/Font[@font='Fonts\skurri.ttf']]/@name
+	SetFont(STRONG, NumberFont_Outline_Huge)
+
+	-- Extracted from FrameXML/SharedFonts.xml
+	-- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.TTF']]/@name
+	SetFont(NORMAL, SystemFont_Tiny)
+	SetFont(STRONG, SystemFont_Shadow_Small)
+	SetFont(NORMAL, SystemFont_Small2)
+	SetFont(NORMAL, SystemFont_Shadow_Small2)
+	SetFont(NORMAL, SystemFont_Shadow_Med1_Outline)
+	SetFont(NORMAL, SystemFont_Shadow_Med1)
+	SetFont(NORMAL, SystemFont_Large)
+	SetFont(NORMAL, SystemFont_Shadow_Large_Outline)
+	SetFont(NORMAL, SystemFont_Shadow_Med2)
+	SetFont(NORMAL, SystemFont_Shadow_Large)
+	SetFont(NORMAL, SystemFont_Shadow_Large2)
+	SetFont(STRONG, SystemFont_Shadow_Huge1)
+	SetFont(NORMAL, SystemFont_Huge2)
+	SetFont(NORMAL, SystemFont_Shadow_Huge2)
+	SetFont(STRONG, SystemFont_Shadow_Huge3)
+	SetFont(NORMAL, SystemFont_Shadow_Outline_Huge2)
+	SetFont(NORMAL, SystemFont_Med1)
+	SetFont(NORMAL, SystemFont_OutlineThick_WTF2)
+	SetFont(STRONG, GameTooltipHeader)
+
+	-- Extracted from SharedXML/ShardFonts.xml
+	-- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.TTF']]/@name
+	SetFont(NORMAL, QuestFont_Large)
+
+	-- Custom changes
+	SetFont(NORMAL, ChatFontNormal, 13)
 end
 
 
