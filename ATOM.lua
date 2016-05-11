@@ -339,8 +339,8 @@ function ATOM:RegisterSharedMediaFonts()
 	local fonts = {
 		['Lato']            = 'Lato\\Lato-Regular',
 		['Lato Bold']       = 'Lato\\Lato-Bold',
-		['Myriad Pro']      = 'Myriad_Pro\\MyriadPro-Regular',
-		['Myriad Pro Bold'] = 'Myriad_Pro\\MyriadPro-Bold',
+		['Myriad Pro']      = 'MyriadPro\\MyriadPro-Regular',
+		['Myriad Pro Bold'] = 'MyriadPro\\MyriadPro-Bold',
 	}
 	for fontName, fontPath in pairs(fonts) do
 		ATOM.LSB:Register(ATOM.LSB.MediaType.FONT, fontName, 'Interface\\AddOns\\Atom\\Fonts\\'..fontPath..'.ttf')
