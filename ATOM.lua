@@ -6,6 +6,7 @@ function ATOM:OnInitialize()
 	ATOM.LSB = LibStub('LibSharedMedia-3.0')
 	ATOM:RegisterSharedMediaFonts()
 	ATOM:ReplaceGameFonts()
+	ATOM:AdjustFrameColours()
 	ATOM:ResetSettingsToDefaults()
 	ATOM:SetView(2)
 end
@@ -288,50 +289,50 @@ end
 function ATOM:QuestNPCAutomation(event, ...)
 	if not ATOM.automateInteraction then
 		ATOM.automateInteraction = IsControlKeyDown()
-    if not ATOM.automateInteraction then
-      return
-    end
+		if not ATOM.automateInteraction then
+			return
+		end
 	end
-  if event == 'GOSSIP_SHOW' then
-    if GetNumGossipOptions() > 0 then
-  		return
-  	end
-  	for i=1, GetNumAvailableQuests() do
-  		SelectAvailableQuest(i)
-  	end
-  	for i=1, GetNumActiveQuests() do
-  		SelectActiveQuest(i)
-  	end
-  end
-  if event == 'QUEST_GREETING' then
-    if GetNumGossipOptions() > 0 then
-  		return
-  	end
-  	for i=1, GetNumGossipAvailableQuests() do
-  		SelectGossipAvailableQuest(i)
-  	end
-  	for i=1, GetNumGossipActiveQuests() do
-  		SelectGossipActiveQuest(i)
-  	end
-  end
-  if event == 'QUEST_DETAIL' then
-    if not QuestGetAutoAccept() then
-  		AcceptQuest()
-  	end
-  end
-  if event == 'QUEST_PROGRESS' then
-    if IsQuestCompletable() then
-      CompleteQuest()
-    end
-  end
-  if event == 'QUEST_COMPLETE' then
-    if GetNumQuestChoices() == 0 then
-      GetQuestReward(nil)
-    end
-  end
-  if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
-    ATOM.automateInteraction = false
-  end
+	if event == 'GOSSIP_SHOW' then
+		if GetNumGossipOptions() > 0 then
+			return
+		end
+		for i=1, GetNumAvailableQuests() do
+			SelectAvailableQuest(i)
+		end
+		for i=1, GetNumActiveQuests() do
+			SelectActiveQuest(i)
+		end
+	end
+	if event == 'QUEST_GREETING' then
+		if GetNumGossipOptions() > 0 then
+			return
+		end
+		for i=1, GetNumGossipAvailableQuests() do
+			SelectGossipAvailableQuest(i)
+		end
+		for i=1, GetNumGossipActiveQuests() do
+			SelectGossipActiveQuest(i)
+		end
+	end
+	if event == 'QUEST_DETAIL' then
+		if not QuestGetAutoAccept() then
+			AcceptQuest()
+		end
+	end
+	if event == 'QUEST_PROGRESS' then
+		if IsQuestCompletable() then
+			CompleteQuest()
+		end
+	end
+	if event == 'QUEST_COMPLETE' then
+		if GetNumQuestChoices() == 0 then
+			GetQuestReward(nil)
+		end
+	end
+	if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
+		ATOM.automateInteraction = false
+	end
 end
 
 
@@ -469,6 +470,65 @@ function ATOM:ReplaceGameFonts()
 
 	-- Custom changes
 	SetFont(NORMAL, ChatFontNormal, 13)
+end
+
+
+--[[
+	Recolour the Player and Target frames making them darker.
+--]]
+function ATOM:AdjustFrameColours()
+	local function ColourFrame(frame)
+		frame:SetVertexColor(.05, .05, .05)
+	end
+
+	ColourFrame(PlayerFrameTexture)
+	ColourFrame(PlayerFrameAlternateManaBarBorder)
+	ColourFrame(PlayerFrameAlternateManaBarLeftBorder)
+	ColourFrame(PlayerFrameAlternateManaBarRightBorder)
+	ColourFrame(AlternatePowerBarBorder)
+	ColourFrame(AlternatePowerBarLeftBorder)
+	ColourFrame(AlternatePowerBarRightBorder)
+	ColourFrame(TargetFrameTextureFrameTexture)
+	ColourFrame(PetFrameTexture)
+	ColourFrame(PartyMemberFrame1Texture)
+	ColourFrame(PartyMemberFrame2Texture)
+	ColourFrame(PartyMemberFrame3Texture)
+	ColourFrame(PartyMemberFrame4Texture)
+	ColourFrame(PartyMemberFrame1PetFrameTexture)
+	ColourFrame(PartyMemberFrame2PetFrameTexture)
+	ColourFrame(PartyMemberFrame3PetFrameTexture)
+	ColourFrame(PartyMemberFrame4PetFrameTexture)
+	ColourFrame(FocusFrameTextureFrameTexture)
+	ColourFrame(TargetFrameToTTextureFrameTexture)
+	ColourFrame(FocusFrameToTTextureFrameTexture)
+	ColourFrame(Boss1TargetFrameTextureFrameTexture)
+	ColourFrame(Boss2TargetFrameTextureFrameTexture)
+	ColourFrame(Boss3TargetFrameTextureFrameTexture)
+	ColourFrame(Boss4TargetFrameTextureFrameTexture)
+	ColourFrame(Boss5TargetFrameTextureFrameTexture)
+	ColourFrame(Boss1TargetFrameSpellBarBorder)
+	ColourFrame(Boss2TargetFrameSpellBarBorder)
+	ColourFrame(Boss3TargetFrameSpellBarBorder)
+	ColourFrame(Boss4TargetFrameSpellBarBorder)
+	ColourFrame(Boss5TargetFrameSpellBarBorder)
+	ColourFrame(select(5, ShardBarFrameShard1:GetRegions()))
+	ColourFrame(select(5, ShardBarFrameShard2:GetRegions()))
+	ColourFrame(select(5, ShardBarFrameShard3:GetRegions()))
+	ColourFrame(select(5, ShardBarFrameShard4:GetRegions()))
+	ColourFrame(select(1, BurningEmbersBarFrame:GetRegions()))
+	ColourFrame(select(1, BurningEmbersBarFrameEmber1:GetRegions()))
+	ColourFrame(select(1, BurningEmbersBarFrameEmber2:GetRegions()))
+	ColourFrame(select(1, BurningEmbersBarFrameEmber3:GetRegions()))
+	ColourFrame(select(1, BurningEmbersBarFrameEmber4:GetRegions()))
+	ColourFrame(select(1, PaladinPowerBar:GetRegions()))
+	ColourFrame(select(1, ComboPoint1:GetRegions()))
+	ColourFrame(select(1, ComboPoint2:GetRegions()))
+	ColourFrame(select(1, ComboPoint3:GetRegions()))
+	ColourFrame(select(1, ComboPoint4:GetRegions()))
+	ColourFrame(select(1, ComboPoint5:GetRegions()))
+	ColourFrame(CastingBarFrameBorder)
+	ColourFrame(FocusFrameSpellBarBorder)
+	ColourFrame(TargetFrameSpellBarBorder)
 end
 
 
