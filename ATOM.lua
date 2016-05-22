@@ -6,9 +6,13 @@ function ATOM:OnInitialize()
 	ATOM.LSB = LibStub('LibSharedMedia-3.0')
 	ATOM:RegisterSharedMediaFonts()
 	ATOM:ReplaceGameFonts()
-	ATOM:AdjustFrameColours()
+	--ATOM:AdjustFrameColours()
+	ATOM:CropAuraTextures()
 	ATOM:ResetSettingsToDefaults()
 	ATOM:SetView(2)
+	--ATOM:BagItemGlow()
+	MinimapZoomIn:Hide()
+	MinimapZoomOut:Hide()
 end
 
 function ATOM:OnEnable()
@@ -88,8 +92,8 @@ function ATOM:ResetSettingsToDefaults()
 		screenEdgeFlash = 1,
 		threatPlaySounds = 1,
 		emphasizeMySpellEffects = 1,
-		autoQuestWatch = 0,
-		autoQuestProgress = 0,
+		autoQuestWatch = 1,
+		autoQuestProgress = 1,
 		mapFade = 0,
 		UnitNameOwn = 1,
 		UnitNameNPC = 1,
@@ -115,9 +119,10 @@ function ATOM:SetVolume(level)
 	if level then
 		ATOM.volumeLevel = level
 	else
-		ATOM.volumeLevel = ATOM.volumeLevel == 100 and 25 or 100
+		ATOM.volumeLevel = ATOM.volumeLevel == 100 and 10 or 100
 	end
 	SetCVar('Sound_MasterVolume', ATOM.volumeLevel / 100)
+	ATOM:Print('VOLUME CHANGED TO %d', ATOM.volumeLevel)
 end
 
 
@@ -134,6 +139,14 @@ function ATOM:SetView(index)
 	-- instead switch immediately to the view
 	SetView(ATOM.viewIndex)
 	SetView(ATOM.viewIndex)
+end
+
+
+--[[
+	Show the scoreboard when in Battleground.
+--]]
+function ATOM:ShowScore()
+	WorldStateScoreFrame:Show()
 end
 
 
@@ -212,7 +225,10 @@ function ATOM:Mount(mountName)
 			return CastSpellByName(mountName)
 		end
 	end
-	return CastSpellByName('Frosty Flying Carpet')
+	if IsControlKeyDown() then
+		return CastSpellByName("Ashes of Al'ar")
+	end
+	C_MountJournal.Summon(0)
 end
 
 
@@ -287,32 +303,29 @@ end
 	Provide optional automation of accepting and turning in quests.
 --]]
 function ATOM:QuestNPCAutomation(event, ...)
-	if not ATOM.automateInteraction then
-		ATOM.automateInteraction = IsControlKeyDown()
-		if not ATOM.automateInteraction then
-			return
-		end
+	if not IsControlKeyDown() then
+		return
 	end
 	if event == 'GOSSIP_SHOW' then
 		if GetNumGossipOptions() > 0 then
-			return
-		end
-		for i=1, GetNumAvailableQuests() do
-			SelectAvailableQuest(i)
-		end
-		for i=1, GetNumActiveQuests() do
-			SelectActiveQuest(i)
-		end
-	end
-	if event == 'QUEST_GREETING' then
-		if GetNumGossipOptions() > 0 then
-			return
+			--return
 		end
 		for i=1, GetNumGossipAvailableQuests() do
 			SelectGossipAvailableQuest(i)
 		end
 		for i=1, GetNumGossipActiveQuests() do
 			SelectGossipActiveQuest(i)
+		end
+	end
+	if event == 'QUEST_GREETING' then
+		if GetNumGossipOptions() > 0 then
+			--return
+		end
+		for i=1, GetNumAvailableQuests() do
+			SelectAvailableQuest(i)
+		end
+		for i=1, GetNumActiveQuests() do
+			SelectActiveQuest(i)
 		end
 	end
 	if event == 'QUEST_DETAIL' then
@@ -331,7 +344,7 @@ function ATOM:QuestNPCAutomation(event, ...)
 		end
 	end
 	if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
-		ATOM.automateInteraction = false
+		--//
 	end
 end
 
@@ -364,6 +377,9 @@ function ATOM:ReplaceGameFonts()
 		if type(fontHeight) == 'string' then
 			fontFlags = fontHeight
 			fontHeight = nil
+		end
+		if type(fontHeight) == 'boolean' then
+			fontHeight = height
 		end
 		if not fontHeight then
 			fontHeight = height
@@ -470,6 +486,8 @@ function ATOM:ReplaceGameFonts()
 
 	-- Custom changes
 	SetFont(NORMAL, ChatFontNormal, 13)
+	SetFont(STRONG, FocusFontSmall, 12)
+	SetFont(STRONG, TextStatusBarTextLarge, 12)
 end
 
 
@@ -478,16 +496,18 @@ end
 --]]
 function ATOM:AdjustFrameColours()
 	local function ColourFrame(frame)
-		frame:SetVertexColor(.05, .05, .05)
+		if frame then
+			frame:SetVertexColor(.05, .05, .05)
+		end
 	end
 
 	ColourFrame(PlayerFrameTexture)
 	ColourFrame(PlayerFrameAlternateManaBarBorder)
 	ColourFrame(PlayerFrameAlternateManaBarLeftBorder)
 	ColourFrame(PlayerFrameAlternateManaBarRightBorder)
-	ColourFrame(AlternatePowerBarBorder)
-	ColourFrame(AlternatePowerBarLeftBorder)
-	ColourFrame(AlternatePowerBarRightBorder)
+	--ColourFrame(AlternatePowerBarBorder)
+	--ColourFrame(AlternatePowerBarLeftBorder)
+	--ColourFrame(AlternatePowerBarRightBorder)
 	ColourFrame(TargetFrameTextureFrameTexture)
 	ColourFrame(PetFrameTexture)
 	ColourFrame(PartyMemberFrame1Texture)
@@ -511,24 +531,70 @@ function ATOM:AdjustFrameColours()
 	ColourFrame(Boss3TargetFrameSpellBarBorder)
 	ColourFrame(Boss4TargetFrameSpellBarBorder)
 	ColourFrame(Boss5TargetFrameSpellBarBorder)
-	ColourFrame(select(5, ShardBarFrameShard1:GetRegions()))
-	ColourFrame(select(5, ShardBarFrameShard2:GetRegions()))
-	ColourFrame(select(5, ShardBarFrameShard3:GetRegions()))
-	ColourFrame(select(5, ShardBarFrameShard4:GetRegions()))
-	ColourFrame(select(1, BurningEmbersBarFrame:GetRegions()))
-	ColourFrame(select(1, BurningEmbersBarFrameEmber1:GetRegions()))
-	ColourFrame(select(1, BurningEmbersBarFrameEmber2:GetRegions()))
-	ColourFrame(select(1, BurningEmbersBarFrameEmber3:GetRegions()))
-	ColourFrame(select(1, BurningEmbersBarFrameEmber4:GetRegions()))
+	--ColourFrame(select(5, ShardBarFrameShard1:GetRegions()))
+	--ColourFrame(select(5, ShardBarFrameShard2:GetRegions()))
+	--ColourFrame(select(5, ShardBarFrameShard3:GetRegions()))
+	--ColourFrame(select(5, ShardBarFrameShard4:GetRegions()))
+	--ColourFrame(select(1, BurningEmbersBarFrame:GetRegions()))
+	--ColourFrame(select(1, BurningEmbersBarFrameEmber1:GetRegions()))
+	--ColourFrame(select(1, BurningEmbersBarFrameEmber2:GetRegions()))
+	--ColourFrame(select(1, BurningEmbersBarFrameEmber3:GetRegions()))
+	--ColourFrame(select(1, BurningEmbersBarFrameEmber4:GetRegions()))
 	ColourFrame(select(1, PaladinPowerBar:GetRegions()))
-	ColourFrame(select(1, ComboPoint1:GetRegions()))
-	ColourFrame(select(1, ComboPoint2:GetRegions()))
-	ColourFrame(select(1, ComboPoint3:GetRegions()))
-	ColourFrame(select(1, ComboPoint4:GetRegions()))
-	ColourFrame(select(1, ComboPoint5:GetRegions()))
+	--ColourFrame(select(1, ComboPoint1:GetRegions()))
+	--ColourFrame(select(1, ComboPoint2:GetRegions()))
+	--ColourFrame(select(1, ComboPoint3:GetRegions()))
+	--ColourFrame(select(1, ComboPoint4:GetRegions()))
+	--ColourFrame(select(1, ComboPoint5:GetRegions()))
 	ColourFrame(CastingBarFrameBorder)
 	ColourFrame(FocusFrameSpellBarBorder)
 	ColourFrame(TargetFrameSpellBarBorder)
+end
+
+
+--[[
+	Crop the buff/debuff aura textures to remove border.
+--]]
+function ATOM:CropAuraTextures()
+	hooksecurefunc('TargetFrame_UpdateAuras', function(self)
+		local name = self:GetName()
+		local frame
+		for i = 1, MAX_TARGET_BUFFS do
+			frame = _G[name..'Buff'..i..'Icon']
+			if frame then
+				frame:SetTexCoord(0.06, 0.94, 0.06, 0.94)
+			end
+		end
+	end)
+end
+
+
+--[[
+	Always display a glow around quality items.
+--]]
+function ATOM:BagItemGlow()
+	local function enableGlow(self)
+		local quality = select(4, GetContainerItemInfo( self:GetParent():GetID(), self:GetID() ))
+		if quality and quality > LE_ITEM_QUALITY_COMMON then
+			self.NewItemTexture:SetAtlas(NEW_ITEM_ATLAS_BY_QUALITY[quality])
+			self.NewItemTexture:SetAlpha(.8)
+			self.NewItemTexture:Show()
+		end
+	end
+	local isItemButtonHooked = {}
+	hooksecurefunc('ContainerFrame_Update', function(frame)
+		local name = frame:GetName()
+		local itemButton
+		for i=1, frame.size, 1 do
+			itemButton = _G[name..'Item'..i]
+			if not isItemButtonHooked[i] then
+				isItemButtonHooked[i] = true
+				itemButton:HookScript('OnEnter', enableGlow)
+				itemButton:HookScript('OnLeave', enableGlow)
+			end
+			enableGlow(itemButton)
+		end
+	end)
 end
 
 
