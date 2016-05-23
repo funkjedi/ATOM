@@ -10,6 +10,7 @@ _G['ATOM'] = ATOM;
 
 
 function ATOM:OnEnable()
+	--LibStub('AceEvent-3.0').frame:HookScript('OnEvent', function(f,e) print(e) end)
 	ATOM:RegisterEvent('ADDON_LOADED')
 end
 

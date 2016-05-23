@@ -7,9 +7,9 @@ local QuestFrame_OnShow
 
 
 function Module:OnEnable()
+	self:RegisterEvent('QUEST_ACCEPTED')
 	self:RegisterEvent('GOSSIP_CLOSED',  'CharacterInteraction')
 	self:RegisterEvent('GOSSIP_SHOW',    'CharacterInteraction')
-	self:RegisterEvent('QUEST_ACCEPTED', 'CharacterInteraction')
 	self:RegisterEvent('QUEST_COMPLETE', 'CharacterInteraction')
 	self:RegisterEvent('QUEST_DETAIL',   'CharacterInteraction')
 	self:RegisterEvent('QUEST_FINISHED', 'CharacterInteraction')
@@ -19,9 +19,9 @@ function Module:OnEnable()
 end
 
 function Module:OnDisable()
+	self:UnregisterEvent('QUEST_ACCEPTED')
 	self:UnregisterEvent('GOSSIP_CLOSED',  'CharacterInteraction')
 	self:UnregisterEvent('GOSSIP_SHOW',    'CharacterInteraction')
-	self:UnregisterEvent('QUEST_ACCEPTED', 'CharacterInteraction')
 	self:UnregisterEvent('QUEST_COMPLETE', 'CharacterInteraction')
 	self:UnregisterEvent('QUEST_DETAIL',   'CharacterInteraction')
 	self:UnregisterEvent('QUEST_FINISHED', 'CharacterInteraction')
@@ -46,12 +46,10 @@ function Module:CharacterInteraction(event, ...)
 	if event == 'QUEST_GREETING' or event == 'GOSSIP_SHOW' then
 		if IsControlKeyDown() then
 			activeInteraction = true
-			self:QUEST_GREETING()
 		end
-		return
 	end
 	if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
-		self:QUEST_FINISHED()
+		ATOM:Wait(function() activeInteraction = nil end)
 		return
 	end
 	if activeInteraction then
@@ -61,20 +59,21 @@ end
 
 
 function Module:QUEST_GREETING()
-	if GetNumGossipOptions() > 0 then
-		--return
-	end
-	for i=1, GetNumGossipAvailableQuests() do
-		SelectGossipAvailableQuest(i)
-	end
-	for i=1, GetNumGossipActiveQuests() do
-		SelectGossipActiveQuest(i)
-	end
 	for i=1, GetNumAvailableQuests() do
 		SelectAvailableQuest(i)
 	end
 	for i=1, GetNumActiveQuests() do
 		SelectActiveQuest(i)
+	end
+end
+
+
+function Module:GOSSIP_SHOW()
+	for i=1, GetNumGossipAvailableQuests() do
+		SelectGossipAvailableQuest(i)
+	end
+	for i=1, GetNumGossipActiveQuests() do
+		SelectGossipActiveQuest(i)
 	end
 end
 
@@ -105,11 +104,7 @@ end
 
 function Module:QUEST_COMPLETE()
 	if GetNumQuestChoices() == 0 then
-		GetQuestReward(nil)
+		QuestDetailAcceptButton_OnClick()
+		GetQuestReward(QuestInfoFrame.itemChoice)
 	end
-end
-
-
-function Module:QUEST_FINISHED()
-	activeInteraction = nil
 end
