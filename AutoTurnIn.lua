@@ -43,10 +43,8 @@ end
 
 
 function Module:CharacterInteraction(event, ...)
-	if event == 'QUEST_GREETING' or event == 'GOSSIP_SHOW' then
-		if IsControlKeyDown() then
-			activeInteraction = true
-		end
+	if IsControlKeyDown() then
+		activeInteraction = true
 	end
 	if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
 		ATOM:Wait(function() activeInteraction = nil end)
