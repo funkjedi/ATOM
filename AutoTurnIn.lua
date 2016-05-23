@@ -86,7 +86,7 @@ end
 
 
 function Module:QUEST_ACCEPTED(questLogID)
-	if GetNumPartyMembers() > 0 then
+	if GetNumGroupMembers() > 0 then
 		SelectQuestLogEntry(questLogID)
 		if GetQuestLogPushable() then
 			QuestLogPushQuest()
