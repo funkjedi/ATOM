@@ -6,4 +6,14 @@
 	<Include file="AceEvent-3.0\AceEvent-3.0.xml"/>
 	<Include file="AceTimer-3.0\AceTimer-3.0.xml"/>
 	<Include file="LibSharedMedia-3.0\LibSharedMedia-3.0.xml"/>
+
+	<!--
+	http://mods.curse.com/addons/wow/ace3
+	http://mods.curse.com/addons/wow/libbuttonglow-1-0
+	http://mods.curse.com/addons/wow/libinventory-2-1
+	http://mods.curse.com/addons/wow/libkeybound-1-0
+	http://mods.curse.com/addons/wow/libsharedmedia-3-0
+	http://mods.curse.com/addons/wow/libspellrange-1-0
+	http://mods.curse.com/addons/wow/libutilities-1-0
+	-->
 </Ui>

@@ -1,9 +1,18 @@
 ## Interface: 60200
 ## Title: ATOM
-## Notes: General tweaks and optimizations
+## Notes: Tweaks, optimizations and automation of tasks
 ## Author: funkjedi
-## Version: 0.1
+## Version: 1
 
 Libs\Libs.xml
 
 ATOM.lua
+
+AutoTurnIn.lua
+Bags.lua
+Fonts.lua
+Merchant.lua
+Mount.lua
+Postal.lua
+System.lua
+Textures.lua
