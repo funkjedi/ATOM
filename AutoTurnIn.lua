@@ -45,6 +45,7 @@ end
 function Module:CharacterInteraction(event, ...)
 	if event == 'QUEST_GREETING' or event == 'GOSSIP_SHOW' then
 		if IsControlKeyDown() then
+			activeInteraction = true
 			self:QUEST_GREETING()
 		end
 		return
