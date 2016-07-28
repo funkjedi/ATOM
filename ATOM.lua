@@ -8,18 +8,9 @@ ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceTimer-3.0')
 _G['ATOM'] = ATOM;
 
 
-
 function ATOM:OnEnable()
 	--LibStub('AceEvent-3.0').frame:HookScript('OnEvent', function(f,e) print(e) end)
-	ATOM:RegisterEvent('ADDON_LOADED')
 end
-
-function ATOM:ADDON_LOADED(event, addonName)
-	if addonName == 'Dominos_Config' then
-		ATOM:DominosIncreaseMaximumScale()
-	end
-end
-
 
 
 function ATOM:Print(...)
@@ -48,19 +39,38 @@ function ATOM:ShowScore()
 end
 
 
+function ATOM:DestroyItems()
+	local items = {
+		'Dew of Eternal Morning',
+		'Warped Warning Sign',
+		'Book of the Ages',
+		'Singing Crystal',
+		'Charred Recipe',
+		'Idol',
+		'Scarab',
+	}
+	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+		for slot = 1, GetContainerNumSlots(bag) do
+			local name = GetContainerItemLink(bag,slot)
+			if name then
+				for _, item in ipairs(items) do
+					if string.find(name,item) then
+						PickupContainerItem(bag,slot)
+						DeleteCursorItem()
+					end
+				end
+			end
+		end
+	end
+end
+
+
 --[[
-	Increase the maximum scale for Dominors Bars from 150% to 300%.
+	Mark a target.
 --]]
-function ATOM:DominosIncreaseMaximumScale()
-	if _G['Dominos'] and _G['Dominos'].Menu then
-		local function Slider_OnShow(self)
-			self:SetValue(self:GetParent().owner:GetScale()*100)
-		end
-		local function Slider_UpdateValue(self, value)
-			self:GetParent().owner:SetFrameScale(value/100)
-		end
-		_G['Dominos'].Menu.Panel.NewScaleSlider = function(self)
-			return self:NewSlider('Scale', 50, 300, 1, Slider_OnShow, Slider_UpdateValue)
-		end
+function ATOM:MarkTarget(index)
+	if not GetRaidTargetIndex('target') then
+		SetRaidTarget('target', index or 8)
+		PlaySoundFile('Sound\\interface\\AlarmClockWarning3.ogg')
 	end
 end
