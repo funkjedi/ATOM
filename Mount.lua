@@ -7,6 +7,14 @@ function ATOM:Mount(mountName)
 
 	local currentMapAreaID = GetCurrentMapAreaID()
 
+	if IsControlKeyDown() then
+		return CastSpellByName("Ashes of Al'ar")
+	end
+
+	if IsAltKeyDown() then
+		return C_MountJournal.SummonByID(0)
+	end
+
 	-- Mount for the Temple of Ahn'Qiraji
 	if currentMapAreaID == 766 then
 		return CastSpellByName('Red Qiraji Battle Tank')
@@ -14,7 +22,7 @@ function ATOM:Mount(mountName)
 
 	-- Mount for Nagrand in Draenor
 	if currentMapAreaID == 950 then
-		return CastSpellByName('Garrison Ability')
+		--return CastSpellByName('Garrison Ability')
 	end
 
 	if IsSwimming() then
@@ -27,12 +35,16 @@ function ATOM:Mount(mountName)
 		if GetSpellInfo('Azure Water Strider') then
 			return CastSpellByName('Azure Water Strider')
 		end
+
+		if GetSpellInfo('Sea Turtle') then
+			return CastSpellByName('Sea Turtle')
+		end
 	end
 
 	local mountType
-	for i=1, C_MountJournal.GetNumMounts() do
-		if mountName == C_MountJournal.GetMountInfo(i) then
-			mountType = select(5, C_MountJournal.GetMountInfoExtra(i))
+	for index, mountID in ipairs(C_MountJournal.GetMountIDs()) do
+		if mountName == C_MountJournal.GetMountInfoByID(mountID) then
+			mountType = select(5, C_MountJournal.GetMountInfoExtraByID(mountID))
 			break
 		end
 	end
@@ -47,9 +59,5 @@ function ATOM:Mount(mountName)
 		end
 	end
 
-	if IsControlKeyDown() then
-		return CastSpellByName("Ashes of Al'ar")
-	end
-
-	C_MountJournal.Summon(0)
+	C_MountJournal.SummonByID(0)
 end
