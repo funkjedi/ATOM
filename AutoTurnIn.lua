@@ -84,12 +84,14 @@ end
 
 
 function Module:QUEST_ACCEPTED(questLogID)
-	if GetNumGroupMembers() > 0 then
+	--[[
+	if questLogID and GetNumGroupMembers() > 0 then
 		SelectQuestLogEntry(questLogID)
 		if GetQuestLogPushable() then
-			QuestLogPushQuest()
+			--QuestLogPushQuest()
 		end
 	end
+	--]]
 end
 
 
@@ -105,4 +107,9 @@ function Module:QUEST_COMPLETE()
 		QuestDetailAcceptButton_OnClick()
 		GetQuestReward(QuestInfoFrame.itemChoice)
 	end
+end
+
+
+function ATOM:QuestCompleted(questID)
+	ATOM:Dump( IsQuestFlaggedCompleted(questID) )
 end
