@@ -11,10 +11,6 @@ function ATOM:Mount(mountName)
 		return CastSpellByName("Ashes of Al'ar")
 	end
 
-	if IsAltKeyDown() then
-		return C_MountJournal.SummonByID(0)
-	end
-
 	-- Mount for the Temple of Ahn'Qiraji
 	if currentMapAreaID == 766 then
 		return CastSpellByName('Red Qiraji Battle Tank')

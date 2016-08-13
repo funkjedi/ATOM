@@ -4,39 +4,95 @@ local Module = ATOM:NewModule('Fonts')
 
 local Media = LibStub('LibSharedMedia-3.0')
 
-local ReplaceGameFonts, SetFont
+local SetFont, ReplaceCalendarFonts, ReplaceGameFonts
+
+local NORMAL = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Regular.ttf'
+local STRONG = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Bold.ttf'
+
+
+-- this must be done this way because TSM removes itself
+-- from the AceAddon.addons table OnInitialize
+local AceAddon = LibStub('AceAddon-3.0')
+local AceAddon_NewAddon = AceAddon.NewAddon
+local TSM
+
+function AceAddon:NewAddon(...)
+	local addon = AceAddon_NewAddon(self, ...)
+	if addon.name == 'TradeSkillMaster' then
+		TSM = addon
+	end
+	return addon
+end
+
+hooksecurefunc("CreateFrame",function(frameType, name)
+	if not name then
+		return
+	end
+	if frameType == 'Button' and string.match(name, '^TSMTabGroup') then
+		hooksecurefunc(_G[name], 'SetFontString', function(self, fontString)
+			fontString:SetFont(TSMAPI.Design:GetContentFont(), 15)
+		end)
+	end
+end)
+
 
 
 function Module:OnInitialize()
-	Media:Register(Media.MediaType.FONT, 'Lato',      'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Regular.ttf')
-	Media:Register(Media.MediaType.FONT, 'Lato Bold', 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Bold.ttf')
+	Media:Register(Media.MediaType.FONT, 'Lato',      NORMAL)
+	Media:Register(Media.MediaType.FONT, 'Lato Bold', STRONG)
 	ReplaceGameFonts()
+end
+
+function Module:OnEnable()
+	self:RegisterEvent('ADDON_LOADED')
+
+	-- replace TSM fonts
+	TSM.db.profile.design.fonts = {
+		content = NORMAL, bold = STRONG,
+	}
+end
+
+function Module:OnDisable()
+	self:UnregisterEvent('ADDON_LOADED')
+end
+
+function Module:ADDON_LOADED(event, addonName)
+	if addonName == 'Blizzard_Calendar' then
+		ReplaceCalendarFonts()
+	end
 end
 
 
 function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
-	local _, height, flags = fontFamily:GetFont()
-	if type(fontHeight) == 'string' then
-		fontFlags = fontHeight
-		fontHeight = nil
-	end
-	if type(fontHeight) == 'boolean' then
-		fontHeight = height
-	end
-	if not fontHeight then
-		fontHeight = height
-		if fontHeight < 16 then
-			fontHeight = fontHeight * 1.2
+	if fontFamily then
+		local _, height, flags = fontFamily:GetFont()
+		if type(fontHeight) == 'string' then
+			fontFlags = fontHeight
+			fontHeight = nil
 		end
+		if type(fontHeight) == 'boolean' then
+			fontHeight = height
+		end
+		if not fontHeight then
+			fontHeight = height
+			if fontHeight < 16 then
+				fontHeight = fontHeight * 1.2
+			end
+		end
+		fontFamily:SetFont(fontPath, fontHeight, fontFlags or flags)
 	end
-	fontFamily:SetFont(fontPath, fontHeight, fontFlags or flags)
+end
+
+
+function ReplaceCalendarFonts()
+	local CALENDAR_MAX_DAYS_PER_MONTH = 42;
+	for i = 1, CALENDAR_MAX_DAYS_PER_MONTH do
+		--SetFont(NORMAL, _G['CalendarDayButton'..i..'EventButton1Text1'], 11)
+	end
 end
 
 
 function ReplaceGameFonts()
-	local NORMAL = Media:Fetch(Media.MediaType.FONT, 'Lato')
-	local STRONG = Media:Fetch(Media.MediaType.FONT, 'Lato Bold')
-
 	-- Extracted from FrameXML/Fonts.xml
 	UNIT_NAME_FONT       = NORMAL
 	STANDARD_TEXT_FONT   = NORMAL
