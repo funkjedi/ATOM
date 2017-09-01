@@ -47,9 +47,11 @@ function Module:OnEnable()
 	self:RegisterEvent('ADDON_LOADED')
 
 	-- replace TSM fonts
-	TSM.db.profile.design.fonts = {
-		content = NORMAL, bold = STRONG,
-	}
+	if TSM then
+		TSM.db.profile.design.fonts = {
+			content = NORMAL, bold = STRONG,
+		}
+	end
 end
 
 function Module:OnDisable()
@@ -191,4 +193,8 @@ function ReplaceGameFonts()
 	SetFont(NORMAL, ChatFontNormal, 13)
 	SetFont(STRONG, FocusFontSmall, 12)
 	SetFont(STRONG, TextStatusBarTextLarge, 12)
+
+	for i = 1, 10 do
+		SetFont(NORMAL, _G['ChatFrame'..i], 13)
+	end
 end
