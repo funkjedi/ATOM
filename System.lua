@@ -25,7 +25,7 @@ local defaultCVarValues = {
 	scriptErrors = 1,
 }
 
-local volumeLevel, viewIndex
+local volumeLevel, viewIndex, disableOrderHallCommandBar
 
 
 function Module:OnInitialize()
@@ -34,7 +34,19 @@ function Module:OnInitialize()
 	end
 	MinimapZoomIn:Hide()
 	MinimapZoomOut:Hide()
+	hooksecurefunc('OrderHall_LoadUI',          disableOrderHallCommandBar)
+	hooksecurefunc('OrderHall_CheckCommandBar', disableOrderHallCommandBar)
 	ATOM:SetView(2)
+end
+
+
+function disableOrderHallCommandBar()
+	if OrderHallCommandBar then
+		OrderHallCommandBar:SetScript('OnShow', nil)
+		OrderHallCommandBar:SetScript('OnHide', nil)
+		OrderHallCommandBar:UnregisterAllEvents()
+		OrderHallCommandBar:Hide()
+	end
 end
 
 
