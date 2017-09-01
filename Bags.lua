@@ -30,7 +30,7 @@ function updateBagItems(frame)
 		itemButtonName = name..'Item'..i
 		itemButton = _G[itemButtonName]
 		if not frameHooked[itemButtonName] then
-			isItemButtonHooked[i] = true
+			frameHooked[itemButtonName] = true
 			itemButton:HookScript('OnEnter', enableGlow)
 			itemButton:HookScript('OnLeave', enableGlow)
 		end
