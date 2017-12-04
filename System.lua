@@ -74,9 +74,12 @@ function ATOM:SetVolume(level)
 end
 
 
+--[[
 -- Temporary fix for 5.3.0 addon errors related to the changes to
 -- the PlaySound and sound kits ids being required
 local origPlaySound = PlaySound
 function PlaySound(snd, a0, a1, a2)
 	pcall(function() origPlaySound(snd, a0, a1, a2) end)
 end
+]]
+
