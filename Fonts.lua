@@ -40,6 +40,7 @@ end)
 function Module:OnInitialize()
 	Media:Register(Media.MediaType.FONT, 'Lato',      NORMAL)
 	Media:Register(Media.MediaType.FONT, 'Lato Bold', STRONG)
+	Media:Register(Media.MediaType.FONT, 'Accidental Presidency', 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Accidental-Presidency.ttf')
 	ReplaceGameFonts()
 end
 
