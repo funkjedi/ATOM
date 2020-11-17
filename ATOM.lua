@@ -41,13 +41,19 @@ end
 
 function ATOM:DestroyItems()
 	local items = {
-		'Dew of Eternal Morning',
-		'Warped Warning Sign',
+		'Blue Qiraji Resonating Crystal',
 		'Book of the Ages',
-		'Singing Crystal',
 		'Charred Recipe',
+		'Dew of Eternal Morning',
+		'Green Qiraji Resonating Crystal',
 		'Idol',
+		'Jewel of Maddening Whispers',
+		'Red Qiraji Resonating Crystal',
 		'Scarab',
+		'Singing Crystal',
+		'Warped Warning Sign',
+		'Yellow Qiraji Resonating Crystal',
+		"Qiraji Lord's Insignia",
 	}
 	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		for slot = 1, GetContainerNumSlots(bag) do
