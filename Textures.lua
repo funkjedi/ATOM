@@ -78,4 +78,3 @@ function DarkenFrames()
 	ChangeFrame(FocusFrameSpellBarBorder)
 	ChangeFrame(TargetFrameSpellBarBorder)
 end
-

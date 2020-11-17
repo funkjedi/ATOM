@@ -67,11 +67,11 @@ end
 
 
 function Module:GOSSIP_SHOW()
-	for i=1, GetNumGossipAvailableQuests() do
-		SelectGossipAvailableQuest(i)
+	for i=1, C_GossipInfo.GetNumAvailableQuests() do
+		C_GossipInfo.SelectAvailableQuest(i)
 	end
-	for i=1, GetNumGossipActiveQuests() do
-		SelectGossipActiveQuest(i)
+	for i=1, C_GossipInfo.GetNumActiveQuests() do
+		C_GossipInfo.SelectActiveQuest(i)
 	end
 end
 

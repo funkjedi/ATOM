@@ -71,6 +71,6 @@ end
 function ATOM:MarkTarget(index)
 	if not GetRaidTargetIndex('target') then
 		SetRaidTarget('target', index or 8)
-		PlaySoundFile('Sound\\interface\\AlarmClockWarning3.ogg')
+		PlaySoundFile(567458)
 	end
 end
