@@ -32,6 +32,10 @@ function ATOM:Dump(...)
 	end
 end
 
+function ATOM:Clear()
+	ChatFrame1:Clear()
+end
+
 function ATOM:Wait(delay, func)
 	ATOM:ScheduleTimer(func or delay, func and delay or 0.5)
 end
