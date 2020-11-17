@@ -15,7 +15,7 @@ end
 
 function Module:MERCHANT_SHOW()
 	RepairItems()
-	if not _G['ZygorGuidesViewer'] and not select(4, GetAddOnInfo('TradeSkillMaster_Vendoring')) then
+	if not _G['ZygorGuidesViewer'] --[[ and not select(4, GetAddOnInfo('TradeSkillMaster_Vendoring')) ]] then
 		SellGreyItems()
 	end
 end
