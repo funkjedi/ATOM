@@ -10,8 +10,14 @@ _G['ATOM'] = ATOM;
 
 function ATOM:OnEnable()
 	--LibStub('AceEvent-3.0').frame:HookScript('OnEvent', function(f,e) print(e) end)
+	self:RegisterEvent('CHAT_MSG_PET_BATTLE_COMBAT_LOG')
 end
 
+function ATOM:CHAT_MSG_PET_BATTLE_COMBAT_LOG(event, msg)
+	if msg and msg:match('^Round') then
+		ATOM:Print(msg)
+	end
+end
 
 function ATOM:Print(...)
 	ChatFrame1:AddMessage('ATOM: '..string.format(...))
