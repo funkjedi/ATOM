@@ -151,11 +151,11 @@ function ReplaceGameFonts()
 	SetFont(NORMAL, FriendsFont_Large)
 	SetFont(STRONG, GameFont_Gigantic)
 	SetFont(NORMAL, ChatBubbleFont)
-	SetFont(NORMAL, SystemFont_NamePlateFixed)
-	SetFont(NORMAL, SystemFont_LargeNamePlateFixed)
-	SetFont(NORMAL, SystemFont_NamePlate)
-	SetFont(NORMAL, SystemFont_LargeNamePlate)
-	SetFont(STRONG, SystemFont_NamePlateCastBar)
+	--SetFont(NORMAL, SystemFont_NamePlateFixed, 10)
+	--SetFont(NORMAL, SystemFont_LargeNamePlateFixed, 12)
+	--SetFont(NORMAL, SystemFont_NamePlate)
+	--SetFont(NORMAL, SystemFont_LargeNamePlate)
+	--SetFont(STRONG, SystemFont_NamePlateCastBar)
 
 	-- Extracted from FrameXML/Fonts.xml
 	-- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.ttf']]/@name
