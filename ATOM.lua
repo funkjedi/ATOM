@@ -49,7 +49,7 @@ function ATOM:ShowScore()
 end
 
 
-function ATOM:DestroyItems()
+function ATOM:DestroyItems(useGameTooltip)
 	local items = {
 		'Blue Qiraji Resonating Crystal',
 		'Book of the Ages',
@@ -61,10 +61,16 @@ function ATOM:DestroyItems()
 		'Red Qiraji Resonating Crystal',
 		'Scarab',
 		'Singing Crystal',
+		'Thorny Loop',
 		'Warped Warning Sign',
 		'Yellow Qiraji Resonating Crystal',
 		"Qiraji Lord's Insignia",
 	}
+	if useGameTooltip then
+		items = {
+			select(1, GameTooltip:GetItem())
+		}
+	end
 	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		for slot = 1, GetContainerNumSlots(bag) do
 			local name = GetContainerItemLink(bag,slot)
