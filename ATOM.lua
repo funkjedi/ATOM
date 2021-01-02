@@ -1,9 +1,9 @@
 
 local addonName, ATOM = ...
 
-ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName, 'AceEvent-3.0', 'AceTimer-3.0')
+ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName, 'AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
 
-ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceTimer-3.0')
+ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
 
 _G['ATOM'] = ATOM;
 
@@ -11,6 +11,7 @@ _G['ATOM'] = ATOM;
 function ATOM:OnEnable()
 	--LibStub('AceEvent-3.0').frame:HookScript('OnEvent', function(f,e) print(e) end)
 	self:RegisterEvent('CHAT_MSG_PET_BATTLE_COMBAT_LOG')
+	self:RegisterChatCommand('atom', 'SlashCommand')
 end
 
 function ATOM:CHAT_MSG_PET_BATTLE_COMBAT_LOG(event, msg)
@@ -40,6 +41,11 @@ function ATOM:Wait(delay, func)
 	ATOM:ScheduleTimer(func or delay, func and delay or 0.5)
 end
 
+function ATOM:SlashCommand(cmd)
+	if cmd == 'wago' then
+		self:GetModule('Wago'):ShowWindow()
+	end
+end
 
 --[[
 	Show the scoreboard when in Battleground.

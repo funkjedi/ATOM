@@ -5,7 +5,7 @@ local Module = ATOM:NewModule('Wago')
 local CopyIntoTable, CompressData, DecompressData, SelectAddon, SelectAddonProfile, SelectImportBtn, SelectExportBtn, UpdateDisabledStates
 
 
-function Module:CreateWindow()
+function Module:ShowWindow()
     Module.minwidth = 720
     Module.minheight = 460
 
@@ -25,6 +25,9 @@ function Module:CreateWindow()
     window:SetAutoAdjustHeight(true)
     window:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
     Module.window = window
+
+    _G['ATOM_WagoWindow'] = window.frame
+    tinsert(UISpecialFrames, "ATOM_WagoWindow")
 
     local group1 = AceGUI:Create("SimpleGroup")
     group1:SetLayout("List")
@@ -269,6 +272,3 @@ function DecompressData(encodedData)
         return data
     end
 end
-
-
-ATOM.Wago = Module.CreateWindow
