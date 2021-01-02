@@ -5,7 +5,7 @@ function ATOM:Mount(mountName)
 		return Dismount()
 	end
 
-	local currentMapAreaID = GetCurrentMapAreaID()
+	local currentMapAreaID = C_Map.GetBestMapForUnit("player")
 
 	if IsControlKeyDown() then
 		return CastSpellByName("Ashes of Al'ar")
