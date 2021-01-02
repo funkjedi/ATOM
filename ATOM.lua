@@ -96,3 +96,45 @@ function ATOM:MarkTarget(index)
 		PlaySoundFile(567458)
 	end
 end
+
+
+function ATOM:ShortenNameplateUnitName(unitId, unitFrame, envTable)
+	local function abbriviateName(fullName, maxLength)
+		local nameParts = { strsplit(' ', fullName) }
+		for i = #nameParts, 1, -1 do
+			-- dont abbreviate last names or words less than 5 characters
+			if not (i == #nameParts or nameParts[i]:len() < 5) then
+				nameParts[i] = nameParts[i]:sub(1, 1) .. '.'
+			end
+			-- stop abbriviating if the parts fit within the length of the
+			-- original truncated unitName that was set for the nameplate
+			if table.concat(nameParts, ' '):len() < maxLength then
+				break
+			end
+		end
+		return table.concat(nameParts, ' ')
+	end
+
+	local unitName = unitFrame.healthBar.unitName:GetText()
+	local maxLength = unitName:len()
+	local plateFrame = C_NamePlate.GetNamePlateForUnit(unitId)
+	local fullName = plateFrame and plateFrame.namePlateUnitName or unitName
+
+	if fullName ~= unitName then
+		-- ignore everything after the first comma
+		fullName = select(1, strsplit(',', fullName))
+		unitFrame.healthBar.unitName:SetText(abbriviateName(fullName, maxLength))
+	end
+end
+
+--[[
+function (self, unitId, unitFrame, envTable)
+    local unitName = unitFrame.healthBar.unitName:GetText()
+    local plateFrame = C_NamePlate.GetNamePlateForUnit(unitId)
+
+    if plateFrame and plateFrame.namePlateUnitName ~= unitName then
+        unitName = plateFrame.namePlateUnitName:gsub('(%S+) ', function (t) return t:sub(1, 1) .. '. ' end)
+        unitFrame.healthBar.unitName:SetText(unitName)
+    end
+end
+]]

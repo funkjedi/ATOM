@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 90002
 ## Title: ATOM
 ## Notes: Tweaks, optimizations and automation of tasks
 ## Author: funkjedi
@@ -16,3 +16,4 @@ Mount.lua
 Postal.lua
 System.lua
 Textures.lua
+Wago.lua
