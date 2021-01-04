@@ -46,6 +46,8 @@ function ATOM:SlashCommand(msg)
 	local args = msg:sub(offset)
 	if cmd == 'move' then
 		SetCVar('autoInteract', GetCVar('autoInteract') ~= '1' and '1' or '0')
+	elseif cmd == 'quest' then
+		self:GetModule('Quest'):QuestCompleted(args)
 	elseif cmd == 'scoreboard' then
 		WorldStateScoreFrame:Show()
 	elseif cmd == 'vol' then

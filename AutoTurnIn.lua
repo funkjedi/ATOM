@@ -110,6 +110,6 @@ function Module:QUEST_COMPLETE()
 end
 
 
-function ATOM:QuestCompleted(questID)
-	ATOM:Dump( IsQuestFlaggedCompleted(questID) )
+function Module:QuestCompleted(questID)
+	ATOM:Dump( C_QuestLog.IsQuestFlaggedCompleted(questID) )
 end
