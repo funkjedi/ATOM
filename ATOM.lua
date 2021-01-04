@@ -41,17 +41,20 @@ function ATOM:Wait(delay, func)
 	ATOM:ScheduleTimer(func or delay, func and delay or 0.5)
 end
 
-function ATOM:SlashCommand(cmd)
-	if cmd == 'wago' then
+function ATOM:SlashCommand(msg)
+	local cmd, offset = self:GetArgs(msg)
+	local args = msg:sub(offset)
+	if cmd == 'move' then
+		SetCVar('autoInteract', GetCVar('autoInteract') ~= '1' and '1' or '0')
+	elseif cmd == 'scoreboard' then
+		WorldStateScoreFrame:Show()
+	elseif cmd == 'vol' then
+		self:SetVolume(args ~= '' and tonumber(args) or false)
+	elseif cmd == 'wago' then
 		self:GetModule('Wago'):ShowWindow()
+	elseif cmd == 'way' then
+		self:SetUserWaypoint(args)
 	end
-end
-
---[[
-	Show the scoreboard when in Battleground.
---]]
-function ATOM:ShowScore()
-	WorldStateScoreFrame:Show()
 end
 
 
@@ -93,14 +96,23 @@ function ATOM:DestroyItems(useGameTooltip)
 end
 
 
---[[
-	Mark a target.
---]]
 function ATOM:MarkTarget(index)
 	if not GetRaidTargetIndex('target') then
 		SetRaidTarget('target', index or 8)
 		PlaySoundFile(567458)
 	end
+end
+
+
+function ATOM:SetUserWaypoint(cmd)
+	local x, y = self:GetArgs(cmd, 2)
+
+	x = tonumber(x) * 100 / 10000
+	y = tonumber(y) * 100 / 10000
+
+	local currentMapAreaID = C_Map.GetBestMapForUnit('player')
+	C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(currentMapAreaID, x, y))
+	C_SuperTrack.SetSuperTrackedUserWaypoint(true)
 end
 
 
@@ -121,7 +133,7 @@ function ATOM:ShortenNameplateUnitName(unitId, unitFrame, envTable)
 		return table.concat(nameParts, ' ')
 	end
 
-	local unitName = unitFrame.healthBar.unitName:GetText()
+	local unitName = unitFrame.healthBar.unitName:GetText() or ''
 	local maxLength = unitName:len()
 	local plateFrame = C_NamePlate.GetNamePlateForUnit(unitId)
 	local fullName = plateFrame and plateFrame.namePlateUnitName or unitName
