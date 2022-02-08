@@ -2,7 +2,8 @@
 local addonName, ATOM = ...
 local Module = ATOM:NewModule('Wago')
 
-local CopyIntoTable, CompressData, DecompressData, SelectAddon, SelectAddonProfile, SelectImportBtn, SelectExportBtn, UpdateDisabledStates
+local CopyIntoTable, CompressData, DecompressData, GetField
+local SelectAddon, SelectAddonProfile, SelectImportBtn, SelectExportBtn, UpdateDisabledStates
 
 
 function Module:ShowWindow()
@@ -45,7 +46,8 @@ function Module:ShowWindow()
     addonDropdown:SetLabel("Select addon:")
     addonDropdown:SetWidth(200)
     addonDropdown:SetList({
-        ['Dominos'] = 'Dominos'
+        ['Dominos.db'] = 'Dominos',
+        ['MasqueDB'] = 'Masque'
     })
     addonDropdown:SetCallback("OnValueChanged", SelectAddon)
     window.addonDropdown = addonDropdown
@@ -109,17 +111,31 @@ function Module:ShowWindow()
         end
     end)
 
-    addonDropdown:SetValue('Dominos')
-    SelectAddon(addonDropdown, 'OnValueChanged', 'Dominos')
+    addonDropdown:SetValue('Dominos.db')
+    SelectAddon(addonDropdown, 'OnValueChanged', 'Dominos.db')
+end
+
+
+function GetField(field)
+    local var = _G
+    for name in string.gmatch(field, "[%w_]+") do
+        if type(var) == 'table' then
+            var = var[name]
+        else
+            var = nil
+        end
+    end
+    return var
 end
 
 
 function SelectAddon(widget, event, key)
+    local database = GetField(key)
     local profiles = {}, currentProfile
 
-    if _G[key] and _G[key].db then
-        currentProfile = _G[key].db:GetCurrentProfile()
-        for i, name in pairs(_G[key].db:GetProfiles()) do
+    if database then
+        currentProfile = database:GetCurrentProfile()
+        for i, name in pairs(database:GetProfiles()) do
             if name == currentProfile then
                 profiles[name] = name .. ' (current)'
             else
@@ -161,14 +177,14 @@ end
 
 
 function SelectImportBtn()
-    local addon = _G[Module.window.addonDropdown:GetValue()]
+    local database = GetField(Module.window.addonDropdown:GetValue())
     local profileName = Module.window.profileDropdown:GetValue()
     local profile = DecompressData(Module.window.textBox:GetText())
 
-    if addon and addon.db and profile then
-        addon.db:SetProfile(profileName)
-        addon.db:ResetProfile(false, true)
-        CopyIntoTable(addon.db.profile, profile)
+    if database and profile then
+        database:SetProfile(profileName)
+        database:ResetProfile(false, true)
+        CopyIntoTable(database.profile, profile)
         Module.window.textBox:GetText("")
         Module.window:SetStatusText('Profile imported')
         UpdateDisabledStates()
@@ -181,12 +197,12 @@ end
 
 
 function SelectExportBtn()
-    local addon = _G[Module.window.addonDropdown:GetValue()]
+    local database = GetField(Module.window.addonDropdown:GetValue())
     local profileName = Module.window.profileDropdown:GetValue()
     local content
 
-    if addon and addon.db and addon.db.profiles[profileName] then
-        content = CompressData(addon.db.profiles[profileName])
+    if database and database.profiles[profileName] then
+        content = CompressData(database.profiles[profileName])
     end
 
     if content then
