@@ -12,6 +12,7 @@ function ATOM:OnEnable()
 	--LibStub('AceEvent-3.0').frame:HookScript('OnEvent', function(f,e) print(e) end)
 	self:RegisterEvent('CHAT_MSG_PET_BATTLE_COMBAT_LOG')
 	self:RegisterChatCommand('atom', 'SlashCommand')
+	self:RegisterChatCommand('clear', 'Clear')
 end
 
 function ATOM:CHAT_MSG_PET_BATTLE_COMBAT_LOG(event, msg)
@@ -44,13 +45,23 @@ end
 function ATOM:SlashCommand(msg)
 	local cmd, offset = self:GetArgs(msg)
 	local args = msg:sub(offset)
-	if cmd == 'move' then
+	if cmd == 'clear' then
+		self:Clear()
+	elseif cmd == 'destroy' then
+		self:DestroyItems(args == 'true')
+	elseif cmd == 'mark' then
+		self:MarkTarget(args ~= '' and tonumber(args) or 8)
+	elseif cmd == 'mount' then
+		self:Mount(args)
+	elseif cmd == 'move' then
 		SetCVar('autoInteract', GetCVar('autoInteract') ~= '1' and '1' or '0')
 	elseif cmd == 'quest' then
 		self:GetModule('Quest'):QuestCompleted(args)
 	elseif cmd == 'scoreboard' then
 		WorldStateScoreFrame:Show()
-	elseif cmd == 'vol' then
+	elseif cmd == 'view' then
+		self:SetView(args ~= '' and tonumber(args) or false)
+	elseif cmd == 'volume' then
 		self:SetVolume(args ~= '' and tonumber(args) or false)
 	elseif cmd == 'wago' then
 		self:GetModule('Wago'):ShowWindow()
@@ -99,8 +110,9 @@ end
 
 
 function ATOM:MarkTarget(index)
-	if not GetRaidTargetIndex('target') then
-		SetRaidTarget('target', index or 8)
+	index = index or 8
+	if GetRaidTargetIndex('target') ~= index then
+		SetRaidTarget('target', index)
 		PlaySoundFile(567458)
 	end
 end
