@@ -5,9 +5,7 @@ local Module = ATOM:NewModule('AutoTurnIn')
 local activeInteraction
 local QuestFrame_OnShow
 
-
 function Module:OnEnable()
-    self:RegisterEvent('QUEST_ACCEPTED')
     self:RegisterEvent('GOSSIP_CLOSED',  'CharacterInteraction')
     self:RegisterEvent('GOSSIP_SHOW',    'CharacterInteraction')
     self:RegisterEvent('QUEST_COMPLETE', 'CharacterInteraction')
@@ -19,7 +17,6 @@ function Module:OnEnable()
 end
 
 function Module:OnDisable()
-    self:UnregisterEvent('QUEST_ACCEPTED')
     self:UnregisterEvent('GOSSIP_CLOSED',  'CharacterInteraction')
     self:UnregisterEvent('GOSSIP_SHOW',    'CharacterInteraction')
     self:UnregisterEvent('QUEST_COMPLETE', 'CharacterInteraction')
@@ -28,7 +25,6 @@ function Module:OnDisable()
     self:UnregisterEvent('QUEST_GREETING', 'CharacterInteraction')
     self:UnregisterEvent('QUEST_PROGRESS', 'CharacterInteraction')
 end
-
 
 function QuestFrame_OnShow()
     -- Some quest givers don't fire GOSSIP_SHOW, QUEST_GREETING and QUEST_DETAIL
@@ -41,40 +37,44 @@ function QuestFrame_OnShow()
     end
 end
 
-
 function Module:CharacterInteraction(event, ...)
     if IsControlKeyDown() then
         activeInteraction = true
     end
+
     if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
         ATOM:Wait(function() activeInteraction = nil end)
         return
     end
+
     if activeInteraction then
         self[event](self, ...)
     end
 end
 
-
 function Module:QUEST_GREETING()
     for i=1, GetNumAvailableQuests() do
         SelectAvailableQuest(i)
     end
+
     for i=1, GetNumActiveQuests() do
-        SelectActiveQuest(i)
+        local title, isComplete = GetActiveTitle()
+
+        if isComplete then SelectActiveQuest(i) end
     end
 end
-
 
 function Module:GOSSIP_SHOW()
     for i=1, C_GossipInfo.GetNumAvailableQuests() do
         C_GossipInfo.SelectAvailableQuest(i)
     end
-    for i=1, C_GossipInfo.GetNumActiveQuests() do
-        C_GossipInfo.SelectActiveQuest(i)
+
+    local quests = C_GossipInfo.GetActiveQuests()
+
+    for i, quest in ipairs(quests) do
+        if quest.isComplete then C_GossipInfo.SelectActiveQuest(i) end
     end
 end
-
 
 function Module:QUEST_DETAIL()
     if not QuestGetAutoAccept() then
@@ -82,25 +82,11 @@ function Module:QUEST_DETAIL()
     end
 end
 
-
-function Module:QUEST_ACCEPTED(questLogID)
-    --[[
-    if questLogID and GetNumGroupMembers() > 0 then
-        SelectQuestLogEntry(questLogID)
-        if GetQuestLogPushable() then
-            --QuestLogPushQuest()
-        end
-    end
-    --]]
-end
-
-
 function Module:QUEST_PROGRESS()
     if IsQuestCompletable() then
         CompleteQuest()
     end
 end
-
 
 function Module:QUEST_COMPLETE()
     if GetNumQuestChoices() == 0 then
@@ -108,7 +94,6 @@ function Module:QUEST_COMPLETE()
         GetQuestReward(QuestInfoFrame.itemChoice)
     end
 end
-
 
 function Module:QuestCompleted(questID)
     ATOM:Dump( C_QuestLog.IsQuestFlaggedCompleted(questID) )
