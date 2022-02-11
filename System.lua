@@ -1,4 +1,3 @@
-
 local addonName, ATOM = ...
 local Module = ATOM:NewModule('System')
 
@@ -18,8 +17,8 @@ local defaultCVarValues = {
     UnitNameEnemyPetName = 0,
     UnitNameFriendlyPetName = 0,
     UnitNameFriendlySpecialNPCName = 0,
-    --playerStatusText = 1,
-    --targetStatusText = 1,
+    -- playerStatusText = 1,
+    -- targetStatusText = 1,
     showToastOnline = 1,
     showToastOffline = 0,
     scriptErrors = 1,
@@ -27,14 +26,13 @@ local defaultCVarValues = {
 
 local volumeLevel, viewIndex, disableOrderHallCommandBar
 
-
 function Module:OnInitialize()
     for key, value in pairs(defaultCVarValues) do
         SetCVar(key, value)
     end
     MinimapZoomIn:Hide()
     MinimapZoomOut:Hide()
-    hooksecurefunc('OrderHall_LoadUI',          disableOrderHallCommandBar)
+    hooksecurefunc('OrderHall_LoadUI', disableOrderHallCommandBar)
     hooksecurefunc('OrderHall_CheckCommandBar', disableOrderHallCommandBar)
     ATOM:SetView(2)
 
@@ -50,7 +48,6 @@ function Module:OnInitialize()
     end)
 end
 
-
 function disableOrderHallCommandBar()
     if OrderHallCommandBar then
         OrderHallCommandBar:SetScript('OnShow', nil)
@@ -59,7 +56,6 @@ function disableOrderHallCommandBar()
         OrderHallCommandBar:Hide()
     end
 end
-
 
 function ATOM:SetView(index)
     if index then
@@ -73,7 +69,6 @@ function ATOM:SetView(index)
     SetView(viewIndex)
 end
 
-
 function ATOM:SetVolume(level)
     if level then
         volumeLevel = level
@@ -83,7 +78,6 @@ function ATOM:SetVolume(level)
     SetCVar('Sound_MasterVolume', volumeLevel / 100)
     ATOM:Print('Volume Level %d', volumeLevel)
 end
-
 
 --[[
 -- Temporary fix for 5.3.0 addon errors related to the changes to

@@ -1,4 +1,3 @@
-
 local addonName, ATOM = ...
 
 ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName, 'AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
@@ -6,7 +5,6 @@ ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName, 'AceEvent-3.0', 'AceCon
 ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
 
 _G['ATOM'] = ATOM;
-
 
 function ATOM:OnEnable()
     self:RegisterEvent('CHAT_MSG_PET_BATTLE_COMBAT_LOG')
@@ -21,7 +19,7 @@ function ATOM:CHAT_MSG_PET_BATTLE_COMBAT_LOG(event, msg)
 end
 
 function ATOM:Print(...)
-    ChatFrame1:AddMessage('ATOM: '..string.format(...))
+    ChatFrame1:AddMessage('ATOM: ' .. string.format(...))
 end
 
 function ATOM:Dump(...)
@@ -66,7 +64,6 @@ function ATOM:SlashCommand(msg)
     end
 end
 
-
 function ATOM:MarkTarget(index)
     index = index or 8
     if GetRaidTargetIndex('target') ~= index then
@@ -74,7 +71,6 @@ function ATOM:MarkTarget(index)
         PlaySoundFile(567458)
     end
 end
-
 
 function ATOM:SetUserWaypoint(cmd)
     local x, y = self:GetArgs(cmd, 2)
@@ -87,21 +83,23 @@ function ATOM:SetUserWaypoint(cmd)
     C_SuperTrack.SetSuperTrackedUserWaypoint(true)
 end
 
-
 function ATOM:ShortenNameplateUnitName(unitId, unitFrame, envTable)
     local function abbriviateName(fullName, maxLength)
         local nameParts = { strsplit(' ', fullName) }
+
         for i = #nameParts, 1, -1 do
             -- dont abbreviate last names or words less than 5 characters
             if not (i == #nameParts or nameParts[i]:len() < 5) then
                 nameParts[i] = nameParts[i]:sub(1, 1) .. '.'
             end
+
             -- stop abbriviating if the parts fit within the length of the
             -- original truncated unitName that was set for the nameplate
             if table.concat(nameParts, ' '):len() < maxLength then
                 break
             end
         end
+
         return table.concat(nameParts, ' ')
     end
 

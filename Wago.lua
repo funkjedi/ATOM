@@ -1,107 +1,104 @@
-
 local addonName, ATOM = ...
 local Module = ATOM:NewModule('Wago')
 
 local CopyIntoTable, CompressData, DecompressData, GetField
 local SelectAddon, SelectAddonProfile, SelectImportBtn, SelectExportBtn, UpdateDisabledStates
 
-
 function Module:ShowWindow()
     Module.minwidth = 720
     Module.minheight = 460
 
-    local AceGUI = LibStub("AceGUI-3.0")
+    local AceGUI = LibStub('AceGUI-3.0')
 
-    local window = AceGUI:Create("Frame")
+    local window = AceGUI:Create('Frame')
     window.frame:SetClampedToScreen(true)
-    window.frame:SetFrameStrata("MEDIUM")
+    window.frame:SetFrameStrata('MEDIUM')
     window.frame:Raise()
-    window.content:SetFrameStrata("MEDIUM")
+    window.content:SetFrameStrata('MEDIUM')
     window.content:Raise()
-    window:SetTitle("ATOM Import/Export")
-    window:SetStatusText("")
-    window:SetLayout("Fill")
+    window:SetTitle('ATOM Import/Export')
+    window:SetStatusText('')
+    window:SetLayout('Fill')
     window:SetWidth(Module.minwidth)
     window:SetHeight(Module.minheight)
     window:SetAutoAdjustHeight(true)
-    window:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
+    window:SetCallback('OnClose', function(widget)
+        AceGUI:Release(widget)
+    end)
     Module.window = window
 
     _G['ATOM_WagoWindow'] = window.frame
-    tinsert(UISpecialFrames, "ATOM_WagoWindow")
+    tinsert(UISpecialFrames, 'ATOM_WagoWindow')
 
-    local group1 = AceGUI:Create("SimpleGroup")
-    group1:SetLayout("List")
+    local group1 = AceGUI:Create('SimpleGroup')
+    group1:SetLayout('List')
     group1:SetFullWidth(true)
     group1:SetFullHeight(true)
     window:AddChild(group1)
 
-    local group2 = AceGUI:Create("SimpleGroup")
-    group2:SetLayout("Flow")
+    local group2 = AceGUI:Create('SimpleGroup')
+    group2:SetLayout('Flow')
     group2:SetFullWidth(true)
     group1:AddChild(group2)
 
-    local addonDropdown = AceGUI:Create("Dropdown")
+    local addonDropdown = AceGUI:Create('Dropdown')
     addonDropdown:SetMultiselect(false)
-    addonDropdown:SetLabel("Select addon:")
+    addonDropdown:SetLabel('Select addon:')
     addonDropdown:SetWidth(200)
-    addonDropdown:SetList({
-        ['Dominos.db'] = 'Dominos',
-        ['MasqueDB'] = 'Masque'
-    })
-    addonDropdown:SetCallback("OnValueChanged", SelectAddon)
+    addonDropdown:SetList({ ['Dominos.db'] = 'Dominos', ['MasqueDB'] = 'Masque' })
+    addonDropdown:SetCallback('OnValueChanged', SelectAddon)
     window.addonDropdown = addonDropdown
     group2:AddChild(addonDropdown)
 
-    local profileDropdown = AceGUI:Create("Dropdown")
+    local profileDropdown = AceGUI:Create('Dropdown')
     profileDropdown:SetMultiselect(false)
-    profileDropdown:SetLabel("Select profile:")
+    profileDropdown:SetLabel('Select profile:')
     profileDropdown:SetWidth(200)
     profileDropdown:SetDisabled(true)
-    profileDropdown:SetCallback("OnValueChanged", SelectAddonProfile)
+    profileDropdown:SetCallback('OnValueChanged', SelectAddonProfile)
     window.profileDropdown = profileDropdown
     group2:AddChild(profileDropdown)
 
-    local textBox = AceGUI:Create("MultiLineEditBox")
-    textBox:SetLabel("")
+    local textBox = AceGUI:Create('MultiLineEditBox')
+    textBox:SetLabel('')
     textBox:SetMaxLetters(0)
     textBox:SetNumLines(20)
     textBox:SetHeight(290)
     textBox:DisableButton(true)
     textBox:SetFullWidth(true)
-    textBox:SetText("")
-    textBox:SetCallback("OnTextChanged", SelectAddonProfile)
+    textBox:SetText('')
+    textBox:SetCallback('OnTextChanged', SelectAddonProfile)
     window.textBox = textBox
     group1:AddChild(textBox)
 
-    local group3 = AceGUI:Create("SimpleGroup")
-    group3:SetLayout("Flow")
+    local group3 = AceGUI:Create('SimpleGroup')
+    group3:SetLayout('Flow')
     group3:SetFullWidth(true)
     group1:AddChild(group3)
 
-    local importBtn = AceGUI:Create("Button")
-    importBtn:SetText("Import")
+    local importBtn = AceGUI:Create('Button')
+    importBtn:SetText('Import')
     importBtn:SetWidth(110)
     importBtn:SetDisabled(true)
-    importBtn:SetCallback("OnClick", SelectImportBtn)
+    importBtn:SetCallback('OnClick', SelectImportBtn)
     window.importBtn = importBtn
     group3:AddChild(importBtn)
 
-    local exportBtn = AceGUI:Create("Button")
-    exportBtn:SetText("Export")
+    local exportBtn = AceGUI:Create('Button')
+    exportBtn:SetText('Export')
     exportBtn:SetWidth(110)
     exportBtn:SetDisabled(true)
-    exportBtn:SetCallback("OnClick", SelectExportBtn)
+    exportBtn:SetCallback('OnClick', SelectExportBtn)
     window.exportBtn = exportBtn
     group3:AddChild(exportBtn)
 
-    hooksecurefunc(window, "OnWidthSet", function(widget, width)
+    hooksecurefunc(window, 'OnWidthSet', function(widget, width)
         if widget == window and width < Module.minwidth then
             window:SetWidth(Module.minwidth)
         end
     end)
 
-    hooksecurefunc(window, "OnHeightSet", function(widget, height)
+    hooksecurefunc(window, 'OnHeightSet', function(widget, height)
         if widget == window then
             if height < Module.minheight then
                 window:SetHeight(Module.minheight)
@@ -115,10 +112,9 @@ function Module:ShowWindow()
     SelectAddon(addonDropdown, 'OnValueChanged', 'Dominos.db')
 end
 
-
 function GetField(field)
     local var = _G
-    for name in string.gmatch(field, "[%w_]+") do
+    for name in string.gmatch(field, '[%w_]+') do
         if type(var) == 'table' then
             var = var[name]
         else
@@ -127,7 +123,6 @@ function GetField(field)
     end
     return var
 end
-
 
 function SelectAddon(widget, event, key)
     local database = GetField(key)
@@ -158,12 +153,11 @@ function SelectAddon(widget, event, key)
     end
 end
 
-
 function SelectAddonProfile()
     local payload = Module.window.textBox:GetText()
     local profile = Module.window.addonDropdown:GetValue()
 
-    if profile and payload ~= "" then
+    if profile and payload ~= '' then
         Module.window.importBtn:SetDisabled(false)
         Module.window.exportBtn:SetDisabled(true)
     elseif profile then
@@ -175,7 +169,6 @@ function SelectAddonProfile()
     end
 end
 
-
 function SelectImportBtn()
     local database = GetField(Module.window.addonDropdown:GetValue())
     local profileName = Module.window.profileDropdown:GetValue()
@@ -185,7 +178,7 @@ function SelectImportBtn()
         database:SetProfile(profileName)
         database:ResetProfile(false, true)
         CopyIntoTable(database.profile, profile)
-        Module.window.textBox:GetText("")
+        Module.window.textBox:GetText('')
         Module.window:SetStatusText('Profile imported')
         UpdateDisabledStates()
         ReloadUI()
@@ -194,7 +187,6 @@ function SelectImportBtn()
     end
 
 end
-
 
 function SelectExportBtn()
     local database = GetField(Module.window.addonDropdown:GetValue())
@@ -216,7 +208,6 @@ function SelectExportBtn()
     end
 end
 
-
 function UpdateDisabledStates()
     Module.window.addonDropdown:SetDisabled(true)
     Module.window.profileDropdown:SetDisabled(true)
@@ -224,11 +215,10 @@ function UpdateDisabledStates()
     Module.window.exportBtn:SetDisabled(true)
 end
 
-
 function CopyIntoTable(dst, src)
     for key, value in pairs(src) do
-        if (key ~= "__index") then
-            if (type(value) == "table") then
+        if (key ~= '__index') then
+            if (type(value) == 'table') then
                 dst[key] = dst[key] or {}
                 CopyIntoTable(dst[key], src[key])
             else
@@ -239,10 +229,9 @@ function CopyIntoTable(dst, src)
     return dst
 end
 
-
 function CompressData(data)
-    local LibDeflate = LibStub:GetLibrary("LibDeflate")
-    local LibAceSerializer = LibStub:GetLibrary("AceSerializer-3.0")
+    local LibDeflate = LibStub:GetLibrary('LibDeflate')
+    local LibAceSerializer = LibStub:GetLibrary('AceSerializer-3.0')
 
     if LibDeflate and LibAceSerializer then
         local serializedData = LibAceSerializer:Serialize(data)
@@ -261,10 +250,9 @@ function CompressData(data)
     end
 end
 
-
 function DecompressData(encodedData)
-    local LibDeflate = LibStub:GetLibrary("LibDeflate")
-    local LibAceSerializer = LibStub:GetLibrary("AceSerializer-3.0")
+    local LibDeflate = LibStub:GetLibrary('LibDeflate')
+    local LibAceSerializer = LibStub:GetLibrary('AceSerializer-3.0')
 
     if LibDeflate and LibAceSerializer then
         local compressedData = LibDeflate:DecodeForPrint(encodedData)

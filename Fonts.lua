@@ -1,4 +1,3 @@
-
 local addonName, ATOM = ...
 local Module = ATOM:NewModule('Fonts')
 
@@ -8,7 +7,6 @@ local SetFont, ReplaceCalendarFonts, ReplaceGameFonts
 
 local NORMAL = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Regular.ttf'
 local STRONG = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Bold.ttf'
-
 
 -- this must be done this way because TSM removes itself
 -- from the AceAddon.addons table OnInitialize
@@ -24,10 +22,11 @@ function AceAddon:NewAddon(...)
     return addon
 end
 
-hooksecurefunc("CreateFrame",function(frameType, name)
+hooksecurefunc('CreateFrame', function(frameType, name)
     if not name then
         return
     end
+
     if frameType == 'Button' and string.match(name, '^TSMTabGroup') then
         hooksecurefunc(_G[name], 'SetFontString', function(self, fontString)
             fontString:SetFont(TSMAPI.Design:GetContentFont(), 15)
@@ -35,30 +34,28 @@ hooksecurefunc("CreateFrame",function(frameType, name)
     end
 end)
 
-
-
 function Module:OnInitialize()
-    Media:Register(Media.MediaType.FONT, 'Lato',      NORMAL)
+    Media:Register(Media.MediaType.FONT, 'Lato', NORMAL)
     Media:Register(Media.MediaType.FONT, 'Lato Bold', STRONG)
 
-    Media:Register(Media.MediaType.FONT, 'Accidental Presidency',    [[Interface\AddOns\Atom\Fonts\Accidental-Presidency.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Anton',                    [[Interface\Addons\Atom\Fonts\Anton-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Audiowide',                [[Interface\Addons\Atom\Fonts\Audiowide-Regular.ttf]])
-    --Media:Register(Media.MediaType.FONT, 'Droid Sans',               [[Interface\AddOns\SheepMonitor\fonts\DroidSans.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Droid Sans',               [[Interface\AddOns\Atom\Fonts\DroidSans.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Exo2',                     [[Interface\Addons\Atom\Fonts\Exo2-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Geo',                      [[Interface\Addons\Atom\Fonts\Geo-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Monda',                    [[Interface\Addons\Atom\Fonts\Monda-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Myriad Pro Bold',          [[Interface\AddOns\Atom\Fonts\MyriadPro-Bold.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Nova Square',              [[Interface\Addons\Atom\Fonts\NovaSquare.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Accidental Presidency', [[Interface\AddOns\Atom\Fonts\Accidental-Presidency.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Anton', [[Interface\Addons\Atom\Fonts\Anton-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Audiowide', [[Interface\Addons\Atom\Fonts\Audiowide-Regular.ttf]])
+    -- Media:Register(Media.MediaType.FONT, 'Droid Sans', [[Interface\AddOns\SheepMonitor\fonts\DroidSans.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Droid Sans', [[Interface\AddOns\Atom\Fonts\DroidSans.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Exo2', [[Interface\Addons\Atom\Fonts\Exo2-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Geo', [[Interface\Addons\Atom\Fonts\Geo-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Monda', [[Interface\Addons\Atom\Fonts\Monda-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Myriad Pro Bold', [[Interface\AddOns\Atom\Fonts\MyriadPro-Bold.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Nova Square', [[Interface\Addons\Atom\Fonts\NovaSquare.ttf]])
     Media:Register(Media.MediaType.FONT, 'Open Sans Condensed Bold', [[Interface\Addons\Atom\Fonts\OpenSansCondensed-Bold.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Orbitron',                 [[Interface\Addons\Atom\Fonts\Orbitron-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Quantico',                 [[Interface\Addons\Atom\Fonts\Quantico-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Roboto',                   [[Interface\Addons\Atom\Fonts\Roboto-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Teko',                     [[Interface\Addons\Atom\Fonts\Teko-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Titillium Web',            [[Interface\Addons\Atom\Fonts\TitilliumWeb-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Ubuntu',                   [[Interface\Addons\Atom\Fonts\Ubuntu-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'VT323',                    [[Interface\Addons\Atom\Fonts\VT323-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Orbitron', [[Interface\Addons\Atom\Fonts\Orbitron-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Quantico', [[Interface\Addons\Atom\Fonts\Quantico-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Roboto', [[Interface\Addons\Atom\Fonts\Roboto-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Teko', [[Interface\Addons\Atom\Fonts\Teko-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Titillium Web', [[Interface\Addons\Atom\Fonts\TitilliumWeb-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'Ubuntu', [[Interface\Addons\Atom\Fonts\Ubuntu-Regular.ttf]])
+    Media:Register(Media.MediaType.FONT, 'VT323', [[Interface\Addons\Atom\Fonts\VT323-Regular.ttf]])
 
     ReplaceGameFonts()
 end
@@ -68,9 +65,7 @@ function Module:OnEnable()
 
     -- replace TSM fonts
     if TSM then
-        TSM.db.profile.design.fonts = {
-            content = NORMAL, bold = STRONG,
-        }
+        TSM.db.profile.design.fonts = { content = NORMAL, bold = STRONG }
     end
 end
 
@@ -84,7 +79,6 @@ function Module:ADDON_LOADED(event, addonName)
     end
 end
 
-
 function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
     if fontFamily then
         local _, height, flags = fontFamily:GetFont()
@@ -92,35 +86,36 @@ function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
             fontFlags = fontHeight
             fontHeight = nil
         end
+
         if type(fontHeight) == 'boolean' then
             fontHeight = height
         end
+
         if not fontHeight then
             fontHeight = height
             if fontHeight < 16 then
                 fontHeight = fontHeight * 1.1
             end
         end
+
         fontFamily:SetFont(fontPath, fontHeight, fontFlags or flags)
     end
 end
 
-
 function ReplaceCalendarFonts()
     local CALENDAR_MAX_DAYS_PER_MONTH = 42;
     for i = 1, CALENDAR_MAX_DAYS_PER_MONTH do
-        --SetFont(NORMAL, _G['CalendarDayButton'..i..'EventButton1Text1'], 11)
+        -- SetFont(NORMAL, _G['CalendarDayButton'..i..'EventButton1Text1'], 11)
     end
 end
-
 
 function ReplaceGameFonts()
     -- See: http://xpather.com
 
     -- Extracted from FrameXML/Fonts.xml
-    UNIT_NAME_FONT       = NORMAL
-    STANDARD_TEXT_FONT   = NORMAL
-    DAMAGE_TEXT_FONT     = STRONG
+    UNIT_NAME_FONT = NORMAL
+    STANDARD_TEXT_FONT = NORMAL
+    DAMAGE_TEXT_FONT = STRONG
 
     -- Extracted from FrameXML/FontStyles.xml
     UNIT_NAME_FONT_ROMAN = NORMAL
@@ -151,11 +146,11 @@ function ReplaceGameFonts()
     SetFont(NORMAL, FriendsFont_Large)
     SetFont(STRONG, GameFont_Gigantic)
     SetFont(NORMAL, ChatBubbleFont)
-    --SetFont(NORMAL, SystemFont_NamePlateFixed, 10)
-    --SetFont(NORMAL, SystemFont_LargeNamePlateFixed, 12)
-    --SetFont(NORMAL, SystemFont_NamePlate)
-    --SetFont(NORMAL, SystemFont_LargeNamePlate)
-    --SetFont(STRONG, SystemFont_NamePlateCastBar)
+    -- SetFont(NORMAL, SystemFont_NamePlateFixed, 10)
+    -- SetFont(NORMAL, SystemFont_LargeNamePlateFixed, 12)
+    -- SetFont(NORMAL, SystemFont_NamePlate)
+    -- SetFont(NORMAL, SystemFont_LargeNamePlate)
+    -- SetFont(STRONG, SystemFont_NamePlateCastBar)
 
     -- Extracted from FrameXML/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.ttf']]/@name
@@ -311,6 +306,6 @@ function ReplaceGameFonts()
     SetFont(STRONG, TextStatusBarTextLarge, 12)
 
     for i = 1, 10 do
-        SetFont(NORMAL, _G['ChatFrame'..i], 13)
+        SetFont(NORMAL, _G['ChatFrame' .. i], 13)
     end
 end

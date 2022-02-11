@@ -1,9 +1,7 @@
-
 local addonName, ATOM = ...
 local Module = ATOM:NewModule('Postal')
 
 local CollectableItem, CheckMailbox
-
 
 function Module:OnEnable()
     self:RegisterEvent('MAIL_SHOW')
@@ -15,7 +13,9 @@ end
 
 function Module:MAIL_SHOW()
     if not _G['ZygorGuidesViewer'] then
-        ATOM:Wait(function() CheckMailbox(GetInboxNumItems()) end)
+        ATOM:Wait(function()
+            CheckMailbox(GetInboxNumItems())
+        end)
     end
 end
 
@@ -39,5 +39,7 @@ function CheckMailbox(index)
         AutoLootMailItem(index)
     end
 
-    ATOM:Wait(function() CheckMailbox(CollectableItem(index) or (index - 1)) end)
+    ATOM:Wait(function()
+        CheckMailbox(CollectableItem(index) or (index - 1))
+    end)
 end

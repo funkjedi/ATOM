@@ -1,4 +1,3 @@
-
 local addonName, ATOM = ...
 local Module = ATOM:NewModule('Bags')
 
@@ -12,7 +11,7 @@ function Module:OnInitialize()
 end
 
 function enableGlow(self)
-    local quality = select(4, GetContainerItemInfo( self:GetParent():GetID(), self:GetID() ))
+    local quality = select(4, GetContainerItemInfo(self:GetParent():GetID(), self:GetID()))
     if quality and quality > LE_ITEM_QUALITY_COMMON then
         self.NewItemTexture:SetAtlas(NEW_ITEM_ATLAS_BY_QUALITY[quality])
         self.NewItemTexture:SetAlpha(.8)
@@ -23,8 +22,8 @@ end
 function updateBagItems(frame)
     local name = frame:GetName()
     local itemButtonName, itemButton
-    for i=1, frame.size, 1 do
-        itemButtonName = name..'Item'..i
+    for i = 1, frame.size, 1 do
+        itemButtonName = name .. 'Item' .. i
         itemButton = _G[itemButtonName]
         if not frameHooked[itemButtonName] then
             frameHooked[itemButtonName] = true
@@ -36,8 +35,11 @@ function updateBagItems(frame)
 end
 
 function Module:DestroyItems()
-    if CursorHasItem() then return end
+    if CursorHasItem() then
+        return
+    end
 
+    -- LuaFormatter off
     local destroyItems = {
         'Blue Qiraji Resonating Crystal',
         'Book of the Ages',
@@ -59,6 +61,7 @@ function Module:DestroyItems()
         ['Korthian Armaments'] = true,
     }
 
+    -- LuaFormatter on
     for bagID = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
         for slot = 1, GetContainerNumSlots(bagID) do
             local itemLink = GetContainerItemLink(bagID, slot) or ''

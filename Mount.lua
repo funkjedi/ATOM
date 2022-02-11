@@ -1,14 +1,12 @@
-
-
 function ATOM:Mount(mountName)
     if IsMounted() then
         return Dismount()
     end
 
-    local currentMapAreaID = C_Map.GetBestMapForUnit("player")
+    local currentMapAreaID = C_Map.GetBestMapForUnit('player')
 
     if IsControlKeyDown() then
-        return CastSpellByName("Ashes of Al'ar")
+        return CastSpellByName('Ashes of Al\'ar')
     end
 
     -- Mount for the Temple of Ahn'Qiraji
@@ -18,13 +16,13 @@ function ATOM:Mount(mountName)
 
     -- Mount for Nagrand in Draenor
     if currentMapAreaID == 950 then
-        --return CastSpellByName('Garrison Ability')
+        -- return CastSpellByName('Garrison Ability')
     end
 
     if IsSwimming() then
         -- Mount for Vashj'ir
         if currentMapAreaID == 610 or currentMapAreaID == 612 or currentMapAreaID == 615 then
-            return CastSpellByName("Vashj'ir Seahorse")
+            return CastSpellByName('Vashj\'ir Seahorse')
         end
 
         -- Mount for The Anglers (walk on water)
