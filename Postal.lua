@@ -19,14 +19,13 @@ function Module:MAIL_SHOW()
     end
 end
 
-
 function CollectableItem(index)
     local _, _, _, _, money, CODAmount, _, itemCount = GetInboxHeaderInfo(index)
+
     if money > 0 or (itemCount and itemCount > 0) and CODAmount <= 0 then
         return index
     end
 end
-
 
 function CheckMailbox(index)
     if not InboxFrame:IsVisible() or index <= 0 then
@@ -35,8 +34,10 @@ function CheckMailbox(index)
         end
         return
     end
+
     if CollectableItem(index) then
         AutoLootMailItem(index)
     end
+
     ATOM:Wait(function() CheckMailbox(CollectableItem(index) or (index - 1)) end)
 end
