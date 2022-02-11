@@ -5,13 +5,11 @@ local Module = ATOM:NewModule('Bags')
 local frameHooked = {}
 local enableGlow, updateBagItems
 
-
 function Module:OnInitialize()
     if not _G['Bagnon'] then
         hooksecurefunc('ContainerFrame_Update', updateBagItems)
     end
 end
-
 
 function enableGlow(self)
     local quality = select(4, GetContainerItemInfo( self:GetParent():GetID(), self:GetID() ))
@@ -21,7 +19,6 @@ function enableGlow(self)
         self.NewItemTexture:Show()
     end
 end
-
 
 function updateBagItems(frame)
     local name = frame:GetName()
@@ -38,16 +35,49 @@ function updateBagItems(frame)
     end
 end
 
+function Module:DestroyItems()
+    if CursorHasItem() then return end
 
-function ATOM:DestroyHeirlooms()
-    local bag, slot
-    for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-        for slot = 1, GetContainerNumSlots(bag) do
-            local name = GetContainerItemLink(bag, slot)
-            if name and string.find(name, 'ffe6cc80') then
-                ATOM:Print(name..' destroyed.')
-                PickupContainerItem(bag, slot)
+    local destroyItems = {
+        'Blue Qiraji Resonating Crystal',
+        'Book of the Ages',
+        'Charred Recipe',
+        'Dew of Eternal Morning',
+        'Green Qiraji Resonating Crystal',
+        'Idol',
+        'Jewel of Maddening Whispers',
+        'Red Qiraji Resonating Crystal',
+        'Scarab',
+        'Singing Crystal',
+        'Thorny Loop',
+        'Warped Warning Sign',
+        'Yellow Qiraji Resonating Crystal',
+        "Qiraji Lord's Insignia",
+    }
+
+    local protectedItems = {
+        ['Korthian Armaments'] = true,
+    }
+
+    for bagID = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+        for slot = 1, GetContainerNumSlots(bagID) do
+            local itemLink = GetContainerItemLink(bagID, slot) or ''
+
+            local itemName = string.match(itemLink, '|h%[([^%]]+)%]|h')
+            local quality = select(4, GetContainerItemInfo(bagID, slot))
+
+            -- check if item is an heirloom
+            if quality == 7 and not protectedItems[itemName] then
+                PickupContainerItem(bagID, slot)
                 DeleteCursorItem()
+            end
+
+            -- check if item in on the destroy list
+            for _, destroyItemName in ipairs(destroyItems) do
+                if itemName == destroyItemName then
+                    PickupContainerItem(bagID, slot)
+                    DeleteCursorItem()
+                end
             end
         end
     end

@@ -9,7 +9,6 @@ _G['ATOM'] = ATOM;
 
 
 function ATOM:OnEnable()
-    --LibStub('AceEvent-3.0').frame:HookScript('OnEvent', function(f,e) print(e) end)
     self:RegisterEvent('CHAT_MSG_PET_BATTLE_COMBAT_LOG')
     self:RegisterChatCommand('atom', 'SlashCommand')
     self:RegisterChatCommand('clear', 'Clear')
@@ -48,7 +47,7 @@ function ATOM:SlashCommand(msg)
     if cmd == 'clear' then
         self:Clear()
     elseif cmd == 'destroy' then
-        self:DestroyItems(args == 'true')
+        self:GetModule('Bags'):DestroyItems(args == 'true')
     elseif cmd == 'mark' then
         self:MarkTarget(args ~= '' and tonumber(args) or 8)
     elseif cmd == 'mount' then
@@ -67,44 +66,6 @@ function ATOM:SlashCommand(msg)
         self:GetModule('Wago'):ShowWindow()
     elseif cmd == 'way' then
         self:SetUserWaypoint(args)
-    end
-end
-
-
-function ATOM:DestroyItems(useGameTooltip)
-    local items = {
-        'Blue Qiraji Resonating Crystal',
-        'Book of the Ages',
-        'Charred Recipe',
-        'Dew of Eternal Morning',
-        'Green Qiraji Resonating Crystal',
-        'Idol',
-        'Jewel of Maddening Whispers',
-        'Red Qiraji Resonating Crystal',
-        'Scarab',
-        'Singing Crystal',
-        'Thorny Loop',
-        'Warped Warning Sign',
-        'Yellow Qiraji Resonating Crystal',
-        "Qiraji Lord's Insignia",
-    }
-    if useGameTooltip then
-        items = {
-            select(1, GameTooltip:GetItem())
-        }
-    end
-    for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-        for slot = 1, GetContainerNumSlots(bag) do
-            local name = GetContainerItemLink(bag,slot)
-            if name then
-                for _, item in ipairs(items) do
-                    if string.find(name,item) then
-                        PickupContainerItem(bag,slot)
-                        DeleteCursorItem()
-                    end
-                end
-            end
-        end
     end
 end
 
