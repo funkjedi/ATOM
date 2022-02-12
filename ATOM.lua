@@ -50,6 +50,8 @@ function ATOM:SlashCommand(msg)
         self:Mount(args)
     elseif cmd == 'move' then
         SetCVar('autoInteract', GetCVar('autoInteract') ~= '1' and '1' or '0')
+    elseif cmd == 'powerleveling' then
+        self:GetModule('BattlePets'):GetActivePowerlevelingBattlePetTrainer()
     elseif cmd == 'quest' then
         self:GetModule('Quest'):QuestCompleted(args)
     elseif cmd == 'scoreboard' then
