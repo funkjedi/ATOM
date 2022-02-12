@@ -12,12 +12,6 @@ function ATOM:OnEnable()
     self:RegisterChatCommand('clear', 'Clear')
 end
 
-function ATOM:CHAT_MSG_PET_BATTLE_COMBAT_LOG(event, msg)
-    if msg and msg:match('^Round') then
-        ATOM:Print(msg)
-    end
-end
-
 function ATOM:Print(...)
     ChatFrame1:AddMessage('ATOM: ' .. string.format(...))
 end

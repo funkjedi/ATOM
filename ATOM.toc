@@ -10,6 +10,7 @@ ATOM.lua
 
 AutoTurnIn.lua
 Bags.lua
+BattlePets.lua
 Fonts.lua
 Merchant.lua
 Mount.lua
