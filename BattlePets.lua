@@ -28,5 +28,8 @@ function Module:PET_BATTLE_CLOSE()
     PetBattleFrame.TopVersusText:SetText(PET_BATTLE_UI_VS)
     petBattleRoundTitle:Hide()
 
-    ATOM:Print(('Pet Battle completed in %s rounds!'):format(petBattleRoundsCompleted))
+    if petBattleRoundsCompleted then
+        petBattleRoundsCompleted = nil
+        ATOM:Print(('Pet Battle finished after |cff00ff00%s|r rounds.'):format(petBattleRoundsCompleted))
+    end
 end

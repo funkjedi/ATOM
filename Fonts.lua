@@ -93,9 +93,9 @@ function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
 
         if not fontHeight then
             fontHeight = height
-            if fontHeight < 16 then
-                fontHeight = fontHeight * 1.1
-            end
+            -- if fontHeight < 16 then
+            --    fontHeight = fontHeight * 1.1
+            -- end
         end
 
         fontFamily:SetFont(fontPath, fontHeight, fontFlags or flags)

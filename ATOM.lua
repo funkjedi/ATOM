@@ -7,13 +7,12 @@ ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
 _G['ATOM'] = ATOM;
 
 function ATOM:OnEnable()
-    self:RegisterEvent('CHAT_MSG_PET_BATTLE_COMBAT_LOG')
     self:RegisterChatCommand('atom', 'SlashCommand')
     self:RegisterChatCommand('clear', 'Clear')
 end
 
 function ATOM:Print(...)
-    ChatFrame1:AddMessage('ATOM: ' .. string.format(...))
+    ChatFrame1:AddMessage('|cffffff00ATOM:|r ' .. string.format(...))
 end
 
 function ATOM:MakeChatProgressBar(step, steps)
