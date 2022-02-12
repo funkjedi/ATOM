@@ -94,10 +94,12 @@ function Module:QUEST_PROGRESS()
 end
 
 function Module:QUEST_COMPLETE()
-    if GetNumQuestChoices() == 0 then
-        QuestDetailAcceptButton_OnClick()
-        GetQuestReward(QuestInfoFrame.itemChoice)
+    if not GetQuestID() or GetNumQuestChoices() > 1 then
+        return
     end
+
+    QuestDetailAcceptButton_OnClick()
+    GetQuestReward(max(QuestInfoFrame.itemChoice, 1))
 end
 
 function Module:QuestCompleted(questID)
