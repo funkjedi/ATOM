@@ -22,6 +22,14 @@ function ATOM:Print(...)
     ChatFrame1:AddMessage('ATOM: ' .. string.format(...))
 end
 
+function ATOM:MakeChatProgressBar(step, steps)
+    local barWidth = 40
+    local barsForCompletedSteps = floor(step / steps * barWidth)
+
+    return ('|cffffff00[|cff00ff00%s|r|cff666666%s|r]|r'):format(strrep('||', barsForCompletedSteps),
+        strrep('||', barWidth - barsForCompletedSteps))
+end
+
 function ATOM:Dump(...)
     UIParentLoadAddOn('Blizzard_DebugTools')
     if _G['DevTools_Dump'] then
