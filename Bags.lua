@@ -12,7 +12,8 @@ end
 
 function enableGlow(self)
     local quality = select(4, GetContainerItemInfo(self:GetParent():GetID(), self:GetID()))
-    if quality and quality > LE_ITEM_QUALITY_COMMON then
+
+    if quality and quality > Enum.ItemQuality.Common then
         self.NewItemTexture:SetAtlas(NEW_ITEM_ATLAS_BY_QUALITY[quality])
         self.NewItemTexture:SetAlpha(.8)
         self.NewItemTexture:Show()

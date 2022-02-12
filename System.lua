@@ -30,10 +30,13 @@ function Module:OnInitialize()
     for key, value in pairs(defaultCVarValues) do
         SetCVar(key, value)
     end
+
     MinimapZoomIn:Hide()
     MinimapZoomOut:Hide()
+
     hooksecurefunc('OrderHall_LoadUI', disableOrderHallCommandBar)
     hooksecurefunc('OrderHall_CheckCommandBar', disableOrderHallCommandBar)
+
     ATOM:SetView(2)
 
     -- inject a frame/texture with ZygorGuideViewer minimap icon so Leatrix can detect the texture
@@ -87,4 +90,3 @@ function PlaySound(snd, a0, a1, a2)
     pcall(function() origPlaySound(snd, a0, a1, a2) end)
 end
 ]]
-
