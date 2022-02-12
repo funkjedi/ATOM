@@ -59,7 +59,7 @@ function Module:QUEST_GREETING()
     end
 
     for i = 1, GetNumActiveQuests() do
-        local title, isComplete = GetActiveTitle()
+        local title, isComplete = GetActiveTitle(i)
 
         if isComplete then
             SelectActiveQuest(i)
