@@ -29,8 +29,8 @@ function Module:PET_BATTLE_CLOSE()
     petBattleRoundTitle:Hide()
 
     if petBattleRoundsCompleted then
-        petBattleRoundsCompleted = nil
         ATOM:Print(('Pet Battle finished after |cff00ff00%s|r rounds.'):format(petBattleRoundsCompleted))
+        petBattleRoundsCompleted = nil
     end
 end
 
