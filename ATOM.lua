@@ -47,7 +47,7 @@ function ATOM:SlashCommand(msg)
     elseif cmd == 'mark' then
         self:MarkTarget(args ~= '' and tonumber(args) or 8)
     elseif cmd == 'mount' then
-        self:Mount(args)
+        self:GetModule('Mounts'):Mount(args)
     elseif cmd == 'move' then
         SetCVar('autoInteract', GetCVar('autoInteract') ~= '1' and '1' or '0')
     elseif cmd == 'powerleveling' then

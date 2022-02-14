@@ -13,7 +13,7 @@ Bags.lua
 BattlePets.lua
 Fonts.lua
 Merchant.lua
-Mount.lua
+Mounts.lua
 Postal.lua
 System.lua
 Textures.lua
