@@ -37,7 +37,7 @@ function Module:OnInitialize()
     hooksecurefunc('OrderHall_LoadUI', disableOrderHallCommandBar)
     hooksecurefunc('OrderHall_CheckCommandBar', disableOrderHallCommandBar)
 
-    ATOM:SetView(2)
+    self:SetView(2)
 
     -- inject a frame/texture with ZygorGuideViewer minimap icon so Leatrix can detect the texture
     local zygorMinimapIcon = CreateFrame('Frame', 'LeatrixZygorGuidesViewerMapIcon', UIParent)
@@ -45,10 +45,7 @@ function Module:OnInitialize()
     zygorMinimapIcon.texture:SetTexture('Interface\\AddOns\\ATOM\\Textures\\ZygorMinimapIcon')
     zygorMinimapIcon:Show()
 
-    hooksecurefunc(WorldMapFrame, 'Show', function(self)
-        ZygorWorldMapMenu:Hide()
-        ZygorPoiMapButton:Hide()
-    end)
+    hooksecurefunc(WorldMapFrame, 'Show', disableZygorMapButtonAndMenu)
 end
 
 function disableOrderHallCommandBar()
@@ -60,7 +57,14 @@ function disableOrderHallCommandBar()
     end
 end
 
-function ATOM:SetView(index)
+function disableZygorMapButtonAndMenu()
+    if ZygorWorldMapMenu then
+        ZygorWorldMapMenu:Hide()
+        ZygorPoiMapButton:Hide()
+    end
+end
+
+function Module:SetView(index)
     if index then
         viewIndex = index
     else
@@ -72,7 +76,7 @@ function ATOM:SetView(index)
     SetView(viewIndex)
 end
 
-function ATOM:SetVolume(level)
+function Module:SetVolume(level)
     if level then
         volumeLevel = level
     else

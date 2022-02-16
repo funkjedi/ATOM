@@ -61,9 +61,9 @@ function ATOM:SlashCommand(msg)
     elseif cmd == 'scoreboard' then
         WorldStateScoreFrame:Show()
     elseif cmd == 'view' then
-        self:SetView(args ~= '' and tonumber(args) or false)
+        self:GetModule('System'):SetView(args ~= '' and tonumber(args) or false)
     elseif cmd == 'volume' then
-        self:SetVolume(args ~= '' and tonumber(args) or false)
+        self:GetModule('System'):SetVolume(args ~= '' and tonumber(args) or false)
     elseif cmd == 'wago' then
         self:GetModule('Wago'):ShowWindow()
     elseif cmd == 'way' then
