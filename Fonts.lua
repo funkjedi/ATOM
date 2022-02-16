@@ -5,8 +5,36 @@ local Media = LibStub('LibSharedMedia-3.0')
 
 local SetFont, ReplaceCalendarFonts, ReplaceGameFonts
 
-local NORMAL = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Regular.ttf'
-local STRONG = 'Interface\\AddOns\\Atom\\Fonts\\Lato\\Lato-Bold.ttf'
+local fontFamilies = {
+    ['Accidental Presidency'] = [[Interface\AddOns\Atom\Fonts\Accidental-Presidency.ttf]],
+    ['Anton'] = [[Interface\Addons\Atom\Fonts\Anton-Regular.ttf]],
+    ['Audiowide'] = [[Interface\Addons\Atom\Fonts\Audiowide-Regular.ttf]],
+    ['Bowlby One SC'] = [[Interface\AddOns\Atom\Fonts\BowlbyOneSC-Regular.ttf]],
+    ['Droid Sans'] = [[Interface\AddOns\Atom\Fonts\DroidSans.ttf]],
+    ['Exo2'] = [[Interface\Addons\Atom\Fonts\Exo2-Regular.ttf]],
+    ['Geo'] = [[Interface\Addons\Atom\Fonts\Geo-Regular.ttf]],
+    ['Good Brush'] = [[Interface\Addons\Atom\Fonts\GoodBrush.otf]],
+    ['Lato'] = [[Interface\Addons\Atom\Fonts\Lato-Regular.ttf]],
+    ['Lato Bold'] = [[Interface\Addons\Atom\Fonts\Lato-Bold.ttf]],
+    ['Monda'] = [[Interface\Addons\Atom\Fonts\Monda-Regular.ttf]],
+    ['Myriad Pro Bold'] = [[Interface\AddOns\Atom\Fonts\MyriadPro-Bold.ttf]],
+    ['Nova Square'] = [[Interface\Addons\Atom\Fonts\NovaSquare.ttf]],
+    ['Open Sans Condensed Bold'] = [[Interface\Addons\Atom\Fonts\OpenSansCondensed-Bold.ttf]],
+    ['Orbitron'] = [[Interface\Addons\Atom\Fonts\Orbitron-Regular.ttf]],
+    ['Proxima Nova Condensed'] = [[Interface\Addons\Atom\Fonts\ProximaNovaCondensed-Regular.otf]],
+    ['Proxima Nova Condensed Bold'] = [[Interface\Addons\Atom\Fonts\ProximaNovaCondensed-Bold.otf]],
+    ['Quantico'] = [[Interface\Addons\Atom\Fonts\Quantico-Regular.ttf]],
+    ['Roboto'] = [[Interface\Addons\Atom\Fonts\Roboto-Regular.ttf]],
+    ['Teko'] = [[Interface\Addons\Atom\Fonts\Teko-Regular.ttf]],
+    ['Titillium Web'] = [[Interface\Addons\Atom\Fonts\TitilliumWeb-Regular.ttf]],
+    ['Ubuntu'] = [[Interface\Addons\Atom\Fonts\Ubuntu-Regular.ttf]],
+    ['VT323'] = [[Interface\Addons\Atom\Fonts\VT323-Regular.ttf]],
+}
+
+local NORMAL = fontFamilies['Lato']
+local STRONG = fontFamilies['Lato Bold']
+
+local SCALE_FOR_FONTS = 1
 
 -- this must be done this way because TSM removes itself
 -- from the AceAddon.addons table OnInitialize
@@ -35,47 +63,16 @@ hooksecurefunc('CreateFrame', function(frameType, name)
 end)
 
 function Module:OnInitialize()
-    Media:Register(Media.MediaType.FONT, 'Lato', NORMAL)
-    Media:Register(Media.MediaType.FONT, 'Lato Bold', STRONG)
-
-    Media:Register(Media.MediaType.FONT, 'Accidental Presidency', [[Interface\AddOns\Atom\Fonts\Accidental-Presidency.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Anton', [[Interface\Addons\Atom\Fonts\Anton-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Audiowide', [[Interface\Addons\Atom\Fonts\Audiowide-Regular.ttf]])
-    -- Media:Register(Media.MediaType.FONT, 'Droid Sans', [[Interface\AddOns\SheepMonitor\fonts\DroidSans.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Droid Sans', [[Interface\AddOns\Atom\Fonts\DroidSans.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Exo2', [[Interface\Addons\Atom\Fonts\Exo2-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Geo', [[Interface\Addons\Atom\Fonts\Geo-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Monda', [[Interface\Addons\Atom\Fonts\Monda-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Myriad Pro Bold', [[Interface\AddOns\Atom\Fonts\MyriadPro-Bold.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Nova Square', [[Interface\Addons\Atom\Fonts\NovaSquare.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Open Sans Condensed Bold', [[Interface\Addons\Atom\Fonts\OpenSansCondensed-Bold.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Orbitron', [[Interface\Addons\Atom\Fonts\Orbitron-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Quantico', [[Interface\Addons\Atom\Fonts\Quantico-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Roboto', [[Interface\Addons\Atom\Fonts\Roboto-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Teko', [[Interface\Addons\Atom\Fonts\Teko-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Titillium Web', [[Interface\Addons\Atom\Fonts\TitilliumWeb-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'Ubuntu', [[Interface\Addons\Atom\Fonts\Ubuntu-Regular.ttf]])
-    Media:Register(Media.MediaType.FONT, 'VT323', [[Interface\Addons\Atom\Fonts\VT323-Regular.ttf]])
+    for fontName, fontFile in pairs(fontFamilies) do
+        Media:Register(Media.MediaType.FONT, fontName, fontFile)
+    end
 
     ReplaceGameFonts()
 end
 
 function Module:OnEnable()
-    self:RegisterEvent('ADDON_LOADED')
-
-    -- replace TSM fonts
     if TSM then
         TSM.db.profile.design.fonts = { content = NORMAL, bold = STRONG }
-    end
-end
-
-function Module:OnDisable()
-    self:UnregisterEvent('ADDON_LOADED')
-end
-
-function Module:ADDON_LOADED(event, addonName)
-    if addonName == 'Blizzard_Calendar' then
-        ReplaceCalendarFonts()
     end
 end
 
@@ -98,14 +95,7 @@ function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
             -- end
         end
 
-        fontFamily:SetFont(fontPath, fontHeight, fontFlags or flags)
-    end
-end
-
-function ReplaceCalendarFonts()
-    local CALENDAR_MAX_DAYS_PER_MONTH = 42;
-    for i = 1, CALENDAR_MAX_DAYS_PER_MONTH do
-        -- SetFont(NORMAL, _G['CalendarDayButton'..i..'EventButton1Text1'], 11)
+        fontFamily:SetFont(fontPath, fontHeight * SCALE_FOR_FONTS, fontFlags or flags)
     end
 end
 
@@ -295,8 +285,8 @@ function ReplaceGameFonts()
 
     -- Extracted from SharedXML/ShardFonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.ttf']]/@name
-    SetFont(NORMAL, QuestFont_Large)
-    SetFont(NORMAL, QuestFont_Huge)
+    -- SetFont(NORMAL, QuestFont_Large)
+    -- SetFont(NORMAL, QuestFont_Huge)
     SetFont(NORMAL, QuestFont_30)
     SetFont(NORMAL, QuestFont_39)
 
@@ -307,5 +297,9 @@ function ReplaceGameFonts()
 
     for i = 1, 10 do
         SetFont(NORMAL, _G['ChatFrame' .. i], 13)
+    end
+
+    for _, button in pairs(PaperDollTitlesPane.buttons) do
+        button.text:SetFontObject(GameFontHighlightSmallLeft)
     end
 end
