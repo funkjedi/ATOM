@@ -6,6 +6,10 @@ ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
 
 _G['ATOM'] = ATOM;
 
+function ATOM:OnInitialize()
+    self.db = LibStub('AceDB-3.0'):New('AtomDB')
+end
+
 function ATOM:OnEnable()
     self:RegisterChatCommand('atom', 'SlashCommand')
     self:RegisterChatCommand('clear', 'Clear')

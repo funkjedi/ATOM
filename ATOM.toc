@@ -3,6 +3,8 @@
 ## Notes: Tweaks, optimizations and automation of tasks
 ## Author: funkjedi
 ## Version: 1
+## SavedVariables: AtomDB
+## OptionalDeps: Ace3
 
 Libs\Libs.xml
 
