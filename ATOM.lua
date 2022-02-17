@@ -49,7 +49,7 @@ function ATOM:SlashCommand(msg)
     elseif cmd == 'destroy' then
         self:GetModule('Bags'):DestroyItems(args == 'true')
     elseif cmd == 'mark' then
-        self:MarkTarget(args ~= '' and tonumber(args) or 8)
+        self:GetModule('Macros'):MarkTarget(args ~= '' and tonumber(args) or 8)
     elseif cmd == 'mount' then
         self:GetModule('Mounts'):Mount(args)
     elseif cmd == 'move' then
@@ -60,6 +60,8 @@ function ATOM:SlashCommand(msg)
         self:GetModule('Quest'):QuestCompleted(args)
     elseif cmd == 'scoreboard' then
         WorldStateScoreFrame:Show()
+    elseif cmd == 'target' then
+        self:GetModule('Macros'):UpdateTargetMacro(args)
     elseif cmd == 'view' then
         self:GetModule('System'):SetView(args ~= '' and tonumber(args) or false)
     elseif cmd == 'volume' then
@@ -68,14 +70,6 @@ function ATOM:SlashCommand(msg)
         self:GetModule('Wago'):ShowWindow()
     elseif cmd == 'way' then
         self:SetUserWaypoint(args)
-    end
-end
-
-function ATOM:MarkTarget(index)
-    index = index or 8
-    if GetRaidTargetIndex('target') ~= index then
-        SetRaidTarget('target', index)
-        PlaySoundFile(567458)
     end
 end
 

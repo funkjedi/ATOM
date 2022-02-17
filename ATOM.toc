@@ -14,6 +14,7 @@ AutoTurnIn.lua
 Bags.lua
 BattlePets.lua
 Fonts.lua
+Macros.lua
 Merchant.lua
 Mounts.lua
 Postal.lua
