@@ -7,6 +7,7 @@ local SetFont, ReplaceCalendarFonts, ReplaceGameFonts
 
 local fontFamilies = {
     ['Accidental Presidency'] = [[Interface\AddOns\Atom\Fonts\Accidental-Presidency.ttf]],
+    ['Antarian'] = [[Interface\Addons\Atom\Fonts\Antarian.ttf]],
     ['Anton'] = [[Interface\Addons\Atom\Fonts\Anton-Regular.ttf]],
     ['Audiowide'] = [[Interface\Addons\Atom\Fonts\Audiowide-Regular.ttf]],
     ['Bowlby One SC'] = [[Interface\AddOns\Atom\Fonts\BowlbyOneSC-Regular.ttf]],
