@@ -24,7 +24,7 @@ local defaultCVarValues = {
     scriptErrors = 1,
 }
 
-local volumeLevel, viewIndex, disableOrderHallCommandBar
+local viewIndex, disableOrderHallCommandBar
 
 function Module:OnInitialize()
     for key, value in pairs(defaultCVarValues) do
@@ -70,20 +70,20 @@ function Module:SetView(index)
     else
         viewIndex = viewIndex == 3 and 2 or 3
     end
+
     -- Calling SetView twice will prevent the slow transition and
     -- instead switch immediately to the view
     SetView(viewIndex)
     SetView(viewIndex)
 end
 
-function Module:SetVolume(level)
-    if level then
-        volumeLevel = level
-    else
-        volumeLevel = volumeLevel == 100 and 10 or 100
+function Module:SetVolume(volumeLevel)
+    if volumeLevel == false then
+        volumeLevel = tonumber(GetCVar('Sound_MasterVolume')) > 0.5 and 10 or 100
     end
+
     SetCVar('Sound_MasterVolume', volumeLevel / 100)
-    ATOM:Print('Volume Level %d', volumeLevel)
+    ATOM:Print('Volume set to |cff00ff00%d|r', volumeLevel)
 end
 
 --[[
