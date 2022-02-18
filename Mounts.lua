@@ -28,7 +28,7 @@ local function getMountID(name)
     end
 end
 
-local CORE_HOUND = getMountID('Core Hound')
+local GROUND_MOUNT = getMountID('Junkheap Drifter')
 local RED_QIRAJI_BATTLE_TANK = getMountID('Red Qiraji Battle Tank')
 local SEA_TURTLE = getMountID('Sea Turtle')
 local VASHJIR_SEAHORSE = getMountID('Vashj\'ir Seahorse')
@@ -75,7 +75,7 @@ function Module:Mount(mountName)
     local flyingMountTypeIDs = { [247] = '[Disc of the Red Flying Cloud]', [248] = 'Most flying mounts' }
 
     if not IsFlyableArea() and flyingMountTypeIDs[mountTypeID] then
-        return C_MountJournal.SummonByID(CORE_HOUND)
+        return C_MountJournal.SummonByID(GROUND_MOUNT)
     end
 
     return C_MountJournal.SummonByID(mountID)
