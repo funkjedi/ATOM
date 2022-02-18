@@ -1,6 +1,8 @@
 local addonName, ATOM = ...
 local Module = ATOM:NewModule('Macros')
 
+local raidTargetIndex = 0
+
 function Module:OnEnable()
     self:RegisterChatCommand('mtar', 'TargetMacroSlashCommand')
 end
@@ -35,10 +37,26 @@ function Module:TargetMacroSlashCommand(msg)
 end
 
 function Module:MarkTarget(index)
-    index = index or 8
+    local cycle = index == 'cycle'
+
+    if cycle then
+        index = raidTargetIndex < 8 and raidTargetIndex + 1 or 1
+        raidTargetIndex = index
+    else
+        index = tonumber(index) or 8
+    end
 
     if GetRaidTargetIndex('target') ~= index then
         SetRaidTarget('target', index)
-        PlaySoundFile(567458)
+
+        if not cycle then
+            PlaySoundFile(567458)
+        end
+    end
+end
+
+function Module:PickPocketMark()
+    if IsSpellInRange('Pick Pocket') then
+        self:MarkTarget('cycle')
     end
 end

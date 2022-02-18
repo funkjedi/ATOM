@@ -49,7 +49,7 @@ function ATOM:SlashCommand(msg)
     elseif cmd == 'destroy' then
         self:GetModule('Bags'):DestroyItems(args == 'true')
     elseif cmd == 'mark' then
-        self:GetModule('Macros'):MarkTarget(args ~= '' and tonumber(args) or 8)
+        self:GetModule('Macros'):MarkTarget(args ~= '' and args or nil)
     elseif cmd == 'mount' then
         self:GetModule('Mounts'):Mount(args)
     elseif cmd == 'move' then
@@ -127,3 +127,30 @@ function (self, unitId, unitFrame, envTable)
     end
 end
 ]]
+
+
+function ATOM:CreateItemCountFrame(name)
+    local frame = CreateFrame('Button', nil, UIParent)
+    frame:SetClampedToScreen(true)
+    frame:SetPoint('CENTER')
+    frame:SetWidth(64)
+    frame:SetHeight(64)
+    frame:EnableMouse(true)
+    frame:SetMovable(true)
+    frame:RegisterForDrag("RightButton")
+    frame:RegisterEvent("CHAT_MSG_LOOT");
+    frame:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+    frame:SetScript("OnDragStart", function(self) self:StartMoving() end)
+
+	local icon = frame:CreateTexture("OVERLAY")
+	-- icon:SetTexCoord(0.08,0.92,0.08,0.92)
+    icon:SetTexture(GetItemIcon(name))
+	icon:SetAllPoints()
+
+    local text = frame:CreateFontString("OVERLAY", nil, "GameFontHighlightLarge")
+    text:SetFont("Interface\\AddOns\\Atom\\Fonts\\Lato-Bold.ttf", 23)
+    text:SetPoint("BOTTOM", frame, "BOTTOM", 0, 4)
+    text:SetText(GetItemCount(name))
+
+    frame:SetScript("OnEvent", function(self, event) text:SetText(GetItemCount(name)) end);
+end
