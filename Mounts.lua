@@ -38,10 +38,6 @@ function Module:Mount(mountName)
         return Dismount()
     end
 
-    if IsControlKeyDown() then
-        return CastSpellByName('Ashes of Al\'ar')
-    end
-
     local mountID = getMountID(mountName)
 
     -- Mount for Temple of Ahn'Qiraji
@@ -60,7 +56,7 @@ function Module:Mount(mountName)
     end
 
     -- Mount for Swimming (increases swim speed by ~325%)
-    if IsSwimming() then
+    if IsSwimming() and IsControlKeyDown() then
         return C_MountJournal.SummonByID(SEA_TURTLE)
     end
 
