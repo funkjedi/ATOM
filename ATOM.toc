@@ -13,6 +13,7 @@ ATOM.lua
 AutoTurnIn.lua
 Bags.lua
 BattlePets.lua
+Chat.lua
 Fonts.lua
 Macros.lua
 Merchant.lua

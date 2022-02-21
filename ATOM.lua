@@ -15,27 +15,6 @@ function ATOM:OnEnable()
     self:RegisterChatCommand('clear', 'Clear')
 end
 
-function ATOM:Print(...)
-    ChatFrame1:AddMessage('|cffffff00ATOM:|r ' .. string.format(...))
-end
-
-function ATOM:MakeChatProgressBar(step, steps)
-    local barWidth = 40
-    local barsForCompletedSteps = floor(step / steps * barWidth)
-
-    return ('|cffffff00[|cff00ff00%s|r|cff666666%s|r]|r'):format(strrep('||', barsForCompletedSteps),
-        strrep('||', barWidth - barsForCompletedSteps))
-end
-
-function ATOM:Dump(...)
-    UIParentLoadAddOn('Blizzard_DebugTools')
-    if _G['DevTools_Dump'] then
-        _G['DevTools_Dump'](...)
-    else
-        print(...)
-    end
-end
-
 function ATOM:Wait(delay, func)
     ATOM:ScheduleTimer(func or delay, func and delay or 0.5)
 end
