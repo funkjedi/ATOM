@@ -50,7 +50,7 @@ function Module:MarkTarget(index)
         SetRaidTarget('target', index)
 
         if not cycle then
-            PlaySoundFile(567458)
+            PlaySound(SOUNDKIT.ALARM_CLOCK_WARNING_3)
         end
     end
 end
