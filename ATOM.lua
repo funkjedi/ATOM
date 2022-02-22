@@ -12,7 +12,6 @@ end
 
 function ATOM:OnEnable()
     self:RegisterChatCommand('atom', 'SlashCommand')
-    self:RegisterChatCommand('clear', 'Clear')
 end
 
 function ATOM:Wait(delay, func)
@@ -24,7 +23,7 @@ function ATOM:SlashCommand(msg)
     local args = msg:sub(offset)
 
     if cmd == 'clear' then
-        ChatFrame1:Clear()
+        self:GetModule('Chat'):Clear()
     elseif cmd == 'destroy' then
         self:GetModule('Bags'):DestroyItems(args == 'true')
     elseif cmd == 'mark' then

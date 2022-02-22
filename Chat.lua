@@ -3,6 +3,7 @@ local Module = ATOM:NewModule('Chat')
 
 function Module:OnEnable()
     self:RegisterEvent('CHAT_MSG_SYSTEM')
+    self:RegisterChatCommand('clear', 'Clear')
 end
 
 function ATOM:Print(...)
@@ -30,6 +31,10 @@ function ATOM:MakeChatProgressBar(step, steps)
 
     return ('|cffffff00[|cff00ff00%s|r|cff666666%s|r]|r'):format(strrep('||', barsForCompletedSteps),
         strrep('||', barWidth - barsForCompletedSteps))
+end
+
+function Module:Clear()
+    DEFAULT_CHAT_FRAME:Clear()
 end
 
 function Module:CHAT_MSG_SYSTEM(event, msg)
