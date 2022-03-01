@@ -9,8 +9,14 @@ function Module:OnEnable()
     petBattleRoundTitle:SetText('Round')
     petBattleRoundTitle:Hide()
 
+    self:RegisterEvent('PET_BATTLE_OPENING_START')
     self:RegisterEvent('PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE')
+    self:RegisterEvent('PET_BATTLE_FINAL_ROUND')
     self:RegisterEvent('PET_BATTLE_CLOSE')
+end
+
+function Module:PET_BATTLE_OPENING_START()
+    petBattleRoundsCompleted = nil
 end
 
 function Module:PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE(event, round)
@@ -22,16 +28,19 @@ function Module:PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE(event, round)
     petBattleRoundTitle:Show()
 end
 
+function Module:PET_BATTLE_FINAL_ROUND(event, winner)
+    local outcomeText = (winner == Enum.BattlePetOwner.Ally) and 'victory' or 'failure'
+
+    if petBattleRoundsCompleted then
+        ATOM:Print(('Pet Battle finished in %s after |cff00ff00%s|r rounds.'):format(outcomeText, petBattleRoundsCompleted - 1))
+    end
+end
+
 function Module:PET_BATTLE_CLOSE()
     PetBattleFrame.TopVersusText:SetPoint('TOP', PetBattleFrame, 'TOP', 0, -6)
     PetBattleFrame.TopVersusText:SetFontObject('GameFont_Gigantic')
     PetBattleFrame.TopVersusText:SetText(PET_BATTLE_UI_VS)
     petBattleRoundTitle:Hide()
-
-    if petBattleRoundsCompleted then
-        ATOM:Print(('Pet Battle finished after |cff00ff00%s|r rounds.'):format(petBattleRoundsCompleted - 1))
-        petBattleRoundsCompleted = nil
-    end
 end
 
 function Module:GetActivePowerlevelingBattlePetTrainer()
