@@ -1,4 +1,5 @@
 {
+    "editor.formatOnSave": true,
     "Lua.diagnostics.disable": [
         "undefined-global",
         "redundant-parameter"
