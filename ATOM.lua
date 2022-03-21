@@ -38,6 +38,8 @@ function ATOM:SlashCommand(msg)
         self:GetModule('Quest'):QuestCompleted(args)
     elseif cmd == 'scoreboard' then
         WorldStateScoreFrame:Show()
+    elseif cmd == 'solves' then
+        self:TolvirSolves()
     elseif cmd == 'target' then
         self:GetModule('Macros'):UpdateTargetMacro(args)
     elseif cmd == 'view' then
@@ -49,6 +51,17 @@ function ATOM:SlashCommand(msg)
     elseif cmd == 'way' then
         self:SetUserWaypoint(args)
     end
+end
+
+function ATOM:TolvirSolves()
+    local solves = 0
+
+    for i = 1, GetNumArtifactsByRace(14) do
+        solves = solves + select(10, GetArtifactInfoByRace(14, i))
+    end
+
+    local change = floor(1000 * (1 - (0.995 ^ solves))) / 10
+    ATOM:Print('Tol\'vir: %s solves, (%s%% chance to have found the scepter by now.)', solves, change)
 end
 
 function ATOM:SetUserWaypoint(cmd)
