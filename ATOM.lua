@@ -40,6 +40,8 @@ function ATOM:SlashCommand(msg)
         WorldStateScoreFrame:Show()
     elseif cmd == 'solves' then
         self:TolvirSolves()
+    elseif cmd == 'screenshot' then
+        Screenshot()
     elseif cmd == 'target' then
         self:GetModule('Macros'):UpdateTargetMacro(args)
     elseif cmd == 'view' then
