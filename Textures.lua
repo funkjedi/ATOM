@@ -4,7 +4,8 @@ local Module = ATOM:NewModule('Textures')
 local CropAuraTextures, DarkenFrames
 
 function Module:OnInitialize()
-    hooksecurefunc('TargetFrame_UpdateAuras', CropAuraTextures)
+    DarkenFrames()
+    -- hooksecurefunc('TargetFrame_UpdateAuras', CropAuraTextures)
 end
 
 function CropAuraTextures(self)
@@ -18,59 +19,67 @@ function CropAuraTextures(self)
     end
 end
 
-function DarkenFrames()
-    local function ChangeFrame(frame)
-        if frame then
-            frame:SetVertexColor(.05, .05, .05)
-        end
+local function ChangeVertexColor(t, value, alpha)
+    if not t then
+        return
     end
 
-    ChangeFrame(PlayerFrameTexture)
-    ChangeFrame(PlayerFrameAlternateManaBarBorder)
-    ChangeFrame(PlayerFrameAlternateManaBarLeftBorder)
-    ChangeFrame(PlayerFrameAlternateManaBarRightBorder)
-    -- ChangeFrame(AlternatePowerBarBorder)
-    -- ChangeFrame(AlternatePowerBarLeftBorder)
-    -- ChangeFrame(AlternatePowerBarRightBorder)
-    ChangeFrame(TargetFrameTextureFrameTexture)
-    ChangeFrame(PetFrameTexture)
-    ChangeFrame(PartyMemberFrame1Texture)
-    ChangeFrame(PartyMemberFrame2Texture)
-    ChangeFrame(PartyMemberFrame3Texture)
-    ChangeFrame(PartyMemberFrame4Texture)
-    ChangeFrame(PartyMemberFrame1PetFrameTexture)
-    ChangeFrame(PartyMemberFrame2PetFrameTexture)
-    ChangeFrame(PartyMemberFrame3PetFrameTexture)
-    ChangeFrame(PartyMemberFrame4PetFrameTexture)
-    ChangeFrame(FocusFrameTextureFrameTexture)
-    ChangeFrame(TargetFrameToTTextureFrameTexture)
-    ChangeFrame(FocusFrameToTTextureFrameTexture)
-    ChangeFrame(Boss1TargetFrameTextureFrameTexture)
-    ChangeFrame(Boss2TargetFrameTextureFrameTexture)
-    ChangeFrame(Boss3TargetFrameTextureFrameTexture)
-    ChangeFrame(Boss4TargetFrameTextureFrameTexture)
-    ChangeFrame(Boss5TargetFrameTextureFrameTexture)
-    ChangeFrame(Boss1TargetFrameSpellBarBorder)
-    ChangeFrame(Boss2TargetFrameSpellBarBorder)
-    ChangeFrame(Boss3TargetFrameSpellBarBorder)
-    ChangeFrame(Boss4TargetFrameSpellBarBorder)
-    ChangeFrame(Boss5TargetFrameSpellBarBorder)
-    -- ChangeFrame(select(5, ShardBarFrameShard1:GetRegions()))
-    -- ChangeFrame(select(5, ShardBarFrameShard2:GetRegions()))
-    -- ChangeFrame(select(5, ShardBarFrameShard3:GetRegions()))
-    -- ChangeFrame(select(5, ShardBarFrameShard4:GetRegions()))
-    -- ChangeFrame(select(1, BurningEmbersBarFrame:GetRegions()))
-    -- ChangeFrame(select(1, BurningEmbersBarFrameEmber1:GetRegions()))
-    -- ChangeFrame(select(1, BurningEmbersBarFrameEmber2:GetRegions()))
-    -- ChangeFrame(select(1, BurningEmbersBarFrameEmber3:GetRegions()))
-    -- ChangeFrame(select(1, BurningEmbersBarFrameEmber4:GetRegions()))
-    ChangeFrame(select(1, PaladinPowerBar:GetRegions()))
-    -- ChangeFrame(select(1, ComboPoint1:GetRegions()))
-    -- ChangeFrame(select(1, ComboPoint2:GetRegions()))
-    -- ChangeFrame(select(1, ComboPoint3:GetRegions()))
-    -- ChangeFrame(select(1, ComboPoint4:GetRegions()))
-    -- ChangeFrame(select(1, ComboPoint5:GetRegions()))
-    ChangeFrame(CastingBarFrameBorder)
-    ChangeFrame(FocusFrameSpellBarBorder)
-    ChangeFrame(TargetFrameSpellBarBorder)
+    value = value or 64
+    alpha = alpha or 1
+
+    t:SetVertexColor(value / 255, value / 255, value / 255, alpha)
+end
+
+local function ConfigureActionButton(bu)
+    if not bu then
+        return
+    end
+
+    local name = bu:GetName()
+
+    local ic = _G[name .. 'Icon']
+    local co = _G[name .. 'Count']
+    local ho = _G[name .. 'HotKey']
+    local na = _G[name .. 'Name']
+    local nt = _G[name .. 'NormalTexture']
+    local fob = _G[name .. 'FlyoutBorder']
+    local fobs = _G[name .. 'FlyoutBorderShadow']
+
+    co:Hide()
+    na:Hide()
+
+    ho:SetFont(DAMAGE_TEXT_FONT, 18, 'OUTLINE')
+
+    ic:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    ic:SetPoint('TOPLEFT', bu, 'TOPLEFT', 2, -2)
+    ic:SetPoint('BOTTOMRIGHT', bu, 'BOTTOMRIGHT', -2, 2)
+
+    ChangeVertexColor(nt)
+    ChangeVertexColor(bu.RightDivider)
+
+    if bu.SlotBackground then
+        bu.SlotBackground:SetTexture([[Interface\AddOns\ATOM\Textures\ButtonBackdrop]])
+    end
+
+    if fob then
+        fob:SetTexture(nil)
+    end
+
+    if fobs then
+        fobs:SetTexture(nil)
+    end
+end
+
+function DarkenFrames()
+    ChangeVertexColor(MainMenuBar.BorderArt)
+    ChangeVertexColor(MainMenuBar.EndCaps.RightEndCap, 120)
+    ChangeVertexColor(MainMenuBar.EndCaps.LeftEndCap, 120)
+
+    for i = 1, NUM_ACTIONBAR_BUTTONS do
+        ConfigureActionButton(_G['ActionButton' .. i])
+        ConfigureActionButton(_G['MultiBarLeftButton' .. i])
+        ConfigureActionButton(_G['MultiBarRightButton' .. i])
+        ConfigureActionButton(_G['MultiBarBottomLeftButton' .. i])
+        ConfigureActionButton(_G['MultiBarBottomRightButton' .. i])
+    end
 end

@@ -31,11 +31,11 @@ function Module:OnInitialize()
         SetCVar(key, value)
     end
 
-    MinimapZoomIn:Hide()
-    MinimapZoomOut:Hide()
+    -- MinimapZoomIn:Hide()
+    -- MinimapZoomOut:Hide()
 
-    hooksecurefunc('OrderHall_LoadUI', disableOrderHallCommandBar)
-    hooksecurefunc('OrderHall_CheckCommandBar', disableOrderHallCommandBar)
+    -- hooksecurefunc('OrderHall_LoadUI', disableOrderHallCommandBar)
+    -- hooksecurefunc('OrderHall_CheckCommandBar', disableOrderHallCommandBar)
 
     self:SetView(2)
 

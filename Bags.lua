@@ -6,7 +6,7 @@ local enableGlow, updateBagItems
 
 function Module:OnInitialize()
     if not _G['Bagnon'] then
-        hooksecurefunc('ContainerFrame_Update', updateBagItems)
+        -- hooksecurefunc('ContainerFrame_Update', updateBagItems)
     end
 end
 
