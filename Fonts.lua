@@ -11,6 +11,7 @@ local fontFamilies = {
     ['Anton'] = [[Interface\Addons\Atom\Fonts\Anton-Regular.ttf]],
     ['Audiowide'] = [[Interface\Addons\Atom\Fonts\Audiowide-Regular.ttf]],
     ['Bowlby One SC'] = [[Interface\AddOns\Atom\Fonts\BowlbyOneSC-Regular.ttf]],
+    ['DoHyeon'] = [[Interface\Addons\Atom\Fonts\DoHyeon-Regular.ttf]],
     ['Droid Sans'] = [[Interface\AddOns\Atom\Fonts\DroidSans.ttf]],
     ['Exo2'] = [[Interface\Addons\Atom\Fonts\Exo2-Regular.ttf]],
     ['Geo'] = [[Interface\Addons\Atom\Fonts\Geo-Regular.ttf]],
@@ -19,7 +20,12 @@ local fontFamilies = {
     ['Lato Bold'] = [[Interface\Addons\Atom\Fonts\Lato-Bold.ttf]],
     ['Monda'] = [[Interface\Addons\Atom\Fonts\Monda-Regular.ttf]],
     ['Myriad Pro Bold'] = [[Interface\AddOns\Atom\Fonts\MyriadPro-Bold.ttf]],
+    ['NewsCycle'] = [[Interface\Addons\Atom\Fonts\NewsCycle-Regular.ttf]],
+    ['NewsCycle Bold'] = [[Interface\Addons\Atom\Fonts\NewsCycle-Bold.ttf]],
     ['Nova Square'] = [[Interface\Addons\Atom\Fonts\NovaSquare.ttf]],
+    ['Nunito'] = [[Interface\Addons\Atom\Fonts\Nunito-Regular.ttf]],
+    ['Nunito Bold'] = [[Interface\Addons\Atom\Fonts\Nunito-Bold.ttf]],
+    ['Nunito Extra Bold'] = [[Interface\Addons\Atom\Fonts\Nunito-ExtraBold.ttf]],
     ['Open Sans Condensed Bold'] = [[Interface\Addons\Atom\Fonts\OpenSansCondensed-Bold.ttf]],
     ['Orbitron'] = [[Interface\Addons\Atom\Fonts\Orbitron-Regular.ttf]],
     ['Proxima Nova Condensed'] = [[Interface\Addons\Atom\Fonts\ProximaNovaCondensed-Regular.otf]],
@@ -32,8 +38,8 @@ local fontFamilies = {
     ['VT323'] = [[Interface\Addons\Atom\Fonts\VT323-Regular.ttf]],
 }
 
-local NORMAL = fontFamilies['Lato']
-local STRONG = fontFamilies['Lato Bold']
+local NORMAL = fontFamilies['Nunito']
+local STRONG = fontFamilies['Nunito Extra Bold']
 
 local SCALE_FOR_FONTS = 1
 
