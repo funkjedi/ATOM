@@ -35,15 +35,15 @@ function SellGreyItems()
     local totalprofit = 0
 
     for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-        for slot = 1, GetContainerNumSlots(bag) do
-            local _, count, _, quality, _, _, link = GetContainerItemInfo(bag, slot)
+        for slot = 1, C_Container.GetContainerNumSlots(bag) do
+            local item = C_Container.GetContainerItemInfo(bag, slot)
 
-            if link and quality == 0 then
-                local vendorPrice = select(11, GetItemInfo(link))
+            if item and item.hyperlink and item.quality == 0 then
+                local vendorPrice = select(11, GetItemInfo(item.hyperlink))
 
                 if vendorPrice > 0 then
-                    totalprofit = totalprofit + vendorPrice * count
-                    UseContainerItem(bag, slot)
+                    totalprofit = totalprofit + vendorPrice * item.stackCount
+                    C_Container.UseContainerItem(bag, slot)
                 end
             end
         end

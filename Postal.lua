@@ -30,7 +30,7 @@ end
 function CheckMailbox(index)
     if not InboxFrame:IsVisible() or index <= 0 then
         if select(2, GetInboxNumItems()) == 0 then
-            MiniMapMailFrame:Hide()
+            -- MiniMapMailFrame:Hide()
         end
         return
     end
