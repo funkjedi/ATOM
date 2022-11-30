@@ -38,8 +38,8 @@ local fontFamilies = {
     ['VT323'] = [[Interface\Addons\Atom\Fonts\VT323-Regular.ttf]],
 }
 
-local NORMAL = fontFamilies['Nunito']
-local STRONG = fontFamilies['Nunito Extra Bold']
+local NORMAL = fontFamilies['Lato']
+local STRONG = fontFamilies['Lato Bold']
 
 local SCALE_FOR_FONTS = 1
 
@@ -107,7 +107,7 @@ function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
 end
 
 function ReplaceGameFonts()
-    -- See: http://xpather.com
+    -- See: http://xpather.com, https://www.freeformatter.com/xpath-tester.html
 
     -- Extracted from FrameXML/Fonts.xml
     UNIT_NAME_FONT = NORMAL
@@ -175,13 +175,14 @@ function ReplaceGameFonts()
     SetFont(STRONG, Game12Font_o1)
     SetFont(STRONG, Game13Font_o1)
 
-    -- Extracted from SharedXML/Fonts.xml
+    -- Extracted from FrameXML/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\ARIALN.TTF']]/@name
     SetFont(STRONG, NumberFont_OutlineThick_Mono_Small)
     SetFont(STRONG, Number12Font_o1)
     SetFont(NORMAL, NumberFont_Small)
     SetFont(NORMAL, Number11Font)
     SetFont(NORMAL, Number12Font)
+    SetFont(NORMAL, Number12FontOutline)
     SetFont(NORMAL, Number13Font, 12)
     SetFont(NORMAL, PriceFont, 12)
     SetFont(NORMAL, Number15Font)
@@ -191,10 +192,8 @@ function ReplaceGameFonts()
     SetFont(STRONG, NumberFont_Outline_Med)
     SetFont(STRONG, NumberFont_Outline_Large)
     SetFont(STRONG, FriendsFont_UserText)
-    SetFont(NORMAL, NumberFont_Shadow_Small)
-    SetFont(NORMAL, NumberFont_Shadow_Med)
 
-    -- Extracted from SharedXML/Fonts.xml
+    -- Extracted from FrameXML/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.TTF']]/@name
     SetFont(NORMAL, Fancy12Font)
     SetFont(NORMAL, Fancy14Font)
@@ -205,9 +204,11 @@ function ReplaceGameFonts()
     SetFont(NORMAL, Fancy27Font)
     SetFont(NORMAL, Fancy30Font)
     SetFont(NORMAL, Fancy32Font)
+    SetFont(NORMAL, Fancy36Font)
+    SetFont(NORMAL, Fancy40Font)
     SetFont(NORMAL, Fancy48Font)
 
-    -- Extracted from SharedXML/Fonts.xml
+    -- Extracted from FrameXML/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.ttf']]/@name
     SetFont(NORMAL, Fancy22Font)
     SetFont(NORMAL, QuestFont_Outline_Huge)
@@ -218,11 +219,12 @@ function ReplaceGameFonts()
     SetFont(NORMAL, DestinyFontMed)
     SetFont(NORMAL, DestinyFontLarge)
     SetFont(NORMAL, CoreAbilityFont)
+    SetFont(NORMAL, OrderHallTalentRowFont)
     SetFont(NORMAL, DestinyFontHuge)
     SetFont(NORMAL, QuestFont_Shadow_Small)
     SetFont(NORMAL, MailFont_Large, 15)
 
-    -- Extracted from SharedXML/Fonts.xml
+    -- Extracted from FrameXML/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\skurri.ttf']]/@name
     SetFont(STRONG, NumberFont_Outline_Huge)
 
@@ -235,6 +237,8 @@ function ReplaceGameFonts()
     SetFont(NORMAL, SystemFont_Small)
     SetFont(NORMAL, SystemFont_Small2)
     SetFont(NORMAL, SystemFont_Shadow_Small2)
+    SetFont(NORMAL, SystemFont_Shadow_Small_Outline)
+    SetFont(NORMAL, SystemFont_Shadow_Small2_Outline)
     SetFont(STRONG, SystemFont_Shadow_Med1_Outline)
     SetFont(NORMAL, SystemFont_Shadow_Med1, true)
     SetFont(NORMAL, SystemFont_Med2)
@@ -248,6 +252,7 @@ function ReplaceGameFonts()
     SetFont(NORMAL, SystemFont_Shadow_Large)
     SetFont(NORMAL, SystemFont_Shadow_Large2)
     SetFont(NORMAL, SystemFont_Shadow_Huge1)
+    SetFont(NORMAL, SystemFont_Shadow_Huge1_Outline)
     SetFont(NORMAL, SystemFont_Huge2)
     SetFont(NORMAL, SystemFont_Shadow_Huge2)
     SetFont(STRONG, SystemFont_Shadow_Huge2_Outline)
@@ -273,6 +278,7 @@ function ReplaceGameFonts()
     -- Extracted from SharedXML/SharedFonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.ttf']]/@name
     SetFont(NORMAL, Game17Font_Shadow)
+    SetFont(NORMAL, Game16Font)
     SetFont(NORMAL, Game32Font_Shadow2)
     SetFont(NORMAL, Game36Font_Shadow2)
     SetFont(NORMAL, Game40Font_Shadow2)
@@ -285,6 +291,9 @@ function ReplaceGameFonts()
 
     -- Extracted from SharedXML/ShardFonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\ARIALN.TTF']]/@name
+    SetFont(NORMAL, SystemFont16_Shadow_ThickOutline)
+    SetFont(NORMAL, SystemFont18_Shadow_ThickOutline)
+    SetFont(NORMAL, SystemFont22_Shadow_ThickOutline)
     SetFont(NORMAL, NumberFont_Shadow_Tiny)
     SetFont(NORMAL, NumberFont_Shadow_Small)
     SetFont(NORMAL, NumberFont_Shadow_Med)
