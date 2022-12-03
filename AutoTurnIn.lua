@@ -37,16 +37,7 @@ function QuestFrame_OnShow()
 end
 
 function Module:CharacterInteraction(event, ...)
-    if IsControlKeyDown() then
-        activeInteraction = true
-    end
-
-    if event == 'QUEST_FINISHED' or event == 'GOSSIP_CLOSED' then
-        ATOM:Wait(function()
-            activeInteraction = nil
-        end)
-        return
-    end
+    activeInteraction = IsControlKeyDown()
 
     if activeInteraction then
         self[event](self, ...)
@@ -68,17 +59,33 @@ function Module:QUEST_GREETING()
 end
 
 function Module:GOSSIP_SHOW()
-    for i = 1, C_GossipInfo.GetNumAvailableQuests() do
-        C_GossipInfo.SelectAvailableQuest(i)
+    local availableQuests = C_GossipInfo.GetAvailableQuests()
+
+    for i, quest in ipairs(availableQuests) do
+        C_GossipInfo.SelectAvailableQuest(quest.questID)
     end
 
-    local quests = C_GossipInfo.GetActiveQuests()
+    -- check for quests to complete
+    local activeQuests = C_GossipInfo.GetActiveQuests()
 
-    for i, quest in ipairs(quests) do
+    for i, quest in ipairs(activeQuests) do
         if quest.isComplete then
-            C_GossipInfo.SelectActiveQuest(i)
+            C_GossipInfo.SelectActiveQuest(quest.questID)
         end
     end
+
+    -- check for lone gossip option and no available/active quests
+    local gossipOptions = C_GossipInfo.GetOptions()
+
+    if gossipOptions and #gossipOptions == 1 and C_GossipInfo.GetNumAvailableQuests() == 0 and C_GossipInfo.GetNumActiveQuests() == 0 then
+        C_GossipInfo.SelectOption(gossipOptions[1].gossipOptionID)
+    end
+end
+
+function Module:GOSSIP_CLOSED()
+    ATOM:Wait(function()
+        activeInteraction = nil
+    end)
 end
 
 function Module:QUEST_DETAIL()
@@ -100,6 +107,10 @@ function Module:QUEST_COMPLETE()
 
     QuestDetailAcceptButton_OnClick()
     GetQuestReward(max(QuestInfoFrame.itemChoice, 1))
+end
+
+function Module:QUEST_FINISHED()
+    self:GOSSIP_CLOSED()
 end
 
 function Module:QuestCompleted(questID)
