@@ -127,8 +127,9 @@ function GetAddon(addon)
 end
 
 function GetField(field)
-    local var = _G
+    local var
 
+    var = _G
     for name in string.gmatch(field, '[%w_]+') do
         if var == _G then
             var = GetAddon(name)

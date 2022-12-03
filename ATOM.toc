@@ -22,3 +22,4 @@ Postal.lua
 System.lua
 Textures.lua
 Wago.lua
+ZeldaLoot.lua

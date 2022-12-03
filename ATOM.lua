@@ -148,7 +148,7 @@ function ATOM:CreateItemCountFrame(name)
     icon:SetAllPoints()
 
     local text = frame:CreateFontString('OVERLAY', nil, 'GameFontHighlightLarge')
-    text:SetFont('Interface\\AddOns\\Atom\\Fonts\\Lato-Bold.ttf', 23)
+    text:SetFont('Interface\\AddOns\\ATOM\\Fonts\\Lato-Bold.ttf', 23)
     text:SetPoint('BOTTOM', frame, 'BOTTOM', 0, 4)
     text:SetText(GetItemCount(name))
 
