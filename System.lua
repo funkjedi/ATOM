@@ -27,11 +27,11 @@ local defaultCVarValues = {
     scriptErrors = 1,
 }
 
-local viewIndex, disableOrderHallCommandBar
+local viewIndex, disableOrderHallCommandBar, disableZygorMapButtonAndMenu
 
 function Module:OnInitialize()
     for key, value in pairs(defaultCVarValues) do
-        SetCVar(key, value)
+        SetCVar(key, tostring(value))
     end
 
     -- MinimapZoomIn:Hide()
@@ -85,7 +85,7 @@ function Module:SetVolume(volumeLevel)
         volumeLevel = tonumber(GetCVar('Sound_MasterVolume')) > 0.5 and 10 or 100
     end
 
-    SetCVar('Sound_MasterVolume', volumeLevel / 100)
+    SetCVar('Sound_MasterVolume', tostring(volumeLevel / 100))
     ATOM:Print('Volume set to |cff00ff00%d|r', volumeLevel)
 end
 
