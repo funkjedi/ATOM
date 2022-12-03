@@ -24,6 +24,8 @@ function ATOM:SlashCommand(msg)
 
     if cmd == 'clear' then
         self:GetModule('Chat'):Clear()
+    elseif cmd == 'count' then
+        self:CreateItemCountFrame(args)
     elseif cmd == 'destroy' then
         self:GetModule('Bags'):DestroyItems(args == 'true')
     elseif cmd == 'mark' then
