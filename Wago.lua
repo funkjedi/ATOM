@@ -2,7 +2,7 @@ local addonName, ATOM = ...
 local Module = ATOM:NewModule('Wago')
 
 local CopyIntoTable, CompressData, DecompressData, GetField
-local SelectAddon, SelectAddonProfile, SelectImportBtn, SelectExportBtn, UpdateDisabledStates
+local GetAddon, SelectAddon, SelectAddonProfile, SelectImportBtn, SelectExportBtn, UpdateDisabledStates
 
 function Module:ShowWindow()
     Module.minwidth = 720
@@ -41,11 +41,17 @@ function Module:ShowWindow()
     group2:SetFullWidth(true)
     group1:AddChild(group2)
 
+    local supportedAddons = {}
+
+    if GetAddon('Dominos') then
+        supportedAddons['Dominos.db'] = 'Dominos'
+    end
+
     local addonDropdown = AceGUI:Create('Dropdown')
     addonDropdown:SetMultiselect(false)
     addonDropdown:SetLabel('Select addon:')
     addonDropdown:SetWidth(200)
-    addonDropdown:SetList({ ['Dominos.db'] = 'Dominos', ['MasqueDB'] = 'Masque' })
+    addonDropdown:SetList(supportedAddons)
     addonDropdown:SetCallback('OnValueChanged', SelectAddon)
     window.addonDropdown = addonDropdown
     group2:AddChild(addonDropdown)
@@ -112,21 +118,34 @@ function Module:ShowWindow()
     SelectAddon(addonDropdown, 'OnValueChanged', 'Dominos.db')
 end
 
+function GetAddon(addon)
+    if _G[addon] then
+        return _G[addon]
+    end
+
+    return LibStub('AceAddon-3.0'):GetAddon(addon, true)
+end
+
 function GetField(field)
     local var = _G
+
     for name in string.gmatch(field, '[%w_]+') do
-        if type(var) == 'table' then
+        if var == _G then
+            var = GetAddon(name)
+        elseif type(var) == 'table' then
             var = var[name]
         else
             var = nil
         end
     end
+
     return var
 end
 
 function SelectAddon(widget, event, key)
     local database = GetField(key)
-    local profiles = {}, currentProfile
+    local profiles = {}
+    local currentProfile
 
     if database then
         currentProfile = database:GetCurrentProfile()
