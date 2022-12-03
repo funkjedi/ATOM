@@ -45,7 +45,7 @@ local function ConfigureActionButton(bu)
     local fob = _G[name .. 'FlyoutBorder']
     local fobs = _G[name .. 'FlyoutBorderShadow']
 
-    co:Hide()
+    -- co:Hide()
     na:Hide()
 
     ho:SetFont(DAMAGE_TEXT_FONT, 18, 'OUTLINE')
