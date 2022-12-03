@@ -3,39 +3,40 @@ local Module = ATOM:NewModule('Fonts')
 
 local Media = LibStub('LibSharedMedia-3.0')
 
-local SetFont, ReplaceCalendarFonts, ReplaceGameFonts
+local SetFont, ReplaceGameFonts
 
 local fontFamilies = {
-    ['Accidental Presidency'] = [[Interface\AddOns\Atom\Fonts\Accidental-Presidency.ttf]],
-    ['Antarian'] = [[Interface\Addons\Atom\Fonts\Antarian.ttf]],
-    ['Anton'] = [[Interface\Addons\Atom\Fonts\Anton-Regular.ttf]],
-    ['Audiowide'] = [[Interface\Addons\Atom\Fonts\Audiowide-Regular.ttf]],
-    ['Bowlby One SC'] = [[Interface\AddOns\Atom\Fonts\BowlbyOneSC-Regular.ttf]],
-    ['DoHyeon'] = [[Interface\Addons\Atom\Fonts\DoHyeon-Regular.ttf]],
-    ['Droid Sans'] = [[Interface\AddOns\Atom\Fonts\DroidSans.ttf]],
-    ['Exo2'] = [[Interface\Addons\Atom\Fonts\Exo2-Regular.ttf]],
-    ['Geo'] = [[Interface\Addons\Atom\Fonts\Geo-Regular.ttf]],
-    ['Good Brush'] = [[Interface\Addons\Atom\Fonts\GoodBrush.otf]],
-    ['Lato'] = [[Interface\Addons\Atom\Fonts\Lato-Regular.ttf]],
-    ['Lato Bold'] = [[Interface\Addons\Atom\Fonts\Lato-Bold.ttf]],
-    ['Monda'] = [[Interface\Addons\Atom\Fonts\Monda-Regular.ttf]],
-    ['Myriad Pro Bold'] = [[Interface\AddOns\Atom\Fonts\MyriadPro-Bold.ttf]],
-    ['NewsCycle'] = [[Interface\Addons\Atom\Fonts\NewsCycle-Regular.ttf]],
-    ['NewsCycle Bold'] = [[Interface\Addons\Atom\Fonts\NewsCycle-Bold.ttf]],
-    ['Nova Square'] = [[Interface\Addons\Atom\Fonts\NovaSquare.ttf]],
-    ['Nunito'] = [[Interface\Addons\Atom\Fonts\Nunito-Regular.ttf]],
-    ['Nunito Bold'] = [[Interface\Addons\Atom\Fonts\Nunito-Bold.ttf]],
-    ['Nunito Extra Bold'] = [[Interface\Addons\Atom\Fonts\Nunito-ExtraBold.ttf]],
-    ['Open Sans Condensed Bold'] = [[Interface\Addons\Atom\Fonts\OpenSansCondensed-Bold.ttf]],
-    ['Orbitron'] = [[Interface\Addons\Atom\Fonts\Orbitron-Regular.ttf]],
-    ['Proxima Nova Condensed'] = [[Interface\Addons\Atom\Fonts\ProximaNovaCondensed-Regular.otf]],
-    ['Proxima Nova Condensed Bold'] = [[Interface\Addons\Atom\Fonts\ProximaNovaCondensed-Bold.otf]],
-    ['Quantico'] = [[Interface\Addons\Atom\Fonts\Quantico-Regular.ttf]],
-    ['Roboto'] = [[Interface\Addons\Atom\Fonts\Roboto-Regular.ttf]],
-    ['Teko'] = [[Interface\Addons\Atom\Fonts\Teko-Regular.ttf]],
-    ['Titillium Web'] = [[Interface\Addons\Atom\Fonts\TitilliumWeb-Regular.ttf]],
-    ['Ubuntu'] = [[Interface\Addons\Atom\Fonts\Ubuntu-Regular.ttf]],
-    ['VT323'] = [[Interface\Addons\Atom\Fonts\VT323-Regular.ttf]],
+    ['Accidental Presidency'] = [[Interface\AddOns\ATOM\Fonts\Accidental-Presidency.ttf]],
+    ['Antarian'] = [[Interface\Addons\ATOM\Fonts\Antarian.ttf]],
+    ['Anton'] = [[Interface\Addons\ATOM\Fonts\Anton-Regular.ttf]],
+    ['Audiowide'] = [[Interface\Addons\ATOM\Fonts\Audiowide-Regular.ttf]],
+    ['Bowlby One SC'] = [[Interface\AddOns\ATOM\Fonts\BowlbyOneSC-Regular.ttf]],
+    ['DoHyeon'] = [[Interface\Addons\ATOM\Fonts\DoHyeon-Regular.ttf]],
+    ['Droid Sans'] = [[Interface\AddOns\ATOM\Fonts\DroidSans.ttf]],
+    ['Exo2'] = [[Interface\Addons\ATOM\Fonts\Exo2-Regular.ttf]],
+    ['Geo'] = [[Interface\Addons\ATOM\Fonts\Geo-Regular.ttf]],
+    ['Good Brush'] = [[Interface\Addons\ATOM\Fonts\GoodBrush.otf]],
+    ['Lato'] = [[Interface\Addons\ATOM\Fonts\Lato-Regular.ttf]],
+    ['Lato Bold'] = [[Interface\Addons\ATOM\Fonts\Lato-Bold.ttf]],
+    ['Monda'] = [[Interface\Addons\ATOM\Fonts\Monda-Regular.ttf]],
+    ['Myriad Pro'] = [[Interface\AddOns\ATOM\Fonts\MyriadPro-Regular.ttf]],
+    ['Myriad Pro Bold'] = [[Interface\AddOns\ATOM\Fonts\MyriadPro-Bold.ttf]],
+    ['NewsCycle'] = [[Interface\Addons\ATOM\Fonts\NewsCycle-Regular.ttf]],
+    ['NewsCycle Bold'] = [[Interface\Addons\ATOM\Fonts\NewsCycle-Bold.ttf]],
+    ['Nova Square'] = [[Interface\Addons\ATOM\Fonts\NovaSquare.ttf]],
+    ['Nunito'] = [[Interface\Addons\ATOM\Fonts\Nunito-Regular.ttf]],
+    ['Nunito Bold'] = [[Interface\Addons\ATOM\Fonts\Nunito-Bold.ttf]],
+    ['Nunito Extra Bold'] = [[Interface\Addons\ATOM\Fonts\Nunito-ExtraBold.ttf]],
+    ['Open Sans Condensed Bold'] = [[Interface\Addons\ATOM\Fonts\OpenSansCondensed-Bold.ttf]],
+    ['Orbitron'] = [[Interface\Addons\ATOM\Fonts\Orbitron-Regular.ttf]],
+    ['Proxima Nova Condensed'] = [[Interface\Addons\ATOM\Fonts\ProximaNovaCondensed-Regular.otf]],
+    ['Proxima Nova Condensed Bold'] = [[Interface\Addons\ATOM\Fonts\ProximaNovaCondensed-Bold.otf]],
+    ['Quantico'] = [[Interface\Addons\ATOM\Fonts\Quantico-Regular.ttf]],
+    ['Roboto'] = [[Interface\Addons\ATOM\Fonts\Roboto-Regular.ttf]],
+    ['Teko'] = [[Interface\Addons\ATOM\Fonts\Teko-Regular.ttf]],
+    ['Titillium Web'] = [[Interface\Addons\ATOM\Fonts\TitilliumWeb-Regular.ttf]],
+    ['Ubuntu'] = [[Interface\Addons\ATOM\Fonts\Ubuntu-Regular.ttf]],
+    ['VT323'] = [[Interface\Addons\ATOM\Fonts\VT323-Regular.ttf]],
 }
 
 local NORMAL = fontFamilies['Lato']
@@ -97,6 +98,7 @@ function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
 
         if not fontHeight then
             fontHeight = height
+
             -- if fontHeight < 16 then
             --    fontHeight = fontHeight * 1.1
             -- end
@@ -143,11 +145,14 @@ function ReplaceGameFonts()
     SetFont(NORMAL, FriendsFont_Large)
     SetFont(STRONG, GameFont_Gigantic)
     SetFont(NORMAL, ChatBubbleFont)
-    -- SetFont(NORMAL, SystemFont_NamePlateFixed, 10)
-    -- SetFont(NORMAL, SystemFont_LargeNamePlateFixed, 12)
-    -- SetFont(NORMAL, SystemFont_NamePlate)
-    -- SetFont(NORMAL, SystemFont_LargeNamePlate)
-    -- SetFont(STRONG, SystemFont_NamePlateCastBar)
+    SetFont(NORMAL, SystemFont_NamePlateFixed, 10)
+    SetFont(NORMAL, SystemFont_LargeNamePlateFixed, 10)
+    SetFont(NORMAL, SystemFont_NamePlate, 10)
+    SetFont(NORMAL, SystemFont_LargeNamePlate, 10)
+
+    -- changing font height does nothing when instead using a font
+    -- that is naturally smaller than default STRONG fonr
+    SetFont(fontFamilies['Myriad Pro Bold'], SystemFont_NamePlateCastBar)
 
     -- Extracted from FrameXML/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.ttf']]/@name
