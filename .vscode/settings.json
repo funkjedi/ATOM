@@ -1,9 +1,10 @@
 {
     "editor.formatOnSave": true,
     "Lua.diagnostics.disable": [
+        "param-type-mismatch",
+        "redundant-parameter",
         "undefined-field",
-        "undefined-global",
-        "redundant-parameter"
+        "undefined-global"
     ],
     "Lua.workspace.ignoreDir": [
         ".vscode",
