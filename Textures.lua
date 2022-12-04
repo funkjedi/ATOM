@@ -4,8 +4,11 @@ local Module = ATOM:NewModule('Textures')
 local CropAuraTextures, DarkenFrames
 
 function Module:OnInitialize()
-    DarkenFrames()
     -- hooksecurefunc('TargetFrame_UpdateAuras', CropAuraTextures)
+end
+
+function Module:OnEnable()
+    DarkenFrames()
 end
 
 function CropAuraTextures(self)
@@ -28,6 +31,16 @@ local function ChangeVertexColor(t, value, alpha)
     alpha = alpha or 1
 
     t:SetVertexColor(value / 255, value / 255, value / 255, alpha)
+end
+
+local function ConfigureActionBar(ba)
+    if not ba then
+        return
+    end
+
+    ba.minButtonPadding = 0
+    ba.buttonPadding = 0
+    ba:UpdateGridLayout()
 end
 
 local function ConfigureActionButton(bu)
@@ -74,6 +87,12 @@ function DarkenFrames()
     ChangeVertexColor(MainMenuBar.BorderArt)
     ChangeVertexColor(MainMenuBar.EndCaps.RightEndCap, 120)
     ChangeVertexColor(MainMenuBar.EndCaps.LeftEndCap, 120)
+
+    ConfigureActionBar(MainMenuBar)
+    ConfigureActionBar(MultiBarLeft)
+    ConfigureActionBar(MultiBarRight)
+    ConfigureActionBar(MultiBarBottomLeft)
+    ConfigureActionBar(MultiBarBottomRight)
 
     for i = 1, NUM_ACTIONBAR_BUTTONS do
         ConfigureActionButton(_G['ActionButton' .. i])
