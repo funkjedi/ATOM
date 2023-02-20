@@ -88,11 +88,11 @@ function DarkenFrames()
     ChangeVertexColor(MainMenuBar.EndCaps.RightEndCap, 120)
     ChangeVertexColor(MainMenuBar.EndCaps.LeftEndCap, 120)
 
-    ConfigureActionBar(MainMenuBar)
-    ConfigureActionBar(MultiBarLeft)
-    ConfigureActionBar(MultiBarRight)
-    ConfigureActionBar(MultiBarBottomLeft)
-    ConfigureActionBar(MultiBarBottomRight)
+    -- ConfigureActionBar(MainMenuBar)
+    -- ConfigureActionBar(MultiBarLeft)
+    -- ConfigureActionBar(MultiBarRight)
+    -- ConfigureActionBar(MultiBarBottomLeft)
+    -- ConfigureActionBar(MultiBarBottomRight)
 
     for i = 1, NUM_ACTIONBAR_BUTTONS do
         ConfigureActionButton(_G['ActionButton' .. i])
