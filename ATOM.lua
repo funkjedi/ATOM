@@ -28,6 +28,8 @@ function ATOM:SlashCommand(msg)
         self:CreateItemCountFrame(args)
     elseif cmd == 'destroy' then
         self:GetModule('Bags'):DestroyItems(args == 'true')
+    elseif cmd == 'dialogui' then
+        DialogueUI_ShowSettingsFrame()
     elseif cmd == 'mark' then
         self:GetModule('Macros'):MarkTarget(args ~= '' and args or nil)
     elseif cmd == 'mount' then
