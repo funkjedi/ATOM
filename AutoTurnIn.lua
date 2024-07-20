@@ -106,7 +106,10 @@ function Module:QUEST_COMPLETE()
     end
 
     QuestDetailAcceptButton_OnClick()
-    GetQuestReward(max(QuestInfoFrame.itemChoice, 1))
+
+    if tonumber(QuestInfoFrame.itemChoice or 0) <= 0 then
+        GetQuestReward(max(QuestInfoFrame.itemChoice or 1, 1))
+    end
 end
 
 function Module:QUEST_FINISHED()
