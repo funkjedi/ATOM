@@ -62,8 +62,8 @@ end
 
 function disableZygorMapButtonAndMenu()
     if ZygorWorldMapMenu then
-        ZygorWorldMapMenu:Hide()
-        ZygorPoiMapButton:Hide()
+        --ZygorWorldMapMenu:Hide()
+        --ZygorPoiMapButton:Hide()
     end
 end
 
