@@ -73,7 +73,7 @@ end
 function ATOM:SetUserWaypoint(cmd)
     local x, y = self:GetArgs(cmd, 2)
 
-    x = tonumber(x) * 100 / 10000
+    x = tonumber(x:match('^%s*(.-),?%s*$')) * 100 / 10000
     y = tonumber(y) * 100 / 10000
 
     local currentMapAreaID = C_Map.GetBestMapForUnit('player')
