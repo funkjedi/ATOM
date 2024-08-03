@@ -109,17 +109,18 @@ function SetFont(fontPath, fontFamily, fontHeight, fontFlags)
 end
 
 function ReplaceGameFonts()
-    -- See: http://xpather.com, https://www.freeformatter.com/xpath-tester.html
+    -- See: https://github.com/Gethe/wow-ui-source/blob/live
+    -- See: https://www.freeformatter.com/xpath-tester.html
 
-    -- Extracted from FrameXML/Fonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Frame/Mainline/Fonts.xml
     UNIT_NAME_FONT = NORMAL
     STANDARD_TEXT_FONT = NORMAL
     DAMAGE_TEXT_FONT = STRONG
 
-    -- Extracted from FrameXML/FontStyles.xml
+    -- Extracted from AddOns/Blizzard_FontStyles_Frame/Mainline/FontStyles.xml
     UNIT_NAME_FONT_ROMAN = NORMAL
 
-    -- Extracted from FrameXML/Fonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Frame/Mainline/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.TTF']]/@name
     SetFont(STRONG, SystemFont_Outline_Small)
     SetFont(NORMAL, SystemFont_Outline)
@@ -134,27 +135,28 @@ function ReplaceGameFonts()
     SetFont(STRONG, Number12Font_o1)
     SetFont(NORMAL, NumberFont_Small)
     SetFont(STRONG, Game15Font_o1)
+    SetFont(NORMAL, MailFont_Large, 15)
     SetFont(STRONG, SpellFont_Small)
     SetFont(NORMAL, InvoiceFont_Med)
     SetFont(NORMAL, InvoiceFont_Small)
     SetFont(STRONG, AchievementFont_Small)
     SetFont(NORMAL, ReputationDetailFont)
-    SetFont(NORMAL, FriendsFont_Normal)
-    SetFont(NORMAL, FriendsFont_11)
-    SetFont(NORMAL, FriendsFont_Small)
-    SetFont(NORMAL, FriendsFont_Large)
     SetFont(STRONG, GameFont_Gigantic)
     SetFont(NORMAL, ChatBubbleFont)
     SetFont(NORMAL, SystemFont_NamePlateFixed, 10)
     SetFont(NORMAL, SystemFont_LargeNamePlateFixed, 10)
     SetFont(NORMAL, SystemFont_NamePlate, 10)
     SetFont(NORMAL, SystemFont_LargeNamePlate, 10)
+    SetFont(NORMAL, SystemFont_NamePlateCastBar, 10)
+    SetFont(NORMAL, Game19Font)
+    SetFont(NORMAL, Game21Font)
+    SetFont(NORMAL, Game22Font)
 
     -- changing font height does nothing when instead using a font
     -- that is naturally smaller than default STRONG fonr
     SetFont(fontFamilies['Myriad Pro Bold'], SystemFont_NamePlateCastBar)
 
-    -- Extracted from FrameXML/Fonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Frame/Mainline/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.ttf']]/@name
     SetFont(NORMAL, Game11Font_Shadow)
     SetFont(NORMAL, Game11Font)
@@ -162,7 +164,7 @@ function ReplaceGameFonts()
     SetFont(NORMAL, Game13Font)
     SetFont(NORMAL, Game13FontShadow)
     SetFont(NORMAL, Game15Font)
-    SetFont(NORMAL, Game16Font)
+    SetFont(NORMAL, Game15Font_Shadow)
     SetFont(NORMAL, Game18Font)
     SetFont(NORMAL, Game20Font)
     SetFont(NORMAL, Game24Font)
@@ -180,7 +182,7 @@ function ReplaceGameFonts()
     SetFont(STRONG, Game12Font_o1)
     SetFont(STRONG, Game13Font_o1)
 
-    -- Extracted from FrameXML/Fonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Frame/Mainline/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\ARIALN.TTF']]/@name
     SetFont(STRONG, NumberFont_OutlineThick_Mono_Small)
     SetFont(STRONG, Number12Font_o1)
@@ -194,11 +196,8 @@ function ReplaceGameFonts()
     SetFont(NORMAL, Number16Font)
     SetFont(NORMAL, Number18Font)
     SetFont(NORMAL, NumberFont_Normal_Med, 13)
-    SetFont(STRONG, NumberFont_Outline_Med)
-    SetFont(STRONG, NumberFont_Outline_Large)
-    SetFont(STRONG, FriendsFont_UserText)
 
-    -- Extracted from FrameXML/Fonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Frame/Mainline/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.TTF']]/@name
     SetFont(NORMAL, Fancy12Font)
     SetFont(NORMAL, Fancy14Font)
@@ -213,7 +212,7 @@ function ReplaceGameFonts()
     SetFont(NORMAL, Fancy40Font)
     SetFont(NORMAL, Fancy48Font)
 
-    -- Extracted from FrameXML/Fonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Frame/Mainline/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.ttf']]/@name
     SetFont(NORMAL, Fancy22Font)
     SetFont(NORMAL, QuestFont_Outline_Huge)
@@ -227,13 +226,24 @@ function ReplaceGameFonts()
     SetFont(NORMAL, OrderHallTalentRowFont)
     SetFont(NORMAL, DestinyFontHuge)
     SetFont(NORMAL, QuestFont_Shadow_Small)
-    SetFont(NORMAL, MailFont_Large, 15)
 
-    -- Extracted from FrameXML/Fonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Frame/Mainline/Fonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\skurri.ttf']]/@name
     SetFont(STRONG, NumberFont_Outline_Huge)
 
-    -- Extracted from SharedXML/SharedFonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Glue/GlueFonts.xml
+    -- /Ui/FontFamily[Member/Font[@font='Fonts\ARIALN.TTF']]/@name
+    SetFont(NORMAL, EditBoxFont_Large)
+    SetFont(NORMAL, NumberFont_OutlineThick_Med1)
+    SetFont(NORMAL, NumberFont_OutlineThick_Med2)
+
+    -- Extracted from AddOns/Blizzard_Fonts_Glue/GlueFonts.xml
+    -- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.ttf']]/@name
+    SetFont(NORMAL, FactionName_Shadow_Medium)
+    SetFont(NORMAL, FactionName_Shadow_Large)
+    SetFont(NORMAL, FactionName_Shadow_Huge)
+
+    -- Extracted from AddOns/Blizzard_Fonts_Shared/SharedFonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.TTF']]/@name
     SetFont(NORMAL, SystemFont_Tiny2)
     SetFont(NORMAL, SystemFont_Tiny)
@@ -255,7 +265,9 @@ function ReplaceGameFonts()
     SetFont(NORMAL, SystemFont_Shadow_Med2)
     SetFont(STRONG, SystemFont_Shadow_Med2_Outline)
     SetFont(NORMAL, SystemFont_Shadow_Large)
+    SetFont(NORMAL, SystemFont_Large2)
     SetFont(NORMAL, SystemFont_Shadow_Large2)
+    SetFont(NORMAL, SystemFont_Shadow_Large2_Outline)
     SetFont(NORMAL, SystemFont_Shadow_Huge1)
     SetFont(NORMAL, SystemFont_Shadow_Huge1_Outline)
     SetFont(NORMAL, SystemFont_Huge2)
@@ -279,8 +291,12 @@ function ReplaceGameFonts()
     SetFont(NORMAL, Tooltip_Small)
     SetFont(NORMAL, System15Font)
     SetFont(NORMAL, Game30Font)
+    SetFont(NORMAL, FriendsFont_Normal)
+    SetFont(NORMAL, FriendsFont_11)
+    SetFont(NORMAL, FriendsFont_Small)
+    SetFont(NORMAL, FriendsFont_Large)
 
-    -- Extracted from SharedXML/SharedFonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Shared/SharedFonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\FRIZQT__.ttf']]/@name
     SetFont(NORMAL, Game17Font_Shadow)
     SetFont(NORMAL, Game16Font)
@@ -294,7 +310,7 @@ function ReplaceGameFonts()
     SetFont(NORMAL, Game72Font)
     SetFont(NORMAL, Game72Font_Shadow)
 
-    -- Extracted from SharedXML/ShardFonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Shared/SharedFonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\ARIALN.TTF']]/@name
     SetFont(NORMAL, SystemFont16_Shadow_ThickOutline)
     SetFont(NORMAL, SystemFont18_Shadow_ThickOutline)
@@ -303,8 +319,11 @@ function ReplaceGameFonts()
     SetFont(NORMAL, NumberFont_Shadow_Small)
     SetFont(NORMAL, NumberFont_Shadow_Med)
     SetFont(NORMAL, NumberFont_Shadow_Large)
+    SetFont(STRONG, FriendsFont_UserText)
+    SetFont(STRONG, NumberFont_Outline_Med)
+    SetFont(STRONG, NumberFont_Outline_Large)
 
-    -- Extracted from SharedXML/ShardFonts.xml
+    -- Extracted from AddOns/Blizzard_Fonts_Shared/SharedFonts.xml
     -- /Ui/FontFamily[Member/Font[@font='Fonts\MORPHEUS.ttf']]/@name
     -- SetFont(NORMAL, QuestFont_Large)
     -- SetFont(NORMAL, QuestFont_Huge)
