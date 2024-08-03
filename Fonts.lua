@@ -339,6 +339,8 @@ function ReplaceGameFonts()
         SetFont(NORMAL, _G['ChatFrame' .. i], 13)
     end
 
+    SetFont(NORMAL, CommunitiesFrame.Chat.MessageFrame, 13)
+
     -- for _, button in pairs(PaperDollTitlesPane.buttons) do
     --     button.text:SetFontObject(GameFontHighlightSmallLeft)
     -- end
