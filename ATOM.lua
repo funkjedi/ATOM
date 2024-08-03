@@ -26,6 +26,8 @@ function ATOM:SlashCommand(msg)
         self:GetModule('Chat'):Clear()
     elseif cmd == 'count' then
         self:CreateItemCountFrame(args)
+    elseif cmd == 'countdown' then
+        C_PartyInfo.DoCountdown(tonumber(args) * 60)
     elseif cmd == 'destroy' then
         self:GetModule('Bags'):DestroyItems(args == 'true')
     elseif cmd == 'dialogui' then
