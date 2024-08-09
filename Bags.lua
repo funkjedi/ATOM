@@ -88,3 +88,42 @@ function Module:DestroyItems()
         end
     end
 end
+
+--[[
+2024-08-06
+before WWI prepatch PutItemInBackpack would put item into first available slot in any bag if
+backpack was full. now it errors out with "The bag is full" message.
+
+#showtooltip Underlight Angler
+/run PickupInventoryItem(28)PutItemInBackpack()
+/equip Underlight Angler
+--]]
+function Module:ReactivateUnderlightAngler()
+    if not GetInventoryItemLink('player', 28) then
+        return
+    end
+
+    if C_UnitAuras.GetAuraDataBySpellName('player', 'Fishing For Attention') then
+        return
+    end
+
+    for bagID = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+        if C_Container.GetContainerNumFreeSlots(bagID) > 0 then
+            PickupInventoryItem(28)
+
+            if bagID == BACKPACK_CONTAINER then
+                PutItemInBackpack()
+            else
+                PutItemInBag(CONTAINER_BAG_OFFSET + bagID)
+            end
+
+            -- we need to wait for the item to be put into the bag
+            -- otherwise it will not be equipped
+            ATOM:Wait(function()
+                EquipItemByName('Underlight Angler')
+            end)
+
+            break
+        end
+    end
+end

@@ -50,6 +50,8 @@ function ATOM:SlashCommand(msg)
         Screenshot()
     elseif cmd == 'target' then
         self:GetModule('Macros'):UpdateTargetMacro(args)
+    elseif cmd == 'underlight' then
+        self:GetModule('Bags'):ReactivateUnderlightAngler()
     elseif cmd == 'view' then
         self:GetModule('System'):SetView(args ~= '' and tonumber(args) or false)
     elseif cmd == 'volume' then
