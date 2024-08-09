@@ -28,7 +28,7 @@ local function getMountID(name)
     end
 end
 
-local GROUND_MOUNT = getMountID('Junkheap Drifter')
+local GROUND_MOUNT = getMountID('Mechacycle Model W')
 local RED_QIRAJI_BATTLE_TANK = getMountID('Red Qiraji Battle Tank')
 local SEA_TURTLE = getMountID('Sea Turtle')
 local VASHJIR_SEAHORSE = getMountID('Vashj\'ir Seahorse')
