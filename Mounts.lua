@@ -71,10 +71,13 @@ function Module:Mount(mountName)
     local flyingMountTypeIDs = {
         [247] = '[Disc of the Red Flying Cloud]',
         [248] = 'Most flying mounts',
-        [424] = 'Dragonriding mounts',
     }
 
-    if not IsFlyableArea() and flyingMountTypeIDs[mountTypeID] then
+    if flyingMountTypeIDs[mountTypeID] and not IsFlyableArea() then
+        return C_MountJournal.SummonByID(GROUND_MOUNT)
+    end
+
+    if mountTypeID == 424 and not IsFlyableArea() and not IsAdvancedFlyableArea() then
         return C_MountJournal.SummonByID(GROUND_MOUNT)
     end
 
