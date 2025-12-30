@@ -84,9 +84,9 @@ local function ConfigureActionButton(bu)
 end
 
 function DarkenFrames()
-    ChangeVertexColor(MainMenuBar.BorderArt)
-    ChangeVertexColor(MainMenuBar.EndCaps.RightEndCap, 120)
-    ChangeVertexColor(MainMenuBar.EndCaps.LeftEndCap, 120)
+    ChangeVertexColor(MainActionBar.BorderArt)
+    ChangeVertexColor(MainActionBar.EndCaps.RightEndCap, 120)
+    ChangeVertexColor(MainActionBar.EndCaps.LeftEndCap, 120)
 
     -- ConfigureActionBar(MainMenuBar)
     -- ConfigureActionBar(MultiBarLeft)
