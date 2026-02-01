@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 120000
 ## Title: ATOM
 ## Notes: Tweaks, optimizations and automation of tasks
 ## Author: funkjedi
