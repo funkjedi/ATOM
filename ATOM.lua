@@ -28,6 +28,8 @@ function ATOM:SlashCommand(msg)
         self:CreateItemCountFrame(args)
     elseif cmd == 'countdown' then
         C_PartyInfo.DoCountdown(tonumber(args) * 60)
+    elseif cmd == 'bags' then
+        self:GetModule('Bags'):ExportBagItems()
     elseif cmd == 'destroy' then
         self:GetModule('Bags'):DestroyItems(args == 'true')
     elseif cmd == 'dialogui' then

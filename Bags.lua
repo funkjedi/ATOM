@@ -127,3 +127,75 @@ function Module:ReactivateUnderlightAngler()
         end
     end
 end
+
+function Module:ExportBagItems()
+    local AceGUI = LibStub('AceGUI-3.0')
+    local items = {}
+
+    for bagID = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+        for slot = 1, C_Container.GetContainerNumSlots(bagID) do
+            local itemInfo = C_Container.GetContainerItemInfo(bagID, slot)
+
+            if itemInfo then
+                local itemName = itemInfo.itemName or 'Unknown'
+                local stackCount = itemInfo.stackCount or 1
+
+                if items[itemName] then
+                    items[itemName] = items[itemName] + stackCount
+                else
+                    items[itemName] = stackCount
+                end
+            end
+        end
+    end
+
+    -- Sort items alphabetically
+    local sortedItems = {}
+    for name, count in pairs(items) do
+        table.insert(sortedItems, { name = name, count = count })
+    end
+    table.sort(sortedItems, function(a, b)
+        return a.name < b.name
+    end)
+
+    -- Build export string
+    local exportLines = {}
+    for _, item in ipairs(sortedItems) do
+        if item.count > 1 then
+            table.insert(exportLines, item.name .. ' x' .. item.count)
+        else
+            table.insert(exportLines, item.name)
+        end
+    end
+    local exportText = table.concat(exportLines, '\n')
+
+    -- Create export window
+    local window = AceGUI:Create('Frame')
+    window.frame:SetClampedToScreen(true)
+    window.frame:SetFrameStrata('DIALOG')
+    window.frame:Raise()
+    window:SetTitle('Bag Contents Export')
+    window:SetStatusText(#sortedItems .. ' unique items')
+    window:SetLayout('Fill')
+    window:SetWidth(400)
+    window:SetHeight(500)
+    window:SetCallback('OnClose', function(widget)
+        AceGUI:Release(widget)
+    end)
+
+    _G['ATOM_BagExportWindow'] = window.frame
+    tinsert(UISpecialFrames, 'ATOM_BagExportWindow')
+
+    local textBox = AceGUI:Create('MultiLineEditBox')
+    textBox:SetLabel('')
+    textBox:SetMaxLetters(0)
+    textBox:DisableButton(true)
+    textBox:SetFullWidth(true)
+    textBox:SetFullHeight(true)
+    textBox:SetText(exportText)
+    window:AddChild(textBox)
+
+    -- Select all text for easy copying
+    textBox:SetFocus()
+    textBox:HighlightText()
+end
