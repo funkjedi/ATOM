@@ -60,6 +60,12 @@ function ATOM:SlashCommand(msg)
         self:GetModule('System'):SetVolume(args ~= '' and tonumber(args) or false)
     elseif cmd == 'wago' then
         self:GetModule('Wago'):ShowWindow()
+    elseif cmd == 'xp' then
+        if args == 'reset' then
+            self:GetModule('Experience'):Reset()
+        else
+            self:GetModule('Experience'):ShowStats()
+        end
     elseif cmd == 'way' then
         self:SetUserWaypoint(args)
     end
