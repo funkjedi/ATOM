@@ -2,6 +2,7 @@ local addonName, ATOM = ...
 local Module = ATOM:NewModule('System')
 
 local defaultCVarValues = {
+    assistedCombatHighlight = 1,
     autoDismountFlying = 1,
     autoLootDefault = 1,
     assistAttack = 1,
@@ -62,8 +63,8 @@ end
 
 function disableZygorMapButtonAndMenu()
     if ZygorWorldMapMenu then
-        --ZygorWorldMapMenu:Hide()
-        --ZygorPoiMapButton:Hide()
+        -- ZygorWorldMapMenu:Hide()
+        -- ZygorPoiMapButton:Hide()
     end
 end
 

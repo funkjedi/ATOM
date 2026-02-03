@@ -6,6 +6,13 @@ ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
 
 _G['ATOM'] = ATOM;
 
+ATOM.safestr = function(value)
+    if issecretvalue(value) then
+        return ''
+    end
+    return value
+end
+
 function ATOM:OnInitialize()
     self.db = LibStub('AceDB-3.0'):New('AtomDB')
 end

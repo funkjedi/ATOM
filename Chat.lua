@@ -38,8 +38,10 @@ function Module:Clear()
 end
 
 function Module:CHAT_MSG_SYSTEM(event, msg)
-    if string.find(msg, 'You have been outbid on') then
-        ATOM:RaidWarning(msg)
+    local safeMsg = ATOM.safestr(msg)
+
+    if string.find(safeMsg, 'You have been outbid on') then
+        ATOM:RaidWarning(safeMsg)
         PlaySound(5958) -- // Time is money, friend.
     end
 end
