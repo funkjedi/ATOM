@@ -1,6 +1,6 @@
 local addonName, ATOM = ...
 
-ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName, 'AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
+ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName)
 
 _G['ATOM'] = ATOM;
 
@@ -82,65 +82,8 @@ function ATOM:OnInitialize()
     self.db = LibStub('AceDB-3.0'):New('AtomDB')
 end
 
-function ATOM:OnEnable()
-    self:RegisterChatCommand('atom', 'SlashCommand')
-end
-
 function ATOM:Wait(delay, func)
     C_Timer.After(func and delay or 0.5, func or delay)
-end
-
-function ATOM:SlashCommand(msg)
-    local cmd, offset = self:GetArgs(msg)
-    local args = msg:sub(offset)
-
-    if cmd == 'clear' then
-        self:GetModule('Chat'):Clear()
-    elseif cmd == 'count' then
-        self:CreateItemCountFrame(args)
-    elseif cmd == 'countdown' then
-        C_PartyInfo.DoCountdown(tonumber(args) * 60)
-    elseif cmd == 'bags' then
-        self:GetModule('Bags'):ExportBagItems()
-    elseif cmd == 'destroy' then
-        self:GetModule('Bags'):DestroyItems(args == 'true')
-    elseif cmd == 'dialogui' then
-        DialogueUI_ShowSettingsFrame()
-    elseif cmd == 'mark' then
-        self:GetModule('Macros'):MarkTarget(args ~= '' and args or nil)
-    elseif cmd == 'mount' then
-        self:GetModule('Mounts'):Mount(args)
-    elseif cmd == 'move' then
-        SetCVar('autoInteract', GetCVar('autoInteract') ~= '1' and '1' or '0')
-    elseif cmd == 'powerleveling' then
-        self:GetModule('BattlePets'):GetActivePowerlevelingBattlePetTrainer()
-    elseif cmd == 'quest' then
-        self:GetModule('Quest'):QuestCompleted(args)
-    elseif cmd == 'scoreboard' then
-        WorldStateScoreFrame:Show()
-    elseif cmd == 'solves' then
-        self:TolvirSolves()
-    elseif cmd == 'screenshot' then
-        Screenshot()
-    elseif cmd == 'target' then
-        self:GetModule('Macros'):UpdateTargetMacro(args)
-    elseif cmd == 'underlight' then
-        self:GetModule('Bags'):ReactivateUnderlightAngler()
-    elseif cmd == 'view' then
-        self:GetModule('System'):SetView(args ~= '' and tonumber(args) or false)
-    elseif cmd == 'volume' then
-        self:GetModule('System'):SetVolume(args ~= '' and tonumber(args) or false)
-    elseif cmd == 'wago' then
-        self:GetModule('Wago'):ShowWindow()
-    elseif cmd == 'xp' then
-        if args == 'reset' then
-            self:GetModule('Experience'):Reset()
-        else
-            self:GetModule('Experience'):ShowStats()
-        end
-    elseif cmd == 'way' then
-        self:SetUserWaypoint(args)
-    end
 end
 
 function ATOM:TolvirSolves()
@@ -155,7 +98,7 @@ function ATOM:TolvirSolves()
 end
 
 function ATOM:SetUserWaypoint(cmd)
-    local x, y = self:GetArgs(cmd, 2)
+    local x, y = cmd:match('^(%S+)%s+(%S+)')
 
     x = tonumber(x:match('^%s*(.-),?%s*$')) * 100 / 10000
     y = tonumber(y) * 100 / 10000
