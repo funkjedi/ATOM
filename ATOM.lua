@@ -1,8 +1,15 @@
 local addonName, ATOM = ...
 
-ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName)
-
 _G['ATOM'] = ATOM;
+
+local frame = CreateFrame('Frame')
+frame:RegisterEvent('ADDON_LOADED')
+frame:SetScript('OnEvent', function(_, _, addon)
+    if addon == addonName then
+        frame:UnregisterEvent('ADDON_LOADED')
+        ATOM.db = LibStub('AceDB-3.0'):New('AtomDB')
+    end
+end)
 
 ATOM.safestr = function(value)
     if issecretvalue(value) then
@@ -76,10 +83,6 @@ end
 
 function ATOM:GetModule(name)
     return self[name]
-end
-
-function ATOM:OnInitialize()
-    self.db = LibStub('AceDB-3.0'):New('AtomDB')
 end
 
 function ATOM:Wait(delay, func)

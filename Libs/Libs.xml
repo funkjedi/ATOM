@@ -3,21 +3,9 @@
     <Script file="LibStub\LibStub.lua"/>
     <Include file="CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
     <Include file="AceAddon-3.0\AceAddon-3.0.xml"/>
-    <Include file="AceConsole-3.0\AceConsole-3.0.xml"/>
     <Include file="AceDB-3.0\AceDB-3.0.xml"/>
-    <Include file="AceEvent-3.0\AceEvent-3.0.xml"/>
     <Include file="AceGUI-3.0\AceGUI-3.0.xml"/>
     <Include file="AceSerializer-3.0\AceSerializer-3.0.xml"/>
-    <Include file="AceTimer-3.0\AceTimer-3.0.xml"/>
     <Include file="LibDeflate\lib.xml"/>
     <Include file="LibSharedMedia-3.0\lib.xml"/>
-    <!--
-    http://mods.curse.com/addons/wow/ace3
-    http://mods.curse.com/addons/wow/libbuttonglow-1-0
-    http://mods.curse.com/addons/wow/libinventory-2-1
-    http://mods.curse.com/addons/wow/libkeybound-1-0
-    http://mods.curse.com/addons/wow/libsharedmedia-3-0
-    http://mods.curse.com/addons/wow/libspellrange-1-0
-    http://mods.curse.com/addons/wow/libutilities-1-0
-    -->
 </Ui>
