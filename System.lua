@@ -7,6 +7,7 @@ local defaultCVarValues = {
     autoLootDefault = 1,
     assistAttack = 1,
     rotateMinimap = 0,
+    cameraDistanceMaxZoomFactor = 2.6,
     screenEdgeFlash = 1,
     threatPlaySounds = 1,
     emphasizeMySpellEffects = 1,
@@ -42,6 +43,21 @@ function Module:OnInitialize()
     -- hooksecurefunc('OrderHall_CheckCommandBar', disableOrderHallCommandBar)
 
     self:SetView(2)
+
+    -- arrow keys for chat frames
+    for i = 1, 50 do
+        if _G['ChatFrame' .. i] then
+            _G['ChatFrame' .. i .. 'EditBox']:SetAltArrowKeyMode(false)
+        end
+    end
+
+    -- arrow keys for temporary chat frames
+    hooksecurefunc('FCF_OpenTemporaryWindow', function()
+        local cf = FCF_GetCurrentChatFrame():GetName() or nil
+        if cf then
+            _G[cf .. 'EditBox']:SetAltArrowKeyMode(false)
+        end
+    end)
 
     -- inject a frame/texture with ZygorGuideViewer minimap icon so Leatrix can detect the texture
     local zygorMinimapIcon = CreateFrame('Frame', 'LeatrixZygorGuidesViewerMapIcon', UIParent)
