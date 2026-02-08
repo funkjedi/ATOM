@@ -96,5 +96,13 @@ function Module:SlashCommand(msg)
         end
     elseif cmd == 'way' then
         ATOM:SetUserWaypoint(args)
+    else
+        ATOM:Print('Available commands:')
+        ATOM:Print('  bags, clear, count, countdown,')
+        ATOM:Print('  destroy, dialogui, mark, mount,')
+        ATOM:Print('  move, powerleveling, quest,')
+        ATOM:Print('  scoreboard, screenshot, solves,')
+        ATOM:Print('  target, underlight, view, volume,')
+        ATOM:Print('  wago, way, xp')
     end
 end
