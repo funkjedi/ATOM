@@ -2,8 +2,6 @@ local addonName, ATOM = ...
 
 ATOM = LibStub('AceAddon-3.0'):NewAddon(ATOM, addonName, 'AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
 
-ATOM:SetDefaultModuleLibraries('AceEvent-3.0', 'AceConsole-3.0', 'AceTimer-3.0')
-
 _G['ATOM'] = ATOM;
 
 ATOM.safestr = function(value)
@@ -11,6 +9,73 @@ ATOM.safestr = function(value)
         return ''
     end
     return value
+end
+
+function ATOM:NewModule(name)
+    local module = {}
+    self[name] = module
+
+    local frame = CreateFrame('Frame')
+    local eventMap = {}
+
+    function module:RegisterEvent(event, method)
+        eventMap[event] = method or event
+        frame:RegisterEvent(event)
+    end
+
+    function module:UnregisterEvent(event)
+        eventMap[event] = nil
+        frame:UnregisterEvent(event)
+    end
+
+    function module:ScheduleRepeatingTimer(method, interval)
+        return C_Timer.NewTicker(interval, function()
+            module[method](module)
+        end)
+    end
+
+    function module:CancelTimer(timer)
+        if timer then
+            timer:Cancel()
+        end
+    end
+
+    function module:RegisterChatCommand(cmd, method)
+        local id = 'ATOM' .. cmd:upper()
+        _G['SLASH_' .. id .. '1'] = '/' .. cmd
+        SlashCmdList[id] = function(msg)
+            module[method](module, msg)
+        end
+    end
+
+    frame:RegisterEvent('ADDON_LOADED')
+    frame:RegisterEvent('PLAYER_LOGIN')
+    frame:SetScript('OnEvent', function(_, event, ...)
+        if event == 'ADDON_LOADED' and ... == addonName then
+            frame:UnregisterEvent('ADDON_LOADED')
+            if module.OnInitialize then
+                module:OnInitialize()
+            end
+            return
+        end
+        if event == 'PLAYER_LOGIN' then
+            frame:UnregisterEvent('PLAYER_LOGIN')
+            if module.OnEnable then
+                module:OnEnable()
+            end
+            return
+        end
+        local method = eventMap[event]
+        if method and module[method] then
+            module[method](module, event, ...)
+        end
+    end)
+
+    return module
+end
+
+function ATOM:GetModule(name)
+    return self[name]
 end
 
 function ATOM:OnInitialize()

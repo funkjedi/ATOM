@@ -33,7 +33,8 @@ function Module:UpdateTargetMacro(name)
 end
 
 function Module:TargetMacroSlashCommand(msg)
-    self:UpdateTargetMacro(self:GetArgs(msg))
+    local arg = msg:match('^(%S+)') -- previously used self:GetArgs(msg)
+    self:UpdateTargetMacro(arg)
 end
 
 function Module:MarkTarget(index)
