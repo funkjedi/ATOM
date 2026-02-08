@@ -87,7 +87,7 @@ function ATOM:OnEnable()
 end
 
 function ATOM:Wait(delay, func)
-    ATOM:ScheduleTimer(func or delay, func and delay or 0.5)
+    C_Timer.After(func and delay or 0.5, func or delay)
 end
 
 function ATOM:SlashCommand(msg)
