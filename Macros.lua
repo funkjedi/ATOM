@@ -23,10 +23,14 @@ function Module:UpdateTargetMacro(name)
 /cleartarget [noexists][dead]
 /stopmacro [noexists][dead]
 /atom mark
+/tm 8
 ]]
 
     if not name then
-        body = '/atom mark'
+        body = [[
+/atom mark
+/tm 8
+]]
     end
 
     self:CreateOrUpdateMacro('TARGET', body:format(name), 'ACHIEVEMENT_HALLOWEEN_SMILEY_01')
@@ -47,8 +51,10 @@ function Module:MarkTarget(index)
         index = tonumber(index) or 8
     end
 
-    if GetRaidTargetIndex('target') ~= index then
-        SetRaidTarget('target', index)
+    local targetIndex = GetRaidTargetIndex('target')
+
+    if not issecretvalue(targetIndex) and targetIndex ~= index then
+        -- SetRaidTarget('target', index) -- don't work in Midnight anymore
 
         if not cycle then
             PlaySound(SOUNDKIT.ALARM_CLOCK_WARNING_3)
